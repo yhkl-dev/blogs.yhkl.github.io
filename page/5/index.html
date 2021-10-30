@@ -13,7 +13,7 @@
     <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
     
     
-        <link rel="shortcut icon" href="/images/favicon.ico">
+        <link rel="shortcut icon" href="/images/favicon.png">
     
      
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -138,7 +138,7 @@
             <v-list-item href="/" link>
             <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
             <v-list-item-content>
-                Index
+                Home
             </v-list-item-content>
             </v-list-item>
         
@@ -162,6 +162,18 @@
     <v-divider></v-divider>
     
         <v-list id="sub-menu" class="font-weight-medium" dense>
+            
+                
+                    <v-list-item href="/categories/Vue/" link>
+                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
+                            <v-hover v-model="menuHover">
+                                <v-list-item-content>
+                                    <span>Vue</span>                              
+                                </v-list-item-content>                           
+                            </v-hover>
+                        </v-badge>
+                    </v-list-item>
+                
             
                 
                     <v-list-item href="/categories/Linux/" link>
@@ -272,59 +284,6 @@
 </v-row>
 
                             <v-card class="elevation-2 index-card">
-  
-    <article class="index-article">
-      
-      <div class="index-article-header">
-        <v-row no-gutters>
-          <v-col cols="auto">
-            <div class="index-article-header-date font-weight-medium">
-              2019-07-20
-            </div>
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col cols="auto">
-            
-              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
-                
-                  <span class="index-article-header-tag-content">
-                    <v-icon>fas fa-tag</v-icon>
-                    <a rel="tag" href = /tags/Javascript/ >Javascript</a>
-                  </span>
-                
-                  <span class="index-article-header-tag-content">
-                    <v-icon>fas fa-tag</v-icon>
-                    <a rel="tag" href = /tags/Dom/ >Dom</a>
-                  </span>
-                
-              </v-card>
-            
-          </v-col>
-        </v-row>
-        <span>
-          
-            <a class="index-article-header-category font-weight-bold" href="/2019/07/20/Javascript-html-Dom/">Uncategorized></a>
-           
-        </span> 
-        <a class="index-article-header-title font-weight-medium" href="/2019/07/20/Javascript-html-Dom/">Javascript html Dom</a>
-      </div>
-      
-      <div class="index-article-content">
-        
-          1. DOM简介
-DOM， Document Object Model, 文档对象模型，是W3C组织推荐的处理可扩展标志语言的标准编程接口。
-在网页上，组织页面（或文档）的对象被组织在一个树形结构中，用来表示文档中对象的标准模型，这个模型被称为DOM。
-DOM可以以一种独立于平台和语言的方式访问和修改一个文档的内容和结构.
-DOM实际上是以面向对象方式描述的文档模型。DOM定义了表示和修改文档所需的对象、这些对象的行为和属性以及这些对象之间的关系。可以把DOM认为是页面上数据和结构的一个树形表示，不过页面当然可能并不是以这种树的方式具体实现。
-通过 JavaScript，可以重构整个 H...
-        
-      </div>
-      
-      <div class="index-article-readmore ">
-        <v-btn text href="/2019/07/20/Javascript-html-Dom/">Read More</v-btn>
-      </div>
-      <v-divider></v-divider>
-    </article> 
   
     <article class="index-article">
       
@@ -789,6 +748,65 @@ Go既拥有接近静态编译语言（如C）的安全和性能，又有接近�
       
       <div class="index-article-readmore ">
         <v-btn text href="/2019/05/29/Proemtheus-pushgateway%E4%BD%BF%E7%94%A8/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-05-29
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/python/ >python</a>
+                  </span>
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/daemon/ >daemon</a>
+                  </span>
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/linux/ >linux</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/05/29/%E8%BF%9B%E7%A8%8B%E5%B7%A5%E5%85%B7-Daemonize-python-daemonize/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/05/29/%E8%BF%9B%E7%A8%8B%E5%B7%A5%E5%85%B7-Daemonize-python-daemonize/">进程工具 Daemonize &amp;&amp; python-daemonize</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          
+守护进程是生存期长的一种进程。它们独立于控制终端并且周期性的执行某种任务或等待处理某些发生的事件。他们常常在系统引导装入时启动，在系统关闭时终止。
+守护进程的特性
+1.在后台运行
+2.与其运行前的环境隔离开来。这些环境包括未关闭的文件描述符、控制终端、会话和进程组、工作目录以及文件创建掩码等。这些环境通常是守护进程从执行它的父进程（特别是shell）中继承下来的。
+3.启动方式特殊，它可以在系统启动时从启动脚本/etc/rc.d中启动，可以由inetd守护进程启动，可以由crond启动，还可以由用户终端（通常是shell）执行。
+总之，除开这些特殊性以外，守护进程与普通进程基本上没有什...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/05/29/%E8%BF%9B%E7%A8%8B%E5%B7%A5%E5%85%B7-Daemonize-python-daemonize/">Read More</v-btn>
       </div>
       <v-divider></v-divider>
     </article> 

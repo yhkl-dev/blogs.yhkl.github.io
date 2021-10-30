@@ -13,7 +13,7 @@
     <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
     
     
-        <link rel="shortcut icon" href="/images/favicon.ico">
+        <link rel="shortcut icon" href="/images/favicon.png">
     
      
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -82,7 +82,7 @@
             <v-list-item href="/" link>
             <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
             <v-list-item-content>
-                Index
+                Home
             </v-list-item-content>
             </v-list-item>
         
@@ -106,6 +106,18 @@
     <v-divider></v-divider>
     
         <v-list id="sub-menu" class="font-weight-medium" dense>
+            
+                
+                    <v-list-item href="/categories/Vue/" link>
+                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
+                            <v-hover v-model="menuHover">
+                                <v-list-item-content>
+                                    <span>Vue</span>                              
+                                </v-list-item-content>                           
+                            </v-hover>
+                        </v-badge>
+                    </v-list-item>
+                
             
                 
                     <v-list-item href="/categories/Linux/" link>
@@ -342,20 +354,57 @@
                 <v-divider></v-divider>
             </v-timeline-item>
         
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.03.04</span>
+                    <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Proxy-3-4-15/" class="timeline-item-title">Zabbix安装文档-Zabbix-proxy-3-4-15</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.03.04</span><br>
+                    <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Proxy-3-4-15/" class="timeline-item-title">Zabbix安装文档-Zabbix-proxy-3-4-15</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.03.04</span>
+                    <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-%E9%85%8D%E7%BD%AE%E4%B8%AD%E6%96%87%E7%8E%AF%E5%A2%83/" class="timeline-item-title">Zabbix安装文档-配置中文环境</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.03.04</span><br>
+                    <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-%E9%85%8D%E7%BD%AE%E4%B8%AD%E6%96%87%E7%8E%AF%E5%A2%83/" class="timeline-item-title">Zabbix安装文档-配置中文环境</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.03.04</span>
+                    <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Agent-3-4-15/" class="timeline-item-title">Zabbix安装文档-Zabbix-Agent-3-4-15</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.03.04</span><br>
+                    <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Agent-3-4-15/" class="timeline-item-title">Zabbix安装文档-Zabbix-Agent-3-4-15</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.03.04</span>
+                    <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Server-3-4-15/" class="timeline-item-title">Zabbix安装文档-Zabbix-Server-3-4-15</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.03.04</span><br>
+                    <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Server-3-4-15/" class="timeline-item-title">Zabbix安装文档-Zabbix-Server-3-4-15</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
     </v-timeline>
 </v-card>
 
-
-    <div id="pagination" class="text-center">
-      <v-pagination 
-        v-model="currentPage" 
-        :length=2 
-        @input="PageChange" 
-        prev-icon="chevron_left"
-        next-icon="chevron_right"
-        color="secondary"
-      ></v-pagination>
-    </div>
          
                             <div id="mobile-footer" class="d-block d-md-none">
                                 <v-divider></v-divider>

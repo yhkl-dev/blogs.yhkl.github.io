@@ -13,7 +13,7 @@
     <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
     
     
-        <link rel="shortcut icon" href="/images/favicon.ico">
+        <link rel="shortcut icon" href="/images/favicon.png">
     
      
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -82,7 +82,7 @@
             <v-list-item href="/" link>
             <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
             <v-list-item-content>
-                Index
+                Home
             </v-list-item-content>
             </v-list-item>
         
@@ -106,6 +106,18 @@
     <v-divider></v-divider>
     
         <v-list id="sub-menu" class="font-weight-medium" dense>
+            
+                
+                    <v-list-item href="/categories/Vue/" link>
+                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
+                            <v-hover v-model="menuHover">
+                                <v-list-item-content>
+                                    <span>Vue</span>                              
+                                </v-list-item-content>                           
+                            </v-hover>
+                        </v-badge>
+                    </v-list-item>
+                
             
                 
                     <v-list-item href="/categories/Linux/" link>
@@ -365,20 +377,121 @@
                 <v-divider></v-divider>
             </v-timeline-item>
         
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2020.04.11</span>
+                    <a href="/2020/04/11/%E8%AF%81%E6%98%8EFib-n-%E6%98%AF%E6%9C%80%E6%8E%A5%E8%BF%91%CE%A6-n-%E2%88%9A5-%E5%85%B6%E4%B8%AD%CE%A6-%EF%BC%881-%E2%88%9A5-2/" class="timeline-item-title">证明Fib(n)是最接近Φ^n √5, 其中Φ=（1+√5)/2</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2020.04.11</span><br>
+                    <a href="/2020/04/11/%E8%AF%81%E6%98%8EFib-n-%E6%98%AF%E6%9C%80%E6%8E%A5%E8%BF%91%CE%A6-n-%E2%88%9A5-%E5%85%B6%E4%B8%AD%CE%A6-%EF%BC%881-%E2%88%9A5-2/" class="timeline-item-title">证明Fib(n)是最接近Φ^n √5, 其中Φ=（1+√5)/2</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2020.03.29</span>
+                    <a href="/2020/03/29/Lisp-%E6%9E%84%E9%80%A0%E8%BF%87%E7%A8%8B%E6%8A%BD%E8%B1%A1/" class="timeline-item-title">Lisp 构造过程抽象</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2020.03.29</span><br>
+                    <a href="/2020/03/29/Lisp-%E6%9E%84%E9%80%A0%E8%BF%87%E7%A8%8B%E6%8A%BD%E8%B1%A1/" class="timeline-item-title">Lisp 构造过程抽象</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2020.03.17</span>
+                    <a href="/2020/03/17/Python-%E5%86%85%E7%BD%AE%E5%BA%8F%E5%88%97%E7%B1%BB%E5%9E%8B/" class="timeline-item-title">Python 内置序列类型</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2020.03.17</span><br>
+                    <a href="/2020/03/17/Python-%E5%86%85%E7%BD%AE%E5%BA%8F%E5%88%97%E7%B1%BB%E5%9E%8B/" class="timeline-item-title">Python 内置序列类型</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2020.03.15</span>
+                    <a href="/2020/03/15/Python-%E7%89%B9%E6%AE%8A%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/" class="timeline-item-title">Python 特殊方法汇总</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2020.03.15</span><br>
+                    <a href="/2020/03/15/Python-%E7%89%B9%E6%AE%8A%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/" class="timeline-item-title">Python 特殊方法汇总</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2020.03.13</span>
+                    <a href="/2020/03/13/Linux-pushd-popd-dirs%E5%91%BD%E4%BB%A4/" class="timeline-item-title">Linux pushd popd dirs命令</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2020.03.13</span><br>
+                    <a href="/2020/03/13/Linux-pushd-popd-dirs%E5%91%BD%E4%BB%A4/" class="timeline-item-title">Linux pushd popd dirs命令</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2020.02.25</span>
+                    <a href="/2020/02/25/Python-struct-%E6%A8%A1%E5%9D%97%E7%9A%84%E7%94%A8%E6%B3%95/" class="timeline-item-title">Python struct 模块的用法</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2020.02.25</span><br>
+                    <a href="/2020/02/25/Python-struct-%E6%A8%A1%E5%9D%97%E7%9A%84%E7%94%A8%E6%B3%95/" class="timeline-item-title">Python struct 模块的用法</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2020.01.23</span>
+                    <a href="/2020/01/23/Centos-Postgresql-9-5-%E5%AE%89%E8%A3%85/" class="timeline-item-title">Centos Postgresql 9.5 安装</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2020.01.23</span><br>
+                    <a href="/2020/01/23/Centos-Postgresql-9-5-%E5%AE%89%E8%A3%85/" class="timeline-item-title">Centos Postgresql 9.5 安装</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2020.01.16</span>
+                    <a href="/2020/01/16/%E6%96%B0%E7%9A%84%E4%B8%80%E5%B9%B4/" class="timeline-item-title">新的一年</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2020.01.16</span><br>
+                    <a href="/2020/01/16/%E6%96%B0%E7%9A%84%E4%B8%80%E5%B9%B4/" class="timeline-item-title">新的一年</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
     </v-timeline>
 </v-card>
 
-
-    <div id="pagination" class="text-center">
-      <v-pagination 
-        v-model="currentPage" 
-        :length=2 
-        @input="PageChange" 
-        prev-icon="chevron_left"
-        next-icon="chevron_right"
-        color="secondary"
-      ></v-pagination>
-    </div>
          
                             <div id="mobile-footer" class="d-block d-md-none">
                                 <v-divider></v-divider>

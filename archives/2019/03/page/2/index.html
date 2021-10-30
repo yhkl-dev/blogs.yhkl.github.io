@@ -13,7 +13,7 @@
     <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
     
     
-        <link rel="shortcut icon" href="/images/favicon.ico">
+        <link rel="shortcut icon" href="/images/favicon.png">
     
      
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -82,7 +82,7 @@
             <v-list-item href="/" link>
             <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
             <v-list-item-content>
-                Index
+                Home
             </v-list-item-content>
             </v-list-item>
         
@@ -106,6 +106,18 @@
     <v-divider></v-divider>
     
         <v-list id="sub-menu" class="font-weight-medium" dense>
+            
+                
+                    <v-list-item href="/categories/Vue/" link>
+                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
+                            <v-hover v-model="menuHover">
+                                <v-list-item-content>
+                                    <span>Vue</span>                              
+                                </v-list-item-content>                           
+                            </v-hover>
+                        </v-badge>
+                    </v-list-item>
+                
             
                 
                     <v-list-item href="/categories/Linux/" link>
@@ -229,96 +241,12 @@
             
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2019.03.13</span>
-                    <a href="/2019/03/13/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E4%BD%BF%E7%94%A8SNMP%E7%9B%91%E6%8E%A7Linux%E4%B8%BB%E6%9C%BA/" class="timeline-item-title">Zabbix监控文档-使用SNMP监控Linux主机</a>
+                    <span class="timeline-item-time">2019.03.04</span>
+                    <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-%E9%85%8D%E7%BD%AE%E4%B8%AD%E6%96%87%E7%8E%AF%E5%A2%83/" class="timeline-item-title">Zabbix安装文档-配置中文环境</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2019.03.13</span><br>
-                    <a href="/2019/03/13/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E4%BD%BF%E7%94%A8SNMP%E7%9B%91%E6%8E%A7Linux%E4%B8%BB%E6%9C%BA/" class="timeline-item-title">Zabbix监控文档-使用SNMP监控Linux主机</a>
-                </div>
-                <v-divider></v-divider>
-            </v-timeline-item>
-        
-            
-            
-            <v-timeline-item fill-dot small color="secondary lighten-2">
-                <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2019.03.13</span>
-                    <a href="/2019/03/13/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-SNMP%E5%B8%B8%E8%AF%86/" class="timeline-item-title">Zabbix监控文档-SNMP常识</a>
-                </div>
-                <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2019.03.13</span><br>
-                    <a href="/2019/03/13/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-SNMP%E5%B8%B8%E8%AF%86/" class="timeline-item-title">Zabbix监控文档-SNMP常识</a>
-                </div>
-                <v-divider></v-divider>
-            </v-timeline-item>
-        
-            
-            
-            <v-timeline-item fill-dot small color="secondary lighten-2">
-                <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2019.03.13</span>
-                    <a href="/2019/03/13/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7%E7%A3%81%E7%9B%98IO/" class="timeline-item-title">Zabbix监控文档-监控磁盘IO</a>
-                </div>
-                <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2019.03.13</span><br>
-                    <a href="/2019/03/13/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7%E7%A3%81%E7%9B%98IO/" class="timeline-item-title">Zabbix监控文档-监控磁盘IO</a>
-                </div>
-                <v-divider></v-divider>
-            </v-timeline-item>
-        
-            
-            
-            <v-timeline-item fill-dot small color="secondary lighten-2">
-                <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2019.03.07</span>
-                    <a href="/2019/03/07/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7Web/" class="timeline-item-title">Zabbix监控文档-监控Web</a>
-                </div>
-                <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2019.03.07</span><br>
-                    <a href="/2019/03/07/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7Web/" class="timeline-item-title">Zabbix监控文档-监控Web</a>
-                </div>
-                <v-divider></v-divider>
-            </v-timeline-item>
-        
-            
-            
-            <v-timeline-item fill-dot small color="secondary lighten-2">
-                <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2019.03.06</span>
-                    <a href="/2019/03/06/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7MySQL/" class="timeline-item-title">Zabbix监控文档-监控MySQL</a>
-                </div>
-                <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2019.03.06</span><br>
-                    <a href="/2019/03/06/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7MySQL/" class="timeline-item-title">Zabbix监控文档-监控MySQL</a>
-                </div>
-                <v-divider></v-divider>
-            </v-timeline-item>
-        
-            
-            
-            <v-timeline-item fill-dot small color="secondary lighten-2">
-                <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2019.03.05</span>
-                    <a href="/2019/03/05/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7nginx/" class="timeline-item-title">Zabbix监控文档-监控nginx</a>
-                </div>
-                <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2019.03.05</span><br>
-                    <a href="/2019/03/05/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7nginx/" class="timeline-item-title">Zabbix监控文档-监控nginx</a>
-                </div>
-                <v-divider></v-divider>
-            </v-timeline-item>
-        
-            
-            
-            <v-timeline-item fill-dot small color="secondary lighten-2">
-                <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2019.03.05</span>
-                    <a href="/2019/03/05/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Java-gateway-3-4-15-%E7%9B%91%E6%8E%A7Tomcat/" class="timeline-item-title">Zabbix安装文档-Zabbix-Java-gateway-3-4-15-监控Tomcat</a>
-                </div>
-                <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2019.03.05</span><br>
-                    <a href="/2019/03/05/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Java-gateway-3-4-15-%E7%9B%91%E6%8E%A7Tomcat/" class="timeline-item-title">Zabbix安装文档-Zabbix-Java-gateway-3-4-15-监控Tomcat</a>
+                    <span class="timeline-item-time">2019.03.04</span><br>
+                    <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-%E9%85%8D%E7%BD%AE%E4%B8%AD%E6%96%87%E7%8E%AF%E5%A2%83/" class="timeline-item-title">Zabbix安装文档-配置中文环境</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
@@ -328,11 +256,11 @@
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
                     <span class="timeline-item-time">2019.03.04</span>
-                    <a href="/2019/03/04/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-Zabbix%E8%BF%9B%E7%A8%8B%E8%AF%B4%E6%98%8E/" class="timeline-item-title">Zabbix监控文档-Zabbix进程说明</a>
+                    <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Agent-3-4-15/" class="timeline-item-title">Zabbix安装文档-Zabbix-Agent-3-4-15</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
                     <span class="timeline-item-time">2019.03.04</span><br>
-                    <a href="/2019/03/04/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-Zabbix%E8%BF%9B%E7%A8%8B%E8%AF%B4%E6%98%8E/" class="timeline-item-title">Zabbix监控文档-Zabbix进程说明</a>
+                    <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Agent-3-4-15/" class="timeline-item-title">Zabbix安装文档-Zabbix-Agent-3-4-15</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
@@ -342,25 +270,11 @@
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
                     <span class="timeline-item-time">2019.03.04</span>
-                    <a href="/2019/03/04/Centos-Python%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="timeline-item-title">Centos Python开发环境配置</a>
+                    <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Server-3-4-15/" class="timeline-item-title">Zabbix安装文档-Zabbix-Server-3-4-15</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
                     <span class="timeline-item-time">2019.03.04</span><br>
-                    <a href="/2019/03/04/Centos-Python%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="timeline-item-title">Centos Python开发环境配置</a>
-                </div>
-                <v-divider></v-divider>
-            </v-timeline-item>
-        
-            
-            
-            <v-timeline-item fill-dot small color="secondary lighten-2">
-                <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2019.03.04</span>
-                    <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Proxy-3-4-15/" class="timeline-item-title">Zabbix安装文档-Zabbix-proxy-3-4-15</a>
-                </div>
-                <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2019.03.04</span><br>
-                    <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Proxy-3-4-15/" class="timeline-item-title">Zabbix安装文档-Zabbix-proxy-3-4-15</a>
+                    <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Server-3-4-15/" class="timeline-item-title">Zabbix安装文档-Zabbix-Server-3-4-15</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
@@ -372,7 +286,7 @@
     <div id="pagination" class="text-center">
       <v-pagination 
         v-model="currentPage" 
-        :length=3 
+        :length=2 
         @input="PageChange" 
         prev-icon="chevron_left"
         next-icon="chevron_right"

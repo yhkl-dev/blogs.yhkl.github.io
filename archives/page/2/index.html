@@ -13,7 +13,7 @@
     <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
     
     
-        <link rel="shortcut icon" href="/images/favicon.ico">
+        <link rel="shortcut icon" href="/images/favicon.png">
     
      
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -82,7 +82,7 @@
             <v-list-item href="/" link>
             <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
             <v-list-item-content>
-                Index
+                Home
             </v-list-item-content>
             </v-list-item>
         
@@ -106,6 +106,18 @@
     <v-divider></v-divider>
     
         <v-list id="sub-menu" class="font-weight-medium" dense>
+            
+                
+                    <v-list-item href="/categories/Vue/" link>
+                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
+                            <v-hover v-model="menuHover">
+                                <v-list-item-content>
+                                    <span>Vue</span>                              
+                                </v-list-item-content>                           
+                            </v-hover>
+                        </v-badge>
+                    </v-list-item>
+                
             
                 
                     <v-list-item href="/categories/Linux/" link>
@@ -222,19 +234,19 @@
             
             
                 <v-timeline-item class="timeline-header" color="secondary lighten-2">
-                    <a href="/archives/2020" class="timeline-title">2020</a>
+                    <a href="/archives/2019" class="timeline-title">2019</a>
                     <span class="timeline-subtitle">Archives</span>
                 </v-timeline-item>
                 
             
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2020.05.10</span>
-                    <a href="/2020/05/10/Python-frozenset-%E5%BA%94%E7%94%A8/" class="timeline-item-title">Python frozenset 应用</a>
+                    <span class="timeline-item-time">2019.12.08</span>
+                    <a href="/2019/12/08/Rsync-%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" class="timeline-item-title">Rsync 参数详解</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2020.05.10</span><br>
-                    <a href="/2020/05/10/Python-frozenset-%E5%BA%94%E7%94%A8/" class="timeline-item-title">Python frozenset 应用</a>
+                    <span class="timeline-item-time">2019.12.08</span><br>
+                    <a href="/2019/12/08/Rsync-%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" class="timeline-item-title">Rsync 参数详解</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
@@ -243,12 +255,12 @@
             
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2020.04.29</span>
-                    <a href="/2020/04/29/Python-Lambda-While-Loop/" class="timeline-item-title">Python Lambda While Loop</a>
+                    <span class="timeline-item-time">2019.11.06</span>
+                    <a href="/2019/11/06/Go-%E7%BB%93%E6%9E%84%E4%BD%93%E5%92%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="timeline-item-title">Go 结构体和单元测试</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2020.04.29</span><br>
-                    <a href="/2020/04/29/Python-Lambda-While-Loop/" class="timeline-item-title">Python Lambda While Loop</a>
+                    <span class="timeline-item-time">2019.11.06</span><br>
+                    <a href="/2019/11/06/Go-%E7%BB%93%E6%9E%84%E4%BD%93%E5%92%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="timeline-item-title">Go 结构体和单元测试</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
@@ -257,12 +269,12 @@
             
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2020.04.25</span>
-                    <a href="/2020/04/25/graph/" class="timeline-item-title">graph</a>
+                    <span class="timeline-item-time">2019.11.01</span>
+                    <a href="/2019/11/01/Github-Actions%E5%AE%9E%E7%8E%B0-Android-CI/" class="timeline-item-title">Github Actions实现 Android CI</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2020.04.25</span><br>
-                    <a href="/2020/04/25/graph/" class="timeline-item-title">graph</a>
+                    <span class="timeline-item-time">2019.11.01</span><br>
+                    <a href="/2019/11/01/Github-Actions%E5%AE%9E%E7%8E%B0-Android-CI/" class="timeline-item-title">Github Actions实现 Android CI</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
@@ -271,12 +283,12 @@
             
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2020.04.11</span>
-                    <a href="/2020/04/11/%E8%AF%81%E6%98%8EFib-n-%E6%98%AF%E6%9C%80%E6%8E%A5%E8%BF%91%CE%A6-n-%E2%88%9A5-%E5%85%B6%E4%B8%AD%CE%A6-%EF%BC%881-%E2%88%9A5-2/" class="timeline-item-title">证明Fib(n)是最接近Φ^n √5, 其中Φ=（1+√5)/2</a>
+                    <span class="timeline-item-time">2019.10.31</span>
+                    <a href="/2019/10/31/Centos-%E5%AE%89%E8%A3%85-Geoserver/" class="timeline-item-title">Centos 安装 Geoserver</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2020.04.11</span><br>
-                    <a href="/2020/04/11/%E8%AF%81%E6%98%8EFib-n-%E6%98%AF%E6%9C%80%E6%8E%A5%E8%BF%91%CE%A6-n-%E2%88%9A5-%E5%85%B6%E4%B8%AD%CE%A6-%EF%BC%881-%E2%88%9A5-2/" class="timeline-item-title">证明Fib(n)是最接近Φ^n √5, 其中Φ=（1+√5)/2</a>
+                    <span class="timeline-item-time">2019.10.31</span><br>
+                    <a href="/2019/10/31/Centos-%E5%AE%89%E8%A3%85-Geoserver/" class="timeline-item-title">Centos 安装 Geoserver</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
@@ -285,12 +297,12 @@
             
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2020.03.29</span>
-                    <a href="/2020/03/29/Lisp-%E6%9E%84%E9%80%A0%E8%BF%87%E7%A8%8B%E6%8A%BD%E8%B1%A1/" class="timeline-item-title">Lisp 构造过程抽象</a>
+                    <span class="timeline-item-time">2019.10.25</span>
+                    <a href="/2019/10/25/Go-vim-%E9%85%8D%E7%BD%AE/" class="timeline-item-title">Go-vim 配置</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2020.03.29</span><br>
-                    <a href="/2020/03/29/Lisp-%E6%9E%84%E9%80%A0%E8%BF%87%E7%A8%8B%E6%8A%BD%E8%B1%A1/" class="timeline-item-title">Lisp 构造过程抽象</a>
+                    <span class="timeline-item-time">2019.10.25</span><br>
+                    <a href="/2019/10/25/Go-vim-%E9%85%8D%E7%BD%AE/" class="timeline-item-title">Go-vim 配置</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
@@ -299,12 +311,12 @@
             
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2020.03.17</span>
-                    <a href="/2020/03/17/Python-%E5%86%85%E7%BD%AE%E5%BA%8F%E5%88%97%E7%B1%BB%E5%9E%8B/" class="timeline-item-title">Python 内置序列类型</a>
+                    <span class="timeline-item-time">2019.10.24</span>
+                    <a href="/2019/10/24/GO-CentOS%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="timeline-item-title">GO-CentOS开发环境配置</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2020.03.17</span><br>
-                    <a href="/2020/03/17/Python-%E5%86%85%E7%BD%AE%E5%BA%8F%E5%88%97%E7%B1%BB%E5%9E%8B/" class="timeline-item-title">Python 内置序列类型</a>
+                    <span class="timeline-item-time">2019.10.24</span><br>
+                    <a href="/2019/10/24/GO-CentOS%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="timeline-item-title">GO-CentOS开发环境配置</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
@@ -313,12 +325,12 @@
             
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2020.03.15</span>
-                    <a href="/2020/03/15/Python-%E7%89%B9%E6%AE%8A%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/" class="timeline-item-title">Python 特殊方法汇总</a>
+                    <span class="timeline-item-time">2019.10.22</span>
+                    <a href="/2019/10/22/Centos-%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9FSwap%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5/" class="timeline-item-title">Centos-查看系统Swap使用情况</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2020.03.15</span><br>
-                    <a href="/2020/03/15/Python-%E7%89%B9%E6%AE%8A%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/" class="timeline-item-title">Python 特殊方法汇总</a>
+                    <span class="timeline-item-time">2019.10.22</span><br>
+                    <a href="/2019/10/22/Centos-%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9FSwap%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5/" class="timeline-item-title">Centos-查看系统Swap使用情况</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
@@ -327,12 +339,12 @@
             
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2020.03.13</span>
-                    <a href="/2020/03/13/Linux-pushd-popd-dirs%E5%91%BD%E4%BB%A4/" class="timeline-item-title">Linux pushd popd dirs命令</a>
+                    <span class="timeline-item-time">2019.10.15</span>
+                    <a href="/2019/10/15/%E4%BD%BF%E7%94%A8goaccess-%E5%AF%B9nginx%E6%97%A5%E5%BF%97%E8%BF%9B%E8%A1%8C%E5%88%86%E6%9E%90/" class="timeline-item-title">使用goaccess 对nginx日志进行分析</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2020.03.13</span><br>
-                    <a href="/2020/03/13/Linux-pushd-popd-dirs%E5%91%BD%E4%BB%A4/" class="timeline-item-title">Linux pushd popd dirs命令</a>
+                    <span class="timeline-item-time">2019.10.15</span><br>
+                    <a href="/2019/10/15/%E4%BD%BF%E7%94%A8goaccess-%E5%AF%B9nginx%E6%97%A5%E5%BF%97%E8%BF%9B%E8%A1%8C%E5%88%86%E6%9E%90/" class="timeline-item-title">使用goaccess 对nginx日志进行分析</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
@@ -341,12 +353,12 @@
             
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2020.02.25</span>
-                    <a href="/2020/02/25/Python-struct-%E6%A8%A1%E5%9D%97%E7%9A%84%E7%94%A8%E6%B3%95/" class="timeline-item-title">Python struct 模块的用法</a>
+                    <span class="timeline-item-time">2019.09.04</span>
+                    <a href="/2019/09/04/Python-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%BA%8C%EF%BC%89-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="timeline-item-title">Python-设计模式（二）-工厂模式</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2020.02.25</span><br>
-                    <a href="/2020/02/25/Python-struct-%E6%A8%A1%E5%9D%97%E7%9A%84%E7%94%A8%E6%B3%95/" class="timeline-item-title">Python struct 模块的用法</a>
+                    <span class="timeline-item-time">2019.09.04</span><br>
+                    <a href="/2019/09/04/Python-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%BA%8C%EF%BC%89-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="timeline-item-title">Python-设计模式（二）-工厂模式</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
@@ -355,12 +367,152 @@
             
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2020.01.23</span>
-                    <a href="/2020/01/23/Centos-Postgresql-9-5-%E5%AE%89%E8%A3%85/" class="timeline-item-title">Centos Postgresql 9.5 安装</a>
+                    <span class="timeline-item-time">2019.09.02</span>
+                    <a href="/2019/09/02/Python-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="timeline-item-title">Python-设计模式（一） 单例模式</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2020.01.23</span><br>
-                    <a href="/2020/01/23/Centos-Postgresql-9-5-%E5%AE%89%E8%A3%85/" class="timeline-item-title">Centos Postgresql 9.5 安装</a>
+                    <span class="timeline-item-time">2019.09.02</span><br>
+                    <a href="/2019/09/02/Python-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="timeline-item-title">Python-设计模式（一） 单例模式</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.08.22</span>
+                    <a href="/2019/08/22/JS-%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5-%E4%B8%80/" class="timeline-item-title">JS-代码片段(一)</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.08.22</span><br>
+                    <a href="/2019/08/22/JS-%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5-%E4%B8%80/" class="timeline-item-title">JS-代码片段(一)</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.08.17</span>
+                    <a href="/2019/08/17/Python-%E5%85%B3%E4%BA%8E%E5%8D%8F%E7%A8%8B%EF%BC%88Coroutine%EF%BC%89%E7%9A%84%E7%90%86%E8%A7%A3/" class="timeline-item-title">Python-关于协程（Coroutine）的理解</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.08.17</span><br>
+                    <a href="/2019/08/17/Python-%E5%85%B3%E4%BA%8E%E5%8D%8F%E7%A8%8B%EF%BC%88Coroutine%EF%BC%89%E7%9A%84%E7%90%86%E8%A7%A3/" class="timeline-item-title">Python-关于协程（Coroutine）的理解</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.08.17</span>
+                    <a href="/2019/08/17/VScode-Eslint%E9%85%8D%E7%BD%AE%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%BB%A3%E7%A0%81/" class="timeline-item-title">VScode-Eslint配置格式化代码</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.08.17</span><br>
+                    <a href="/2019/08/17/VScode-Eslint%E9%85%8D%E7%BD%AE%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%BB%A3%E7%A0%81/" class="timeline-item-title">VScode-Eslint配置格式化代码</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.08.17</span>
+                    <a href="/2019/08/17/JavaScript-%E5%85%B3%E4%BA%8E%E9%97%AD%E5%8C%85/" class="timeline-item-title">JavaScript-关于闭包</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.08.17</span><br>
+                    <a href="/2019/08/17/JavaScript-%E5%85%B3%E4%BA%8E%E9%97%AD%E5%8C%85/" class="timeline-item-title">JavaScript-关于闭包</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.08.16</span>
+                    <a href="/2019/08/16/Python-metaclass/" class="timeline-item-title">Python-metaclass</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.08.16</span><br>
+                    <a href="/2019/08/16/Python-metaclass/" class="timeline-item-title">Python-metaclass</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.08.15</span>
+                    <a href="/2019/08/15/Python-%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92/" class="timeline-item-title">Python-参数传递</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.08.15</span><br>
+                    <a href="/2019/08/15/Python-%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92/" class="timeline-item-title">Python-参数传递</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.07.30</span>
+                    <a href="/2019/07/30/Go-%E8%AF%AD%E6%B3%95%E4%B8%89-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="timeline-item-title">Go-语法三-数据类型</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.07.30</span><br>
+                    <a href="/2019/07/30/Go-%E8%AF%AD%E6%B3%95%E4%B8%89-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="timeline-item-title">Go-语法三-数据类型</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.07.27</span>
+                    <a href="/2019/07/27/Go-%E8%AF%AD%E6%B3%95%E4%BA%8C-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="timeline-item-title">Go-语法二-数据类型</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.07.27</span><br>
+                    <a href="/2019/07/27/Go-%E8%AF%AD%E6%B3%95%E4%BA%8C-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="timeline-item-title">Go-语法二-数据类型</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.07.26</span>
+                    <a href="/2019/07/26/Go-%E8%AF%AD%E6%B3%95%E4%B8%80-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E3%80%81%E8%BF%90%E7%AE%97%E7%AC%A6%E3%80%81%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2/" class="timeline-item-title">Go-语法一-流程控制、运算符、进制转换</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.07.26</span><br>
+                    <a href="/2019/07/26/Go-%E8%AF%AD%E6%B3%95%E4%B8%80-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E3%80%81%E8%BF%90%E7%AE%97%E7%AC%A6%E3%80%81%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2/" class="timeline-item-title">Go-语法一-流程控制、运算符、进制转换</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            
+            
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.07.20</span>
+                    <a href="/2019/07/20/Javascript-html-Dom/" class="timeline-item-title">Javascript html Dom</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.07.20</span><br>
+                    <a href="/2019/07/20/Javascript-html-Dom/" class="timeline-item-title">Javascript html Dom</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
@@ -372,7 +524,7 @@
     <div id="pagination" class="text-center">
       <v-pagination 
         v-model="currentPage" 
-        :length=9 
+        :length=5 
         @input="PageChange" 
         prev-icon="chevron_left"
         next-icon="chevron_right"

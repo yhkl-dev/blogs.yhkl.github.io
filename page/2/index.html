@@ -13,7 +13,7 @@
     <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
     
     
-        <link rel="shortcut icon" href="/images/favicon.ico">
+        <link rel="shortcut icon" href="/images/favicon.png">
     
      
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -138,7 +138,7 @@
             <v-list-item href="/" link>
             <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
             <v-list-item-content>
-                Index
+                Home
             </v-list-item-content>
             </v-list-item>
         
@@ -162,6 +162,18 @@
     <v-divider></v-divider>
     
         <v-list id="sub-menu" class="font-weight-medium" dense>
+            
+                
+                    <v-list-item href="/categories/Vue/" link>
+                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
+                            <v-hover v-model="menuHover">
+                                <v-list-item-content>
+                                    <span>Vue</span>                              
+                                </v-list-item-content>                           
+                            </v-hover>
+                        </v-badge>
+                    </v-list-item>
+                
             
                 
                     <v-list-item href="/categories/Linux/" link>
@@ -272,52 +284,6 @@
 </v-row>
 
                             <v-card class="elevation-2 index-card">
-  
-    <article class="index-article">
-      
-      <div class="index-article-header">
-        <v-row no-gutters>
-          <v-col cols="auto">
-            <div class="index-article-header-date font-weight-medium">
-              2020-05-10
-            </div>
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col cols="auto">
-            
-              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
-                
-                  <span class="index-article-header-tag-content">
-                    <v-icon>fas fa-tag</v-icon>
-                    <a rel="tag" href = /tags/python/ >python</a>
-                  </span>
-                
-              </v-card>
-            
-          </v-col>
-        </v-row>
-        <span>
-          
-            <a class="index-article-header-category font-weight-bold" href="/2020/05/10/Python-frozenset-%E5%BA%94%E7%94%A8/">Uncategorized></a>
-           
-        </span> 
-        <a class="index-article-header-title font-weight-medium" href="/2020/05/10/Python-frozenset-%E5%BA%94%E7%94%A8/">Python frozenset 应用</a>
-      </div>
-      
-      <div class="index-article-content">
-        
-          
- frozenset() 返回一个冻结的集合，冻结后集合不能再添加或删除任何元素
-
-12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210310410510610710810911011111211311411511611711811912012...
-        
-      </div>
-      
-      <div class="index-article-readmore ">
-        <v-btn text href="/2020/05/10/Python-frozenset-%E5%BA%94%E7%94%A8/">Read More</v-btn>
-      </div>
-      <v-divider></v-divider>
-    </article> 
   
     <article class="index-article">
       
@@ -831,6 +797,52 @@ struct模块在Python中和二进制数据打交道的时候，需要使...
       
       <div class="index-article-readmore ">
         <v-btn text href="/2020/01/23/Centos-Postgresql-9-5-%E5%AE%89%E8%A3%85/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2020-01-16
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/person/ >person</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2020/01/16/%E6%96%B0%E7%9A%84%E4%B8%80%E5%B9%B4/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2020/01/16/%E6%96%B0%E7%9A%84%E4%B8%80%E5%B9%B4/">新的一年</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          过去的一年学了很多
+收获了好多
+希望新的一年能继续保持
+
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2020/01/16/%E6%96%B0%E7%9A%84%E4%B8%80%E5%B9%B4/">Read More</v-btn>
       </div>
       <v-divider></v-divider>
     </article> 

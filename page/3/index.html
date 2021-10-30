@@ -13,7 +13,7 @@
     <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
     
     
-        <link rel="shortcut icon" href="/images/favicon.ico">
+        <link rel="shortcut icon" href="/images/favicon.png">
     
      
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -138,7 +138,7 @@
             <v-list-item href="/" link>
             <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
             <v-list-item-content>
-                Index
+                Home
             </v-list-item-content>
             </v-list-item>
         
@@ -162,6 +162,18 @@
     <v-divider></v-divider>
     
         <v-list id="sub-menu" class="font-weight-medium" dense>
+            
+                
+                    <v-list-item href="/categories/Vue/" link>
+                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
+                            <v-hover v-model="menuHover">
+                                <v-list-item-content>
+                                    <span>Vue</span>                              
+                                </v-list-item-content>                           
+                            </v-hover>
+                        </v-badge>
+                    </v-list-item>
+                
             
                 
                     <v-list-item href="/categories/Linux/" link>
@@ -272,52 +284,6 @@
 </v-row>
 
                             <v-card class="elevation-2 index-card">
-  
-    <article class="index-article">
-      
-      <div class="index-article-header">
-        <v-row no-gutters>
-          <v-col cols="auto">
-            <div class="index-article-header-date font-weight-medium">
-              2020-01-16
-            </div>
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col cols="auto">
-            
-              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
-                
-                  <span class="index-article-header-tag-content">
-                    <v-icon>fas fa-tag</v-icon>
-                    <a rel="tag" href = /tags/person/ >person</a>
-                  </span>
-                
-              </v-card>
-            
-          </v-col>
-        </v-row>
-        <span>
-          
-            <a class="index-article-header-category font-weight-bold" href="/2020/01/16/%E6%96%B0%E7%9A%84%E4%B8%80%E5%B9%B4/">Uncategorized></a>
-           
-        </span> 
-        <a class="index-article-header-title font-weight-medium" href="/2020/01/16/%E6%96%B0%E7%9A%84%E4%B8%80%E5%B9%B4/">新的一年</a>
-      </div>
-      
-      <div class="index-article-content">
-        
-          过去的一年学了很多
-收获了好多
-希望新的一年能继续保持
-
-        
-      </div>
-      
-      <div class="index-article-readmore ">
-        <v-btn text href="/2020/01/16/%E6%96%B0%E7%9A%84%E4%B8%80%E5%B9%B4/">Read More</v-btn>
-      </div>
-      <v-divider></v-divider>
-    </article> 
   
     <article class="index-article">
       
@@ -865,6 +831,55 @@ goaccess是一个基于终端得快速日志分析器
       
       <div class="index-article-readmore ">
         <v-btn text href="/2019/09/04/Python-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%BA%8C%EF%BC%89-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-09-02
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/python/ >python</a>
+                  </span>
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/design-pattern-python/ >design-pattern-python</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/09/02/Python-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/09/02/Python-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">Python-设计模式（一） 单例模式</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          1.单例模式介绍单例模式（singleton pattern）是一种常用的软件设计模式，该模式的主要目的是确保某一个类只有一个实例存在，当你希望在整个系统中，某个类只能出现一个实例时，单例对象就能派上用场。
+例如：某个服务器程序的配置信息存放在一个文件中，客户端通过一个 config的类读取配置文件的信息，如果在程序运行期间，有很多地方都需要使用配置文件的内容，也就是说， 很多地方都需要创建config对象的实例，这样就导致了系统中存在多个config的实例对象，但是这样会严重浪费内存资源，尤其是在配置文件中内容很多的情况下，事实上，类似config这样的类， 我们希望在程序运行期间只存...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/09/02/Python-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">Read More</v-btn>
       </div>
       <v-divider></v-divider>
     </article> 
