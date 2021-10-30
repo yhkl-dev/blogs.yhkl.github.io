@@ -41,8 +41,8 @@
     
     
     <title>
-          
-            YHKL Blog
+        
+            Nginx端口转发 | YHKL Blog
         
     </title>
     
@@ -105,57 +105,12 @@
     </v-list>
     <v-divider></v-divider>
     
-        <v-list id="sub-menu" class="font-weight-medium" dense>
-            
-                
-                    <v-list-item href="/categories/Vue/" link>
-                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
-                            <v-hover v-model="menuHover">
-                                <v-list-item-content>
-                                    <span>Vue</span>                              
-                                </v-list-item-content>                           
-                            </v-hover>
-                        </v-badge>
-                    </v-list-item>
-                
-            
-                
-                    <v-list-item href="/categories/Linux/" link>
-                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
-                            <v-hover v-model="menuHover">
-                                <v-list-item-content>
-                                    <span>Linux</span>                              
-                                </v-list-item-content>                           
-                            </v-hover>
-                        </v-badge>
-                    </v-list-item>
-                
-            
-                
-                    <v-list-item href="/categories/Design-Pattern/" link>
-                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
-                            <v-hover v-model="menuHover">
-                                <v-list-item-content>
-                                    <span>Design Pattern</span>                              
-                                </v-list-item-content>                           
-                            </v-hover>
-                        </v-badge>
-                    </v-list-item>
-                
-            
-                
-                    <v-list-item href="/categories/Nginx/" link>
-                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
-                            <v-hover v-model="menuHover">
-                                <v-list-item-content>
-                                    <span>Nginx</span>                              
-                                </v-list-item-content>                           
-                            </v-hover>
-                        </v-badge>
-                    </v-list-item>
-                
-            
-        </v-list>    
+        <div class="post-toc">
+            <a href="/2021/10/30/Nginx%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Nginx-%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-number">1.</span> <span class="toc-text">Nginx 端口转发</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Nginx-conf%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">Nginx conf文件配置</span></a></li></ol></li></ol></li></ol></li></ol>
+            </div>
+        </div>
     
 
     <div id="footer">
@@ -251,29 +206,82 @@
   </v-col>
 </v-row>
 
-                            <v-card class="elevation-2 index-card">
-    <v-timeline class="timeline" dense>
-        <v-timeline-item class="timeline-header" color="secondary lighten-2">
-            <span class="timeline-title">struct</span>
-            <span class="timeline-subtitle">Tags</span>
-        </v-timeline-item>
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2021/10/30/Nginx%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/">Nginx端口转发</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;<a class="category-link" href="/categories/Nginx/">Nginx</a>
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <blockquote>
+<p>如何使用Nginx进行端口转发, stream模块使用</p>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="Nginx-端口转发"><a href="#Nginx-端口转发" class="headerlink" title="Nginx 端口转发"></a>Nginx 端口转发</h1><blockquote>
+<p>前置条件</p>
+</blockquote>
+<p>如果要使用Nginx端口转发，需要重新编译nginx</p>
+<p>编译参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure  --prefix=/usr/share/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib64/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --http-client-body-temp-path=/var/lib/nginx/tmp/client_body --http-proxy-temp-path=/var/lib/nginx/tmp/proxy  --http-fastcgi-temp-path=/var/lib/nginx/tmp/fastcgi --http-uwsgi-temp-path=/var/lib/nginx/tmp/uwsgi --http-scgi-temp-path=/var/lib/nginx/tmp/scgi --pid-path=/run/nginx.pid --lock-path=/run/lock/subsys/nginx --user=nginx --group=nginx --with-compat --with-debug --with-google_perftools_module --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_degradation_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module=dynamic --with-http_mp4_module --with-http_perl_module=dynamic --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-http_xslt_module=dynamic --with-mail=dynamic --with-mail_ssl_module --with-pcre --with-pcre-jit --with-stream=dynamic --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream --with-threads</span><br></pre></td></tr></table></figure>
+
+<h4 id="Nginx-conf文件配置"><a href="#Nginx-conf文件配置" class="headerlink" title="Nginx conf文件配置"></a>Nginx conf文件配置</h4><blockquote>
+<p>注意：stream模块需要与http模块同级别</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">stream &#123;</span><br><span class="line"></span><br><span class="line">    upstream cloudsocket &#123;</span><br><span class="line">       <span class="built_in">hash</span> <span class="variable">$remote_addr</span> consistent;</span><br><span class="line">       server 192.168.0.190:9432 weight=5 max_fails=3 fail_timeout=30s; <span class="comment"># 需要转发得地址</span></span><br><span class="line">    &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">       listen 8082; <span class="comment"># 服务器监听端口 </span></span><br><span class="line">       proxy_connect_timeout 10s;</span><br><span class="line">       proxy_timeout 300s; <span class="comment"># 设置客户端和代理服务之间的超时时间，如果5分钟内没操作将自动断开。</span></span><br><span class="line">       proxy_pass cloudsocket;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2021/06/07/360-%E6%9E%81%E9%80%9F%E6%A8%A1%E5%BC%8F/">      
+                    360 极速模式
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
         
-            <v-timeline-item fill-dot small color="secondary lighten-2">
-                <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2019.11.06</span>
-                    <a href="/2019/11/06/Go-%E7%BB%93%E6%9E%84%E4%BD%93%E5%92%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="timeline-item-title">Go 结构体和单元测试</a>
-                </div>
-                <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2019.11.06</span><br>
-                    <a href="/2019/11/06/Go-%E7%BB%93%E6%9E%84%E4%BD%93%E5%92%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="timeline-item-title">Go 结构体和单元测试</a>
-                </div>
-                <v-divider></v-divider>
-            </v-timeline-item>
-        
-    </v-timeline>
+    </div>
 </v-card>
 
-         
+
+
+        
                             <div id="mobile-footer" class="d-block d-md-none">
                                 <v-divider></v-divider>
                                 <div id="mobile-footer-content">
@@ -302,6 +310,12 @@
 
 
 
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
 
 
 

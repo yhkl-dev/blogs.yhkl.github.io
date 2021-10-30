@@ -199,6 +199,18 @@
                     </v-list-item>
                 
             
+                
+                    <v-list-item href="/categories/Nginx/" link>
+                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
+                            <v-hover v-model="menuHover">
+                                <v-list-item-content>
+                                    <span>Nginx</span>                              
+                                </v-list-item-content>                           
+                            </v-hover>
+                        </v-badge>
+                    </v-list-item>
+                
+            
         </v-list>    
     
 
@@ -296,6 +308,60 @@
 </v-row>
 
                             <v-card class="elevation-2 index-card">
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-03-05
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/zabbix/ >zabbix</a>
+                  </span>
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/%E8%BF%90%E7%BB%B4/ >运维</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/03/05/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Java-gateway-3-4-15-%E7%9B%91%E6%8E%A7Tomcat/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/03/05/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Java-gateway-3-4-15-%E7%9B%91%E6%8E%A7Tomcat/">Zabbix安装文档-Zabbix-Java-gateway-3-4-15-监控Tomcat</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          zabbix java gateway 可以与 zabbix server/proxy不在同一台服务器，在配置文件中指定java gateway地址即可
+1.安装Zabbix-java-gateway
+
+安装软件包
+123zabbix-java-gateway.x86_64 0:3.4.15-1.el7 yum install zabbix-java-gateway -y
+编辑配置文件/etc/zabbix/zabbix_java_gateway.conf
+1234567[root@localhost ~]# grep -Ev &quot;^$|^#&quot; !$grep -Ev &...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/03/05/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Java-gateway-3-4-15-%E7%9B%91%E6%8E%A7Tomcat/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
   
     <article class="index-article">
       

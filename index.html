@@ -199,6 +199,18 @@
                     </v-list-item>
                 
             
+                
+                    <v-list-item href="/categories/Nginx/" link>
+                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
+                            <v-hover v-model="menuHover">
+                                <v-list-item-content>
+                                    <span>Nginx</span>                              
+                                </v-list-item-content>                           
+                            </v-hover>
+                        </v-badge>
+                    </v-list-item>
+                
+            
         </v-list>    
     
 
@@ -303,6 +315,56 @@
         <v-row no-gutters>
           <v-col cols="auto">
             <div class="index-article-header-date font-weight-medium">
+              2021-10-30
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/Linux/ >Linux</a>
+                  </span>
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/Nginx/ >Nginx</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/categories/Nginx/">Nginx></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2021/10/30/Nginx%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/">Nginx端口转发</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          
+如何使用Nginx进行端口转发, stream模块使用
+
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2021/10/30/Nginx%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
               2021-06-07
             </div>
           </v-col>
@@ -375,45 +437,7 @@
       
       <div class="index-article-content">
         
-          1.什么是设计模式
-设计模式是对被用来在特性场景下解决一般设计问题的类和相互通信的对象的描述
-
-
-模式名称
-一个助记名，用一两个词来描述模式的问题，解决方案和效果。
-
-问题
-描述了应该在何时使用模式
-
-解决方案
-描述了设计的组成成分，他们之前的相互关系及各自的职责和协作方式，因为模式就像一个模板，可应用于多种不同场合。
-
-效果
-描述了模式应用的效以及使用模式应权衡的问题
-
-
-2.描述设计模式
-模式名和分类
-
-意图
-
-别名
-
-动机
-用以说明一个设计问题以及如何用模式中的类、对象来解决该问题的特定情景
-
-适用性
-
-结构
-
-参与者
-设计模式中的类和/或对象以及他们各自的职责
-
-协作
-
-效果
-
-...
+          1.什么是设计模式 设计模式是对被用来在特性场景下解决一般设计问题的类和相互通信的对象的描述
         
       </div>
       
@@ -798,52 +822,6 @@ split命令语法如下：
       
       <div class="index-article-readmore ">
         <v-btn text href="/2020/05/25/Centos-split-%E5%88%87%E5%89%B2%E6%96%87%E4%BB%B6%E5%8F%8A%E5%90%88%E5%B9%B6%E6%96%87%E4%BB%B6/">Read More</v-btn>
-      </div>
-      <v-divider></v-divider>
-    </article> 
-  
-    <article class="index-article">
-      
-      <div class="index-article-header">
-        <v-row no-gutters>
-          <v-col cols="auto">
-            <div class="index-article-header-date font-weight-medium">
-              2020-05-10
-            </div>
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col cols="auto">
-            
-              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
-                
-                  <span class="index-article-header-tag-content">
-                    <v-icon>fas fa-tag</v-icon>
-                    <a rel="tag" href = /tags/python/ >python</a>
-                  </span>
-                
-              </v-card>
-            
-          </v-col>
-        </v-row>
-        <span>
-          
-            <a class="index-article-header-category font-weight-bold" href="/2020/05/10/Python-frozenset-%E5%BA%94%E7%94%A8/">Uncategorized></a>
-           
-        </span> 
-        <a class="index-article-header-title font-weight-medium" href="/2020/05/10/Python-frozenset-%E5%BA%94%E7%94%A8/">Python frozenset 应用</a>
-      </div>
-      
-      <div class="index-article-content">
-        
-          
- frozenset() 返回一个冻结的集合，冻结后集合不能再添加或删除任何元素
-
-12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210310410510610710810911011111211311411511611711811912012...
-        
-      </div>
-      
-      <div class="index-article-readmore ">
-        <v-btn text href="/2020/05/10/Python-frozenset-%E5%BA%94%E7%94%A8/">Read More</v-btn>
       </div>
       <v-divider></v-divider>
     </article> 
