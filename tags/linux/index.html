@@ -163,6 +163,18 @@
                     </v-list-item>
                 
             
+                
+                    <v-list-item href="/categories/Zabbix/" link>
+                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
+                            <v-hover v-model="menuHover">
+                                <v-list-item-content>
+                                    <span>Zabbix</span>                              
+                                </v-list-item-content>                           
+                            </v-hover>
+                        </v-badge>
+                    </v-list-item>
+                
+            
         </v-list>    
     
 
@@ -209,95 +221,98 @@
   <v-col cols="12" md="8" align-self="end">
     <div id="site-header">
       <div id="site-title">
-        <a href="/" rel="home">YHKL Blog</a>
+        <a href="/" rel="home">
+          YHKL Blog
+        </a>
       </div>
-      <div id="site-description"></div>
+      <div id="site-description">
+        
+      </div>
       <div id="mobile-menu" class="d-block d-md-none">
-        <v-text-field label="Type to search" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <v-text-field label="Type to search" data-src="search.xml"
+          v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear"
+          @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
         <div class="mobile-mini-menu">
           <v-btn icon href="/">
-              <v-icon>home</v-icon>
+            <v-icon>home</v-icon>
           </v-btn>
           <v-btn icon href="/categories/">
-              <v-icon>folder</v-icon>
+            <v-icon>category</v-icon>
           </v-btn>
           <v-btn icon href="/tags/">
-              <v-icon>bookmark</v-icon>
+            <v-icon>bookmark</v-icon>
           </v-btn>
           <v-btn icon @click="SetNightMode">
-              <v-icon>{{ nightMode }}</v-icon>
+            <v-icon>{{ nightMode }}</v-icon>
           </v-btn>
           
             
-            <v-btn icon href="/">
-              <v-icon>home</v-icon>
-            </v-btn>
-          
+            <v-btn icon href=" /">
+              <v-icon>
+                home
+              </v-icon>
+              </v-btn>
+              
             
-            <v-btn icon href="/archives/">
-              <v-icon>archive</v-icon>
-            </v-btn>
-          
+            <v-btn icon href=" /archives/">
+              <v-icon>
+                archive
+              </v-icon>
+              </v-btn>
+              
             
-            <v-btn icon href="/about/">
-              <v-icon>account_circle</v-icon>
-            </v-btn>
-          
+            <v-btn icon href=" /about/">
+              <v-icon>
+                account_circle
+              </v-icon>
+              </v-btn>
+              
             
-            <v-btn icon href="/links/">
-              <v-icon>article</v-icon>
-            </v-btn>
-          
+            <v-btn icon href=" /links/">
+              <v-icon>
+                article
+              </v-icon>
+              </v-btn>
+              
         </div>
-      </div>    
+      </div>
     </div>
-  </v-col>  
+  </v-col>
   <v-col cols="4" align-self="end" class="d-none d-md-block">
     <v-col align-self="end">
-      <v-text-field label="Type to search" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
-    </v-col> 
+      <v-text-field label="Type to search" data-src="search.xml" v-model="searchHeaderValue"
+        prepend-icon="search" clearable clear-icon="clear"
+        @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col>
   </v-col>
 </v-row>
-
                             <v-card class="elevation-2 index-card">
     <v-timeline class="timeline" dense>
         <v-timeline-item class="timeline-header" color="secondary lighten-2">
-            <span class="timeline-title">Linux</span>
+            <span class="timeline-title">linux</span>
             <span class="timeline-subtitle">Tags</span>
         </v-timeline-item>
         
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2021.10.30</span>
-                    <a href="/2021/10/30/Nginx%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" class="timeline-item-title">Nginx端口转发</a>
+                    <span class="timeline-item-time">2020.03.13</span>
+                    <a href="/2020/03/13/Linux-pushd-popd-dirs%E5%91%BD%E4%BB%A4/" class="timeline-item-title">Linux pushd popd dirs命令</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2021.10.30</span><br>
-                    <a href="/2021/10/30/Nginx%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" class="timeline-item-title">Nginx端口转发</a>
+                    <span class="timeline-item-time">2020.03.13</span><br>
+                    <a href="/2020/03/13/Linux-pushd-popd-dirs%E5%91%BD%E4%BB%A4/" class="timeline-item-title">Linux pushd popd dirs命令</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
         
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2020.08.15</span>
-                    <a href="/2020/08/15/Linux-strace%E4%BD%BF%E7%94%A8/" class="timeline-item-title">Linux strace使用</a>
+                    <span class="timeline-item-time">2019.05.29</span>
+                    <a href="/2019/05/29/%E8%BF%9B%E7%A8%8B%E5%B7%A5%E5%85%B7-Daemonize-python-daemonize/" class="timeline-item-title">进程工具 Daemonize &amp;&amp; python-daemonize</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2020.08.15</span><br>
-                    <a href="/2020/08/15/Linux-strace%E4%BD%BF%E7%94%A8/" class="timeline-item-title">Linux strace使用</a>
-                </div>
-                <v-divider></v-divider>
-            </v-timeline-item>
-        
-            <v-timeline-item fill-dot small color="secondary lighten-2">
-                <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2019.12.08</span>
-                    <a href="/2019/12/08/Rsync-%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" class="timeline-item-title">Rsync 参数详解</a>
-                </div>
-                <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2019.12.08</span><br>
-                    <a href="/2019/12/08/Rsync-%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" class="timeline-item-title">Rsync 参数详解</a>
+                    <span class="timeline-item-time">2019.05.29</span><br>
+                    <a href="/2019/05/29/%E8%BF%9B%E7%A8%8B%E5%B7%A5%E5%85%B7-Daemonize-python-daemonize/" class="timeline-item-title">进程工具 Daemonize &amp;&amp; python-daemonize</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
@@ -314,6 +329,33 @@
                                 </div>
                             </div>                   
                         </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>                                         
                     </v-row>
                 </v-container>
             </v-content>

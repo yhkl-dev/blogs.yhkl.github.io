@@ -163,6 +163,18 @@
                     </v-list-item>
                 
             
+                
+                    <v-list-item href="/categories/Zabbix/" link>
+                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
+                            <v-hover v-model="menuHover">
+                                <v-list-item-content>
+                                    <span>Zabbix</span>                              
+                                </v-list-item-content>                           
+                            </v-hover>
+                        </v-badge>
+                    </v-list-item>
+                
+            
         </v-list>    
     
 
@@ -209,56 +221,71 @@
   <v-col cols="12" md="8" align-self="end">
     <div id="site-header">
       <div id="site-title">
-        <a href="/" rel="home">YHKL Blog</a>
+        <a href="/" rel="home">
+          YHKL Blog
+        </a>
       </div>
-      <div id="site-description"></div>
+      <div id="site-description">
+        
+      </div>
       <div id="mobile-menu" class="d-block d-md-none">
-        <v-text-field label="Type to search" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <v-text-field label="Type to search" data-src="search.xml"
+          v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear"
+          @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
         <div class="mobile-mini-menu">
           <v-btn icon href="/">
-              <v-icon>home</v-icon>
+            <v-icon>home</v-icon>
           </v-btn>
           <v-btn icon href="/categories/">
-              <v-icon>folder</v-icon>
+            <v-icon>category</v-icon>
           </v-btn>
           <v-btn icon href="/tags/">
-              <v-icon>bookmark</v-icon>
+            <v-icon>bookmark</v-icon>
           </v-btn>
           <v-btn icon @click="SetNightMode">
-              <v-icon>{{ nightMode }}</v-icon>
+            <v-icon>{{ nightMode }}</v-icon>
           </v-btn>
           
             
-            <v-btn icon href="/">
-              <v-icon>home</v-icon>
-            </v-btn>
-          
+            <v-btn icon href=" /">
+              <v-icon>
+                home
+              </v-icon>
+              </v-btn>
+              
             
-            <v-btn icon href="/archives/">
-              <v-icon>archive</v-icon>
-            </v-btn>
-          
+            <v-btn icon href=" /archives/">
+              <v-icon>
+                archive
+              </v-icon>
+              </v-btn>
+              
             
-            <v-btn icon href="/about/">
-              <v-icon>account_circle</v-icon>
-            </v-btn>
-          
+            <v-btn icon href=" /about/">
+              <v-icon>
+                account_circle
+              </v-icon>
+              </v-btn>
+              
             
-            <v-btn icon href="/links/">
-              <v-icon>article</v-icon>
-            </v-btn>
-          
+            <v-btn icon href=" /links/">
+              <v-icon>
+                article
+              </v-icon>
+              </v-btn>
+              
         </div>
-      </div>    
+      </div>
     </div>
-  </v-col>  
+  </v-col>
   <v-col cols="4" align-self="end" class="d-none d-md-block">
     <v-col align-self="end">
-      <v-text-field label="Type to search" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
-    </v-col> 
+      <v-text-field label="Type to search" data-src="search.xml" v-model="searchHeaderValue"
+        prepend-icon="search" clearable clear-icon="clear"
+        @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col>
   </v-col>
 </v-row>
-
                             <v-card class="elevation-2 index-card">
     <v-timeline class="timeline" dense>
         <v-timeline-item class="timeline-header" color="secondary lighten-2">
@@ -418,18 +445,6 @@
                 <div class="timeline-item-post-mobile d-block d-md-none">
                     <span class="timeline-item-time">2019.03.05</span><br>
                     <a href="/2019/03/05/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Java-gateway-3-4-15-%E7%9B%91%E6%8E%A7Tomcat/" class="timeline-item-title">Zabbix安装文档-Zabbix-Java-gateway-3-4-15-监控Tomcat</a>
-                </div>
-                <v-divider></v-divider>
-            </v-timeline-item>
-        
-            <v-timeline-item fill-dot small color="secondary lighten-2">
-                <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2019.03.04</span>
-                    <a href="/2019/03/04/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-Zabbix%E8%BF%9B%E7%A8%8B%E8%AF%B4%E6%98%8E/" class="timeline-item-title">Zabbix监控文档-Zabbix进程说明</a>
-                </div>
-                <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2019.03.04</span><br>
-                    <a href="/2019/03/04/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-Zabbix%E8%BF%9B%E7%A8%8B%E8%AF%B4%E6%98%8E/" class="timeline-item-title">Zabbix监控文档-Zabbix进程说明</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>

@@ -163,6 +163,18 @@
                     </v-list-item>
                 
             
+                
+                    <v-list-item href="/categories/Zabbix/" link>
+                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
+                            <v-hover v-model="menuHover">
+                                <v-list-item-content>
+                                    <span>Zabbix</span>                              
+                                </v-list-item-content>                           
+                            </v-hover>
+                        </v-badge>
+                    </v-list-item>
+                
+            
         </v-list>    
     
 
@@ -209,56 +221,71 @@
   <v-col cols="12" md="8" align-self="end">
     <div id="site-header">
       <div id="site-title">
-        <a href="/" rel="home">YHKL Blog</a>
+        <a href="/" rel="home">
+          YHKL Blog
+        </a>
       </div>
-      <div id="site-description"></div>
+      <div id="site-description">
+        
+      </div>
       <div id="mobile-menu" class="d-block d-md-none">
-        <v-text-field label="Type to search" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <v-text-field label="Type to search" data-src="search.xml"
+          v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear"
+          @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
         <div class="mobile-mini-menu">
           <v-btn icon href="/">
-              <v-icon>home</v-icon>
+            <v-icon>home</v-icon>
           </v-btn>
           <v-btn icon href="/categories/">
-              <v-icon>folder</v-icon>
+            <v-icon>category</v-icon>
           </v-btn>
           <v-btn icon href="/tags/">
-              <v-icon>bookmark</v-icon>
+            <v-icon>bookmark</v-icon>
           </v-btn>
           <v-btn icon @click="SetNightMode">
-              <v-icon>{{ nightMode }}</v-icon>
+            <v-icon>{{ nightMode }}</v-icon>
           </v-btn>
           
             
-            <v-btn icon href="/">
-              <v-icon>home</v-icon>
-            </v-btn>
-          
+            <v-btn icon href=" /">
+              <v-icon>
+                home
+              </v-icon>
+              </v-btn>
+              
             
-            <v-btn icon href="/archives/">
-              <v-icon>archive</v-icon>
-            </v-btn>
-          
+            <v-btn icon href=" /archives/">
+              <v-icon>
+                archive
+              </v-icon>
+              </v-btn>
+              
             
-            <v-btn icon href="/about/">
-              <v-icon>account_circle</v-icon>
-            </v-btn>
-          
+            <v-btn icon href=" /about/">
+              <v-icon>
+                account_circle
+              </v-icon>
+              </v-btn>
+              
             
-            <v-btn icon href="/links/">
-              <v-icon>article</v-icon>
-            </v-btn>
-          
+            <v-btn icon href=" /links/">
+              <v-icon>
+                article
+              </v-icon>
+              </v-btn>
+              
         </div>
-      </div>    
+      </div>
     </div>
-  </v-col>  
+  </v-col>
   <v-col cols="4" align-self="end" class="d-none d-md-block">
     <v-col align-self="end">
-      <v-text-field label="Type to search" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
-    </v-col> 
+      <v-text-field label="Type to search" data-src="search.xml" v-model="searchHeaderValue"
+        prepend-icon="search" clearable clear-icon="clear"
+        @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col>
   </v-col>
 </v-row>
-
                             <v-card class="elevation-2 post-card">
     <div class="post-header">
         <a class="post-header-title font-weight-medium" href="/categories/index.html">Categories</a>
@@ -334,7 +361,7 @@
                         </v-hover>
                     </v-badge>
                 
-                    <v-badge :value="tagHover" transition="slide-x-transition" inline content="14" >
+                    <v-badge :value="tagHover" transition="slide-x-transition" inline content="13" >
                         <v-hover v-model="tagHover">
                             <v-chip color="secondary" class="tags-chip font-weight-medium">
                                 <a href="/tags/zabbix/">zabbix</a>
@@ -342,7 +369,7 @@
                         </v-hover>
                     </v-badge>
                 
-                    <v-badge :value="tagHover" transition="slide-x-transition" inline content="18" >
+                    <v-badge :value="tagHover" transition="slide-x-transition" inline content="17" >
                         <v-hover v-model="tagHover">
                             <v-chip color="secondary" class="tags-chip font-weight-medium">
                                 <a href="/tags/%E8%BF%90%E7%BB%B4/">运维</a>
@@ -558,7 +585,7 @@
                         </v-hover>
                     </v-badge>
                 
-                    <v-badge :value="tagHover" transition="slide-x-transition" inline content="1" >
+                    <v-badge :value="tagHover" transition="slide-x-transition" inline content="2" >
                         <v-hover v-model="tagHover">
                             <v-chip color="secondary" class="tags-chip font-weight-medium">
                                 <a href="/tags/Zabbix/">Zabbix</a>
@@ -802,6 +829,14 @@
                         <v-hover v-model="tagHover">
                             <v-chip color="secondary" class="tags-chip font-weight-medium">
                                 <a href="/tags/Nginx/">Nginx</a>
+                            </v-chip>
+                        </v-hover>
+                    </v-badge>
+                
+                    <v-badge :value="tagHover" transition="slide-x-transition" inline content="1" >
+                        <v-hover v-model="tagHover">
+                            <v-chip color="secondary" class="tags-chip font-weight-medium">
+                                <a href="/tags/Operation/">Operation</a>
                             </v-chip>
                         </v-hover>
                     </v-badge>
