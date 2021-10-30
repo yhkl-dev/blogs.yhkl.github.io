@@ -102,13 +102,21 @@
             </v-list-item-content>
             </v-list-item>
         
+            
+            <v-list-item href="/links/" link>
+            <v-list-item-icon><v-icon>article</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                link
+            </v-list-item-content>
+            </v-list-item>
+        
     </v-list>
     <v-divider></v-divider>
     
         <div class="post-toc">
             <a href="/2021/10/30/Nginx%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" class="toc-header">Table of Contents</a>
             <div class="toc-content">
-                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Nginx-%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-number">1.</span> <span class="toc-text">Nginx 端口转发</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Nginx-conf%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">Nginx conf文件配置</span></a></li></ol></li></ol></li></ol></li></ol>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">前置条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx-conf%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">Nginx conf文件配置</span></a></li></ol>
             </div>
         </div>
     
@@ -117,7 +125,7 @@
         <div class="footer-social">
             
                 
-                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                <v-btn icon href="/kaiyang939325@gmail.com" target="_blank">
                     <v-icon>fas fa-envelope</v-icon>
                 </v-btn>
             
@@ -129,11 +137,6 @@
                 
                 <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
                     <v-icon>fab fa-steam</v-icon>
-                </v-btn>
-            
-                
-                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
-                    <v-icon>fab fa-weibo</v-icon>
                 </v-btn>
             
         </div>
@@ -165,7 +168,7 @@
       </div>
       <div id="site-description"></div>
       <div id="mobile-menu" class="d-block d-md-none">
-        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <v-text-field label="Type to search" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
         <div class="mobile-mini-menu">
           <v-btn icon href="/">
               <v-icon>home</v-icon>
@@ -195,13 +198,18 @@
               <v-icon>account_circle</v-icon>
             </v-btn>
           
+            
+            <v-btn icon href="/links/">
+              <v-icon>article</v-icon>
+            </v-btn>
+          
         </div>
       </div>    
     </div>
   </v-col>  
   <v-col cols="4" align-self="end" class="d-none d-md-block">
     <v-col align-self="end">
-      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+      <v-text-field label="Type to search" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
     </v-col> 
   </v-col>
 </v-row>
@@ -243,14 +251,11 @@
 </blockquote>
 <span id="more"></span>
 
-<h1 id="Nginx-端口转发"><a href="#Nginx-端口转发" class="headerlink" title="Nginx 端口转发"></a>Nginx 端口转发</h1><blockquote>
-<p>前置条件</p>
-</blockquote>
-<p>如果要使用Nginx端口转发，需要重新编译nginx</p>
+<h2 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h2><p>如果要使用Nginx端口转发，需要重新编译nginx</p>
 <p>编译参数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure  --prefix=/usr/share/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib64/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --http-client-body-temp-path=/var/lib/nginx/tmp/client_body --http-proxy-temp-path=/var/lib/nginx/tmp/proxy  --http-fastcgi-temp-path=/var/lib/nginx/tmp/fastcgi --http-uwsgi-temp-path=/var/lib/nginx/tmp/uwsgi --http-scgi-temp-path=/var/lib/nginx/tmp/scgi --pid-path=/run/nginx.pid --lock-path=/run/lock/subsys/nginx --user=nginx --group=nginx --with-compat --with-debug --with-google_perftools_module --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_degradation_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module=dynamic --with-http_mp4_module --with-http_perl_module=dynamic --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-http_xslt_module=dynamic --with-mail=dynamic --with-mail_ssl_module --with-pcre --with-pcre-jit --with-stream=dynamic --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream --with-threads</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">./configure  </span><br><span class="line">    --prefix=/usr/share/nginx </span><br><span class="line">    --sbin-path=/usr/sbin/nginx </span><br><span class="line">    --modules-path=/usr/lib64/nginx/modules </span><br><span class="line">    --conf-path=/etc/nginx/nginx.conf </span><br><span class="line">    --error-log-path=/var/<span class="built_in">log</span>/nginx/error.log </span><br><span class="line">    --http-log-path=/var/<span class="built_in">log</span>/nginx/access.log </span><br><span class="line">    --http-client-body-temp-path=/var/lib/nginx/tmp/client_body </span><br><span class="line">    --http-proxy-temp-path=/var/lib/nginx/tmp/proxy  </span><br><span class="line">    --http-fastcgi-temp-path=/var/lib/nginx/tmp/fastcgi </span><br><span class="line">    --http-uwsgi-temp-path=/var/lib/nginx/tmp/uwsgi </span><br><span class="line">    --http-scgi-temp-path=/var/lib/nginx/tmp/scgi </span><br><span class="line">    --pid-path=/run/nginx.pid </span><br><span class="line">    --lock-path=/run/lock/subsys/nginx </span><br><span class="line">    --user=nginx </span><br><span class="line">    --group=nginx </span><br><span class="line">    --with-compat </span><br><span class="line">    --with-debug </span><br><span class="line">    --with-google_perftools_module </span><br><span class="line">    --with-http_addition_module </span><br><span class="line">    --with-http_auth_request_module </span><br><span class="line">    --with-http_dav_module </span><br><span class="line">    --with-http_degradation_module </span><br><span class="line">    --with-http_flv_module </span><br><span class="line">    --with-http_gunzip_module </span><br><span class="line">    --with-http_gzip_static_module </span><br><span class="line">    --with-http_image_filter_module=dynamic </span><br><span class="line">    --with-http_mp4_module </span><br><span class="line">    --with-http_perl_module=dynamic </span><br><span class="line">    --with-http_random_index_module </span><br><span class="line">    --with-http_realip_module </span><br><span class="line">    --with-http_secure_link_module </span><br><span class="line">    --with-http_slice_module </span><br><span class="line">    --with-http_ssl_module </span><br><span class="line">    --with-http_stub_status_module </span><br><span class="line">    --with-http_sub_module </span><br><span class="line">    --with-http_v2_module </span><br><span class="line">    --with-http_xslt_module=dynamic </span><br><span class="line">    --with-mail=dynamic </span><br><span class="line">    --with-mail_ssl_module </span><br><span class="line">    --with-pcre </span><br><span class="line">    --with-pcre-jit </span><br><span class="line">    --with-stream=dynamic </span><br><span class="line">    --with-stream_ssl_module </span><br><span class="line">    --with-stream_ssl_preread_module </span><br><span class="line">    --with-stream </span><br><span class="line">    --with-threads</span><br></pre></td></tr></table></figure>
 
-<h4 id="Nginx-conf文件配置"><a href="#Nginx-conf文件配置" class="headerlink" title="Nginx conf文件配置"></a>Nginx conf文件配置</h4><blockquote>
+<h2 id="Nginx-conf文件配置"><a href="#Nginx-conf文件配置" class="headerlink" title="Nginx conf文件配置"></a>Nginx conf文件配置</h2><blockquote>
 <p>注意：stream模块需要与http模块同级别</p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">stream &#123;</span><br><span class="line"></span><br><span class="line">    upstream cloudsocket &#123;</span><br><span class="line">       <span class="built_in">hash</span> <span class="variable">$remote_addr</span> consistent;</span><br><span class="line">       server 192.168.0.190:9432 weight=5 max_fails=3 fail_timeout=30s; <span class="comment"># 需要转发得地址</span></span><br><span class="line">    &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">       listen 8082; <span class="comment"># 服务器监听端口 </span></span><br><span class="line">       proxy_connect_timeout 10s;</span><br><span class="line">       proxy_timeout 300s; <span class="comment"># 设置客户端和代理服务之间的超时时间，如果5分钟内没操作将自动断开。</span></span><br><span class="line">       proxy_pass cloudsocket;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
