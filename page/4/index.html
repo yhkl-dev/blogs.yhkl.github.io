@@ -98,7 +98,7 @@
     
     <title>
           
-            YHKL Blog
+            YHKL&#39;S BLOG
         
     </title>
     
@@ -114,8 +114,8 @@
                             <div id="sidebar" class="float-right">
     <a href="/" rel="home">
         <v-avatar size=96>
-            <img id="logo" src="/images/avatar.png">     
-        </v-avatar> 
+            <img id="logo" src="/images/avatar.png">
+        </v-avatar>
     </a>
     <v-divider></v-divider>
     <div class="mini-menu">
@@ -123,7 +123,7 @@
             <v-icon>home</v-icon>
         </v-btn>
         <v-btn icon href="/categories/">
-            <v-icon>folder</v-icon>
+            <v-icon>category</v-icon>
         </v-btn>
         <v-btn icon href="/tags/">
             <v-icon>bookmark</v-icon>
@@ -135,142 +135,196 @@
     <v-list id="main-menu" class="font-weight-bold" flat>
         
             
-            <v-list-item href="/" link>
-            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                Home
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        home
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    Home
+                </v-list-item-content>
+                </v-list-item>
+                
             
-            <v-list-item href="/archives/" link>
-            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                Archives
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /archives/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        archive
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    Archives
+                </v-list-item-content>
+                </v-list-item>
+                
             
-            <v-list-item href="/about/" link>
-            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                About
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /about/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        account_circle
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    About
+                </v-list-item-content>
+                </v-list-item>
+                
             
-            <v-list-item href="/links/" link>
-            <v-list-item-icon><v-icon>article</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                link
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /links/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        article
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    link
+                </v-list-item-content>
+                </v-list-item>
+                
     </v-list>
     <v-divider></v-divider>
     
-        <v-list id="sub-menu" class="font-weight-medium" dense>
+            <v-list id="sub-menu" class="font-weight-medium" dense>
+                
+                    
+                        <v-list-item href="/categories/Vue/" link>
+                            <v-badge :value="menuHover" transition="slide-y-transition" inline
+                                content="1">
+                                <v-hover v-model="menuHover">
+                                    <v-list-item-content>
+                                        <span>
+                                            Vue
+                                        </span>
+                                    </v-list-item-content>
+                                </v-hover>
+                            </v-badge>
+                        </v-list-item>
+                        
+                            
+                    
+                        <v-list-item href="/categories/Linux/" link>
+                            <v-badge :value="menuHover" transition="slide-y-transition" inline
+                                content="7">
+                                <v-hover v-model="menuHover">
+                                    <v-list-item-content>
+                                        <span>
+                                            Linux
+                                        </span>
+                                    </v-list-item-content>
+                                </v-hover>
+                            </v-badge>
+                        </v-list-item>
+                        
+                            
+                    
+                        <v-list-item href="/categories/Design-Pattern/" link>
+                            <v-badge :value="menuHover" transition="slide-y-transition" inline
+                                content="1">
+                                <v-hover v-model="menuHover">
+                                    <v-list-item-content>
+                                        <span>
+                                            Design Pattern
+                                        </span>
+                                    </v-list-item-content>
+                                </v-hover>
+                            </v-badge>
+                        </v-list-item>
+                        
+                            
+                    
+                        <v-list-item href="/categories/Nginx/" link>
+                            <v-badge :value="menuHover" transition="slide-y-transition" inline
+                                content="1">
+                                <v-hover v-model="menuHover">
+                                    <v-list-item-content>
+                                        <span>
+                                            Nginx
+                                        </span>
+                                    </v-list-item-content>
+                                </v-hover>
+                            </v-badge>
+                        </v-list-item>
+                        
+                            
+                    
+                        <v-list-item href="/categories/Zabbix/" link>
+                            <v-badge :value="menuHover" transition="slide-y-transition" inline
+                                content="1">
+                                <v-hover v-model="menuHover">
+                                    <v-list-item-content>
+                                        <span>
+                                            Zabbix
+                                        </span>
+                                    </v-list-item-content>
+                                </v-hover>
+                            </v-badge>
+                        </v-list-item>
+                        
+                            
+                    
+                        <v-list-item href="/categories/PostgreSQL/" link>
+                            <v-badge :value="menuHover" transition="slide-y-transition" inline
+                                content="1">
+                                <v-hover v-model="menuHover">
+                                    <v-list-item-content>
+                                        <span>
+                                            PostgreSQL
+                                        </span>
+                                    </v-list-item-content>
+                                </v-hover>
+                            </v-badge>
+                        </v-list-item>
+                        
+                            
+            </v-list>
             
-                
-                    <v-list-item href="/categories/Vue/" link>
-                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
-                            <v-hover v-model="menuHover">
-                                <v-list-item-content>
-                                    <span>Vue</span>                              
-                                </v-list-item-content>                           
-                            </v-hover>
-                        </v-badge>
-                    </v-list-item>
-                
-            
-                
-                    <v-list-item href="/categories/Linux/" link>
-                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
-                            <v-hover v-model="menuHover">
-                                <v-list-item-content>
-                                    <span>Linux</span>                              
-                                </v-list-item-content>                           
-                            </v-hover>
-                        </v-badge>
-                    </v-list-item>
-                
-            
-                
-                    <v-list-item href="/categories/Design-Pattern/" link>
-                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
-                            <v-hover v-model="menuHover">
-                                <v-list-item-content>
-                                    <span>Design Pattern</span>                              
-                                </v-list-item-content>                           
-                            </v-hover>
-                        </v-badge>
-                    </v-list-item>
-                
-            
-                
-                    <v-list-item href="/categories/Nginx/" link>
-                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
-                            <v-hover v-model="menuHover">
-                                <v-list-item-content>
-                                    <span>Nginx</span>                              
-                                </v-list-item-content>                           
-                            </v-hover>
-                        </v-badge>
-                    </v-list-item>
-                
-            
-                
-                    <v-list-item href="/categories/Zabbix/" link>
-                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
-                            <v-hover v-model="menuHover">
-                                <v-list-item-content>
-                                    <span>Zabbix</span>                              
-                                </v-list-item-content>                           
-                            </v-hover>
-                        </v-badge>
-                    </v-list-item>
-                
-            
-        </v-list>    
-    
 
-    <div id="footer">
-        <div class="footer-social">
-            
-                
-                <v-btn icon href="/kaiyang939325@gmail.com" target="_blank">
-                    <v-icon>fas fa-envelope</v-icon>
-                </v-btn>
-            
-                
-                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
-                    <v-icon>fab fa-github</v-icon>
-                </v-btn>
-            
-                
-                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
-                    <v-icon>fab fa-steam</v-icon>
-                </v-btn>
-            
-        </div>
-        <v-divider></v-divider>
-        <div class="footer-content">
-            
-                <span id="busuanzi_container_site_uv" style="display: none;"> 
-                    Total Visitors <span id="busuanzi_value_site_uv"></span>
-                </span>
-                <br>
-            
-            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
-            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
-            <span>
-                &copy; 2015 - 2021 
-                yhkl
-            </span>
-        </div>
-    </div>
+                <div id="footer">
+                    <div class="footer-social">
+                        
+                            
+                <v-btn icon href=" /kaiyang939325@gmail.com" target="_blank">
+                                <v-icon>
+                                    fas fa-envelope
+                                </v-icon>
+                                </v-btn>
+                                
+                            
+                <v-btn icon href=" https://github.com/yhkl-dev" target="_blank">
+                                <v-icon>
+                                    fab fa-github
+                                </v-icon>
+                                </v-btn>
+                                
+                            
+                <v-btn icon href=" https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                                <v-icon>
+                                    fab fa-steam
+                                </v-icon>
+                                </v-btn>
+                                
+                    </div>
+                    <v-divider></v-divider>
+                    <div class="footer-content">
+                        
+                            <span id="busuanzi_container_site_uv" style="display: none;">
+                                Total Visitors <span id="busuanzi_value_site_uv"></span>
+                            </span>
+                            <br>
+                            
+                                <span>Theme: <a
+                                        target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+                                <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                <span>
+                                    &copy; 
+                                        2015 - 
+                                                2021
+                                                    yhkl
+                                </span>
+                    </div>
+                </div>
 </div>
-
                         </v-col>
                         <v-col cols="12" md="10">
                             <v-row>
@@ -278,7 +332,7 @@
     <div id="site-header">
       <div id="site-title">
         <a href="/" rel="home">
-          YHKL Blog
+          YHKL&#39;S BLOG
         </a>
       </div>
       <div id="site-description">
@@ -343,6 +397,71 @@
   </v-col>
 </v-row>
                             <v-card class="elevation-2 index-card">
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-09-04
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/python/ >python</a>
+                  </span>
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/design-pattern-python/ >design-pattern-python</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/09/04/Python-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%BA%8C%EF%BC%89-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/09/04/Python-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%BA%8C%EF%BC%89-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">Python-设计模式（二）-工厂模式</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          1.概念工厂模式（factory pattern）提供了一种创建对象的最佳方式
+在工厂模式中，创建对象时不会对客户端暴露创建逻辑，并且是通过使用一个共同的接口来指向新创建的对象，也就是说，通过创建对象的接口， 让子类自己决定实例化哪个工厂类，工厂模式使其创建过程延迟到子类。
+工厂模式解决了接口选择的问题
+
+优点：
+调用者如果想要创建一个对象，只需要其名称就可以了。
+扩展性好，如果想增加一个产品，只需要增加一个扩展类就可以了。
+屏蔽了产品的具体实现，调用者只关心产品的接口。
+
+
+缺点：
+系统复杂度增加。
+
+
+
+使用场景:
+
+日志记录器，日志可能记录到本地磁盘，系统事件，远程服务器等， 用户...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/09/04/Python-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%BA%8C%EF%BC%89-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
   
     <article class="index-article">
       
@@ -790,57 +909,6 @@ int8、int16、int32和int64四种有符号整数类型， 分别对应8、16、
       
       <div class="index-article-readmore ">
         <v-btn text href="/2019/07/27/Go-%E8%AF%AD%E6%B3%95%E4%BA%8C-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Read More</v-btn>
-      </div>
-      <v-divider></v-divider>
-    </article> 
-  
-    <article class="index-article">
-      
-      <div class="index-article-header">
-        <v-row no-gutters>
-          <v-col cols="auto">
-            <div class="index-article-header-date font-weight-medium">
-              2019-07-26
-            </div>
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col cols="auto">
-            
-              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
-                
-                  <span class="index-article-header-tag-content">
-                    <v-icon>fas fa-tag</v-icon>
-                    <a rel="tag" href = /tags/Go/ >Go</a>
-                  </span>
-                
-              </v-card>
-            
-          </v-col>
-        </v-row>
-        <span>
-          
-            <a class="index-article-header-category font-weight-bold" href="/2019/07/26/Go-%E8%AF%AD%E6%B3%95%E4%B8%80-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E3%80%81%E8%BF%90%E7%AE%97%E7%AC%A6%E3%80%81%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2/">Uncategorized></a>
-           
-        </span> 
-        <a class="index-article-header-title font-weight-medium" href="/2019/07/26/Go-%E8%AF%AD%E6%B3%95%E4%B8%80-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E3%80%81%E8%BF%90%E7%AE%97%E7%AC%A6%E3%80%81%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2/">Go-语法一-流程控制、运算符、进制转换</a>
-      </div>
-      
-      <div class="index-article-content">
-        
-          一、流程控制1. 条件语句
-判断语句 if
-if 判断实例：
-1234//初始化与判断写在一起： if a := 10; a == 10if i == &#x27;3&#x27; &#123;		&#125;
-
-特殊写法
-1if err := Connect(); err != nil &#123;&#125; // 这里的 err!=nil 才是真正的if判断表达式
-分支语句switch
-12345678switch num &#123;	case 1:		fmt.Println(&quot;a&quot;)	case 2:		fmt.Println(&quot;b&quot;)	de...
-        
-      </div>
-      
-      <div class="index-article-readmore ">
-        <v-btn text href="/2019/07/26/Go-%E8%AF%AD%E6%B3%95%E4%B8%80-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E3%80%81%E8%BF%90%E7%AE%97%E7%AC%A6%E3%80%81%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2/">Read More</v-btn>
       </div>
       <v-divider></v-divider>
     </article> 

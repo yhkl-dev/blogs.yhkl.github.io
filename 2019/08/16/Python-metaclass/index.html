@@ -42,7 +42,7 @@
     
     <title>
         
-            Python-metaclass | YHKL Blog
+            Python-metaclass | YHKL&#39;S BLOG
         
     </title>
     
@@ -58,8 +58,8 @@
                             <div id="sidebar" class="float-right">
     <a href="/" rel="home">
         <v-avatar size=96>
-            <img id="logo" src="/images/avatar.png">     
-        </v-avatar> 
+            <img id="logo" src="/images/avatar.png">
+        </v-avatar>
     </a>
     <v-divider></v-divider>
     <div class="mini-menu">
@@ -67,7 +67,7 @@
             <v-icon>home</v-icon>
         </v-btn>
         <v-btn icon href="/categories/">
-            <v-icon>folder</v-icon>
+            <v-icon>category</v-icon>
         </v-btn>
         <v-btn icon href="/tags/">
             <v-icon>bookmark</v-icon>
@@ -79,85 +79,111 @@
     <v-list id="main-menu" class="font-weight-bold" flat>
         
             
-            <v-list-item href="/" link>
-            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                Home
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        home
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    Home
+                </v-list-item-content>
+                </v-list-item>
+                
             
-            <v-list-item href="/archives/" link>
-            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                Archives
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /archives/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        archive
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    Archives
+                </v-list-item-content>
+                </v-list-item>
+                
             
-            <v-list-item href="/about/" link>
-            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                About
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /about/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        account_circle
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    About
+                </v-list-item-content>
+                </v-list-item>
+                
             
-            <v-list-item href="/links/" link>
-            <v-list-item-icon><v-icon>article</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                link
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /links/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        article
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    link
+                </v-list-item-content>
+                </v-list-item>
+                
     </v-list>
     <v-divider></v-divider>
     
         <div class="post-toc">
-            <a href="/2019/08/16/Python-metaclass/" class="toc-header">Table of Contents</a>
+            <a href="/2019/08/16/Python-metaclass/" class="toc-header">
+                Table of Contents
+            </a>
             <div class="toc-content">
                 <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%89%80%E6%9C%89Python%E7%9A%84%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B4%AF%EF%BC%8C-%E9%83%BD%E6%98%AFtype%E8%BF%99%E4%B8%AA%E7%B1%BB%E7%9A%84%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.</span> <span class="toc-text">1 .所有Python的用户自定义累， 都是type这个类的实例</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%EF%BC%8C-%E6%98%AFtype%E7%B1%BB%E7%9A%84-call-%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD"><span class="toc-number">2.</span> <span class="toc-text">2.用户自定义类， 是type类的__call__运算符重载</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-metaclass-%E6%98%AFtype%E7%9A%84%E5%AD%90%E7%B1%BB%EF%BC%8C%E9%80%9A%E8%BF%87%E6%9B%BF%E6%8D%A2type%E7%9A%84-call-%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E6%9C%BA%E5%88%B6%EF%BC%8C%E2%80%98metaclass%E2%80%99-%E6%AD%A3%E5%B8%B8%E7%9A%84%E7%B1%BB"><span class="toc-number">3.</span> <span class="toc-text">3.metaclass 是type的子类，通过替换type的__call__运算符重载机制，‘metaclass’ 正常的类</span></a></li></ol>
             </div>
         </div>
-    
+        
 
-    <div id="footer">
-        <div class="footer-social">
-            
-                
-                <v-btn icon href="/kaiyang939325@gmail.com" target="_blank">
-                    <v-icon>fas fa-envelope</v-icon>
-                </v-btn>
-            
-                
-                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
-                    <v-icon>fab fa-github</v-icon>
-                </v-btn>
-            
-                
-                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
-                    <v-icon>fab fa-steam</v-icon>
-                </v-btn>
-            
-        </div>
-        <v-divider></v-divider>
-        <div class="footer-content">
-            
-                <span id="busuanzi_container_site_uv" style="display: none;"> 
-                    Total Visitors <span id="busuanzi_value_site_uv"></span>
-                </span>
-                <br>
-            
-            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
-            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
-            <span>
-                &copy; 2015 - 2021 
-                yhkl
-            </span>
-        </div>
-    </div>
+                <div id="footer">
+                    <div class="footer-social">
+                        
+                            
+                <v-btn icon href=" /kaiyang939325@gmail.com" target="_blank">
+                                <v-icon>
+                                    fas fa-envelope
+                                </v-icon>
+                                </v-btn>
+                                
+                            
+                <v-btn icon href=" https://github.com/yhkl-dev" target="_blank">
+                                <v-icon>
+                                    fab fa-github
+                                </v-icon>
+                                </v-btn>
+                                
+                            
+                <v-btn icon href=" https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                                <v-icon>
+                                    fab fa-steam
+                                </v-icon>
+                                </v-btn>
+                                
+                    </div>
+                    <v-divider></v-divider>
+                    <div class="footer-content">
+                        
+                            <span id="busuanzi_container_site_uv" style="display: none;">
+                                Total Visitors <span id="busuanzi_value_site_uv"></span>
+                            </span>
+                            <br>
+                            
+                                <span>Theme: <a
+                                        target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+                                <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                <span>
+                                    &copy; 
+                                        2015 - 
+                                                2021
+                                                    yhkl
+                                </span>
+                    </div>
+                </div>
 </div>
-
                         </v-col>
                         <v-col cols="12" md="10">
                             <v-row>
@@ -165,7 +191,7 @@
     <div id="site-header">
       <div id="site-title">
         <a href="/" rel="home">
-          YHKL Blog
+          YHKL&#39;S BLOG
         </a>
       </div>
       <div id="site-description">
@@ -292,8 +318,6 @@
 
     </div>
     <!--文末结束语-->
-    
-        <div style="text-align:center;color: #ccc;font-size:24px;"> --- The End --- </div>
     
     <!--页脚广告-->
     

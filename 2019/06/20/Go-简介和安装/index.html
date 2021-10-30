@@ -42,7 +42,7 @@
     
     <title>
         
-            Go-简介和安装 | YHKL Blog
+            Go-简介和安装 | YHKL&#39;S BLOG
         
     </title>
     
@@ -58,8 +58,8 @@
                             <div id="sidebar" class="float-right">
     <a href="/" rel="home">
         <v-avatar size=96>
-            <img id="logo" src="/images/avatar.png">     
-        </v-avatar> 
+            <img id="logo" src="/images/avatar.png">
+        </v-avatar>
     </a>
     <v-divider></v-divider>
     <div class="mini-menu">
@@ -67,7 +67,7 @@
             <v-icon>home</v-icon>
         </v-btn>
         <v-btn icon href="/categories/">
-            <v-icon>folder</v-icon>
+            <v-icon>category</v-icon>
         </v-btn>
         <v-btn icon href="/tags/">
             <v-icon>bookmark</v-icon>
@@ -79,85 +79,111 @@
     <v-list id="main-menu" class="font-weight-bold" flat>
         
             
-            <v-list-item href="/" link>
-            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                Home
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        home
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    Home
+                </v-list-item-content>
+                </v-list-item>
+                
             
-            <v-list-item href="/archives/" link>
-            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                Archives
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /archives/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        archive
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    Archives
+                </v-list-item-content>
+                </v-list-item>
+                
             
-            <v-list-item href="/about/" link>
-            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                About
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /about/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        account_circle
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    About
+                </v-list-item-content>
+                </v-list-item>
+                
             
-            <v-list-item href="/links/" link>
-            <v-list-item-icon><v-icon>article</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                link
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /links/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        article
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    link
+                </v-list-item-content>
+                </v-list-item>
+                
     </v-list>
     <v-divider></v-divider>
     
         <div class="post-toc">
-            <a href="/2019/06/20/Go-%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/" class="toc-header">Table of Contents</a>
+            <a href="/2019/06/20/Go-%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/" class="toc-header">
+                Table of Contents
+            </a>
             <div class="toc-content">
                 <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80-Go%E8%AF%AD%E8%A8%80%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">一 Go语言介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-Go%E8%AF%AD%E8%A8%80%E8%83%8C%E6%99%AF"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 Go语言背景</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-Go%E5%AE%89%E8%A3%85"><span class="toc-number"></span> <span class="toc-text">二  Go安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-Hello-World"><span class="toc-number"></span> <span class="toc-text">三  Hello World!</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-hello-world"><span class="toc-number">0.1.</span> <span class="toc-text">3.1 hello world</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-%E8%BF%90%E8%A1%8C"><span class="toc-number">0.2.</span> <span class="toc-text">3.2 运行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-Go%E8%AF%AD%E6%B3%95%E6%B3%A8%E6%84%8F"><span class="toc-number">0.3.</span> <span class="toc-text">3.3 Go语法注意</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-Go%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7"><span class="toc-number"></span> <span class="toc-text">四 Go版本管理工具</span></a>
             </div>
         </div>
-    
+        
 
-    <div id="footer">
-        <div class="footer-social">
-            
-                
-                <v-btn icon href="/kaiyang939325@gmail.com" target="_blank">
-                    <v-icon>fas fa-envelope</v-icon>
-                </v-btn>
-            
-                
-                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
-                    <v-icon>fab fa-github</v-icon>
-                </v-btn>
-            
-                
-                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
-                    <v-icon>fab fa-steam</v-icon>
-                </v-btn>
-            
-        </div>
-        <v-divider></v-divider>
-        <div class="footer-content">
-            
-                <span id="busuanzi_container_site_uv" style="display: none;"> 
-                    Total Visitors <span id="busuanzi_value_site_uv"></span>
-                </span>
-                <br>
-            
-            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
-            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
-            <span>
-                &copy; 2015 - 2021 
-                yhkl
-            </span>
-        </div>
-    </div>
+                <div id="footer">
+                    <div class="footer-social">
+                        
+                            
+                <v-btn icon href=" /kaiyang939325@gmail.com" target="_blank">
+                                <v-icon>
+                                    fas fa-envelope
+                                </v-icon>
+                                </v-btn>
+                                
+                            
+                <v-btn icon href=" https://github.com/yhkl-dev" target="_blank">
+                                <v-icon>
+                                    fab fa-github
+                                </v-icon>
+                                </v-btn>
+                                
+                            
+                <v-btn icon href=" https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                                <v-icon>
+                                    fab fa-steam
+                                </v-icon>
+                                </v-btn>
+                                
+                    </div>
+                    <v-divider></v-divider>
+                    <div class="footer-content">
+                        
+                            <span id="busuanzi_container_site_uv" style="display: none;">
+                                Total Visitors <span id="busuanzi_value_site_uv"></span>
+                            </span>
+                            <br>
+                            
+                                <span>Theme: <a
+                                        target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+                                <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                <span>
+                                    &copy; 
+                                        2015 - 
+                                                2021
+                                                    yhkl
+                                </span>
+                    </div>
+                </div>
 </div>
-
                         </v-col>
                         <v-col cols="12" md="10">
                             <v-row>
@@ -165,7 +191,7 @@
     <div id="site-header">
       <div id="site-title">
         <a href="/" rel="home">
-          YHKL Blog
+          YHKL&#39;S BLOG
         </a>
       </div>
       <div id="site-description">
@@ -316,8 +342,6 @@
 
     </div>
     <!--文末结束语-->
-    
-        <div style="text-align:center;color: #ccc;font-size:24px;"> --- The End --- </div>
     
     <!--页脚广告-->
     

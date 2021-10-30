@@ -42,7 +42,7 @@
     
     <title>
         
-            centos 配置 wkhtmltopdf：cannot connect to X server | YHKL Blog
+            centos 配置 wkhtmltopdf：cannot connect to X server | YHKL&#39;S BLOG
         
     </title>
     
@@ -58,8 +58,8 @@
                             <div id="sidebar" class="float-right">
     <a href="/" rel="home">
         <v-avatar size=96>
-            <img id="logo" src="/images/avatar.png">     
-        </v-avatar> 
+            <img id="logo" src="/images/avatar.png">
+        </v-avatar>
     </a>
     <v-divider></v-divider>
     <div class="mini-menu">
@@ -67,7 +67,7 @@
             <v-icon>home</v-icon>
         </v-btn>
         <v-btn icon href="/categories/">
-            <v-icon>folder</v-icon>
+            <v-icon>category</v-icon>
         </v-btn>
         <v-btn icon href="/tags/">
             <v-icon>bookmark</v-icon>
@@ -79,85 +79,111 @@
     <v-list id="main-menu" class="font-weight-bold" flat>
         
             
-            <v-list-item href="/" link>
-            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                Home
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        home
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    Home
+                </v-list-item-content>
+                </v-list-item>
+                
             
-            <v-list-item href="/archives/" link>
-            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                Archives
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /archives/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        archive
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    Archives
+                </v-list-item-content>
+                </v-list-item>
+                
             
-            <v-list-item href="/about/" link>
-            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                About
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /about/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        account_circle
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    About
+                </v-list-item-content>
+                </v-list-item>
+                
             
-            <v-list-item href="/links/" link>
-            <v-list-item-icon><v-icon>article</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                link
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /links/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        article
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    link
+                </v-list-item-content>
+                </v-list-item>
+                
     </v-list>
     <v-divider></v-divider>
     
         <div class="post-toc">
-            <a href="/2019/04/10/centos-%E9%85%8D%E7%BD%AE-wkhtmltopdf%EF%BC%9Acannot-connect-to-X-server/" class="toc-header">Table of Contents</a>
+            <a href="/2019/04/10/centos-%E9%85%8D%E7%BD%AE-wkhtmltopdf%EF%BC%9Acannot-connect-to-X-server/" class="toc-header">
+                Table of Contents
+            </a>
             <div class="toc-content">
                 <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85xvfb"><span class="toc-number">1.</span> <span class="toc-text">安装xvfb</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9C%A8-usr-bin-%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%94%9F%E6%88%90%E8%84%9A%E6%9C%AC-wkhtmltopdf-sh-%E5%B9%B6%E5%86%99%E5%85%A5%E5%91%BD%E4%BB%A4"><span class="toc-number">2.</span> <span class="toc-text">在 &#x2F;usr&#x2F;bin&#x2F; 目录下生成脚本 wkhtmltopdf.sh 并写入命令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E8%BD%AF%E8%BF%9E%E6%8E%A5"><span class="toc-number">3.</span> <span class="toc-text">建立软连接</span></a></li></ol>
             </div>
         </div>
-    
+        
 
-    <div id="footer">
-        <div class="footer-social">
-            
-                
-                <v-btn icon href="/kaiyang939325@gmail.com" target="_blank">
-                    <v-icon>fas fa-envelope</v-icon>
-                </v-btn>
-            
-                
-                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
-                    <v-icon>fab fa-github</v-icon>
-                </v-btn>
-            
-                
-                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
-                    <v-icon>fab fa-steam</v-icon>
-                </v-btn>
-            
-        </div>
-        <v-divider></v-divider>
-        <div class="footer-content">
-            
-                <span id="busuanzi_container_site_uv" style="display: none;"> 
-                    Total Visitors <span id="busuanzi_value_site_uv"></span>
-                </span>
-                <br>
-            
-            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
-            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
-            <span>
-                &copy; 2015 - 2021 
-                yhkl
-            </span>
-        </div>
-    </div>
+                <div id="footer">
+                    <div class="footer-social">
+                        
+                            
+                <v-btn icon href=" /kaiyang939325@gmail.com" target="_blank">
+                                <v-icon>
+                                    fas fa-envelope
+                                </v-icon>
+                                </v-btn>
+                                
+                            
+                <v-btn icon href=" https://github.com/yhkl-dev" target="_blank">
+                                <v-icon>
+                                    fab fa-github
+                                </v-icon>
+                                </v-btn>
+                                
+                            
+                <v-btn icon href=" https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                                <v-icon>
+                                    fab fa-steam
+                                </v-icon>
+                                </v-btn>
+                                
+                    </div>
+                    <v-divider></v-divider>
+                    <div class="footer-content">
+                        
+                            <span id="busuanzi_container_site_uv" style="display: none;">
+                                Total Visitors <span id="busuanzi_value_site_uv"></span>
+                            </span>
+                            <br>
+                            
+                                <span>Theme: <a
+                                        target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+                                <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                <span>
+                                    &copy; 
+                                        2015 - 
+                                                2021
+                                                    yhkl
+                                </span>
+                    </div>
+                </div>
 </div>
-
                         </v-col>
                         <v-col cols="12" md="10">
                             <v-row>
@@ -165,7 +191,7 @@
     <div id="site-header">
       <div id="site-title">
         <a href="/" rel="home">
-          YHKL Blog
+          YHKL&#39;S BLOG
         </a>
       </div>
       <div id="site-description">
@@ -275,8 +301,6 @@
 
     </div>
     <!--文末结束语-->
-    
-        <div style="text-align:center;color: #ccc;font-size:24px;"> --- The End --- </div>
     
     <!--页脚广告-->
     

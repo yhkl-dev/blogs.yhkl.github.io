@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            PostgreSQL daily Operation | YHKL&#39;S BLOG
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.png">
+        </v-avatar>
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>category</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href=" /" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        home
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    Home
+                </v-list-item-content>
+                </v-list-item>
+                
+            
+            <v-list-item href=" /archives/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        archive
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    Archives
+                </v-list-item-content>
+                </v-list-item>
+                
+            
+            <v-list-item href=" /about/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        account_circle
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    About
+                </v-list-item-content>
+                </v-list-item>
+                
+            
+            <v-list-item href=" /links/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        article
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    link
+                </v-list-item-content>
+                </v-list-item>
+                
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2021/10/30/Operation/" class="toc-header">
+                Table of Contents
+            </a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D"><span class="toc-number">1.</span> <span class="toc-text">备份恢复</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E4%BB%BD"><span class="toc-number">1.1.</span> <span class="toc-text">备份</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%81%A2%E5%A4%8D"><span class="toc-number">1.2.</span> <span class="toc-text">恢复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E4%BB%BD%E8%84%9A%E6%9C%AC"><span class="toc-number">1.3.</span> <span class="toc-text">备份脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Postgres-exporter-%E9%85%8D%E7%BD%AE"><span class="toc-number">1.4.</span> <span class="toc-text">Postgres_exporter 配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">常用操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text">创建数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%88%E6%9D%83"><span class="toc-number">2.2.</span> <span class="toc-text">授权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%89%80%E6%9C%89%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF"><span class="toc-number">2.3.</span> <span class="toc-text">查看数据库所有用户信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7"><span class="toc-number">2.4.</span> <span class="toc-text">创建用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#postges-%E6%96%B0%E5%BB%BA%E5%8F%AA%E8%AF%BB%E7%94%A8%E6%88%B7"><span class="toc-number">2.5.</span> <span class="toc-text">postges 新建只读用户</span></a></li></ol></li></ol>
+            </div>
+        </div>
+        
+
+                <div id="footer">
+                    <div class="footer-social">
+                        
+                            
+                <v-btn icon href=" /kaiyang939325@gmail.com" target="_blank">
+                                <v-icon>
+                                    fas fa-envelope
+                                </v-icon>
+                                </v-btn>
+                                
+                            
+                <v-btn icon href=" https://github.com/yhkl-dev" target="_blank">
+                                <v-icon>
+                                    fab fa-github
+                                </v-icon>
+                                </v-btn>
+                                
+                            
+                <v-btn icon href=" https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                                <v-icon>
+                                    fab fa-steam
+                                </v-icon>
+                                </v-btn>
+                                
+                    </div>
+                    <v-divider></v-divider>
+                    <div class="footer-content">
+                        
+                            <span id="busuanzi_container_site_uv" style="display: none;">
+                                Total Visitors <span id="busuanzi_value_site_uv"></span>
+                            </span>
+                            <br>
+                            
+                                <span>Theme: <a
+                                        target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+                                <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                <span>
+                                    &copy; 
+                                        2015 - 
+                                                2021
+                                                    yhkl
+                                </span>
+                    </div>
+                </div>
+</div>
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">
+          YHKL&#39;S BLOG
+        </a>
+      </div>
+      <div id="site-description">
+        
+      </div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="Type to search" data-src="search.xml"
+          v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear"
+          @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+            <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+            <v-icon>category</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href=" /">
+              <v-icon>
+                home
+              </v-icon>
+              </v-btn>
+              
+            
+            <v-btn icon href=" /archives/">
+              <v-icon>
+                archive
+              </v-icon>
+              </v-btn>
+              
+            
+            <v-btn icon href=" /about/">
+              <v-icon>
+                account_circle
+              </v-icon>
+              </v-btn>
+              
+            
+            <v-btn icon href=" /links/">
+              <v-icon>
+                article
+              </v-icon>
+              </v-btn>
+              
+        </div>
+      </div>
+    </div>
+  </v-col>
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="Type to search" data-src="search.xml" v-model="searchHeaderValue"
+        prepend-icon="search" clearable clear-icon="clear"
+        @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col>
+  </v-col>
+</v-row>
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2021/10/30/Operation/">PostgreSQL daily Operation</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;<a class="category-link" href="/categories/PostgreSQL/">PostgreSQL</a>
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <blockquote>
+<p>monitor, backup/restore. user create etc…</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="备份恢复"><a href="#备份恢复" class="headerlink" title="备份恢复"></a>备份恢复</h2><h3 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pg_dump --verbose --no-acl --no-owner --dbname=postgresql://&lt;username&gt;:&lt;passsword&gt;@&lt;host&gt;:&lt;port&gt;/&lt;db_name&gt;  -f &lt;backup_filename&gt; -Fc</span><br></pre></td></tr></table></figure>
+
+<h3 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pg_restore -h &lt;IP&gt; -p &lt;port&gt; -U &lt;dbuser&gt; --dbname &lt;databasename&gt; --verbose &lt;dump_file_name&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="备份脚本"><a href="#备份脚本" class="headerlink" title="备份脚本"></a>备份脚本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> -e</span><br><span class="line"><span class="comment"># 0 1 * * 0 /path_to/backup.sh</span></span><br><span class="line"></span><br><span class="line">backuptime=$(date +%Y-%m-%d)</span><br><span class="line">backupepoch=$(date +%s)</span><br><span class="line">backup_file_path=/data/db_backup</span><br><span class="line">risk_name=fire_risk_<span class="variable">$&#123;backupepoch&#125;</span>_<span class="variable">$&#123;backuptime&#125;</span>.dmp</span><br><span class="line"></span><br><span class="line">ossutil=/data/db_backup/obsutil/obsutil</span><br><span class="line"></span><br><span class="line">path=/db_backup/<span class="built_in">log</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ ! -d <span class="string">&quot;<span class="variable">$path</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">        mkdir -p <span class="variable">$path</span> </span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">logger=<span class="variable">$path</span>/db_backup_<span class="variable">$&#123;backuptime&#125;</span>.<span class="built_in">log</span></span><br><span class="line"></span><br><span class="line">touch <span class="variable">$logger</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /data/db_backup</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Start to backup fire_risk_zs SCHEMA&quot;</span> &gt;&gt; <span class="variable">$logger</span></span><br><span class="line">pg_dump --verbose --no-acl --no-owner --dbname=postgresql://&lt;username&gt;:&lt;passsword&gt;@&lt;host&gt;:&lt;port&gt;/&lt;db_name&gt;  -f &lt;backup_filename&gt;-Fc &gt;&gt; <span class="variable">$logger</span> 2&gt;&amp;1</span><br><span class="line"><span class="variable">$ossutil</span> cp <span class="variable">$risk_name</span> obs://fire-risk-db-backup -u</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除7天之前的备份</span></span><br><span class="line">find <span class="variable">$&#123;backup_file_path&#125;</span> -<span class="built_in">type</span> f -name <span class="string">&#x27;*.dmp&#x27;</span> -mtime +7 | xargs rm -f</span><br></pre></td></tr></table></figure>
+
+<h3 id="Postgres-exporter-配置"><a href="#Postgres-exporter-配置" class="headerlink" title="Postgres_exporter 配置"></a>Postgres_exporter 配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[program:postgres_exporter]</span><br><span class="line"><span class="built_in">command</span>=/root/postgres_exporter-0.10.0.linux-amd64/postgres_exporter </span><br><span class="line">directory=/root/postgres_exporter-0.10.0.linux-amd64</span><br><span class="line">stdout_logfile=/var/<span class="built_in">log</span>/postgres_expoter.log</span><br><span class="line">autostart=<span class="literal">true</span></span><br><span class="line">autorestart=<span class="literal">true</span></span><br><span class="line">redirect_stderr=<span class="literal">true</span></span><br><span class="line">user=root</span><br><span class="line">startsecs=3</span><br><span class="line">environment=DATA_SOURCE_NAME=<span class="string">&#x27;user=postgres host=/var/run/postgresql/ sslmode=disable&#x27;</span>,PG_EXPORTER_EXTEND_QUERY_PATH=<span class="string">&quot;/root/postgres_exporter-0.10.0.linux-amd64/custom.yml&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE &lt;dbname&gt;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all on database &lt;dbname&gt; to &lt;db_user&gt;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看数据库所有用户信息"><a href="#查看数据库所有用户信息" class="headerlink" title="查看数据库所有用户信息"></a>查看数据库所有用户信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SELECT u.usename AS &quot;User name&quot;,</span><br><span class="line">  u.usesysid AS &quot;User ID&quot;,</span><br><span class="line">  CASE WHEN u.usesuper AND u.usecreatedb THEN CAST(&#x27;superuser, create</span><br><span class="line">database&#x27; AS pg_catalog.text)</span><br><span class="line">       WHEN u.usesuper THEN CAST(&#x27;superuser&#x27; AS pg_catalog.text)</span><br><span class="line">       WHEN u.usecreatedb THEN CAST(&#x27;create database&#x27; AS</span><br><span class="line">pg_catalog.text)</span><br><span class="line">       ELSE CAST(&#x27;&#x27; AS pg_catalog.text)</span><br><span class="line">  END AS &quot;Attributes&quot;</span><br><span class="line">FROM pg_catalog.pg_user u</span><br><span class="line">ORDER BY 1;</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create user &lt;username&gt; with password &#x27;&#x27;&lt;pasword&gt;&#x27;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="postges-新建只读用户"><a href="#postges-新建只读用户" class="headerlink" title="postges 新建只读用户"></a>postges 新建只读用户</h3><blockquote>
+<p>在创建用户之前需要\c target_dbname; 否则无法进行相关授权</p>
+</blockquote>
+<p>1、创建只读角色</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> ROLE readaccess;</span><br></pre></td></tr></table></figure>
+
+<p>2、授予对现有表的访问权限</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> USAGE <span class="keyword">ON</span> SCHEMA public <span class="keyword">TO</span> readaccess;</span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span> <span class="keyword">ON</span> <span class="keyword">ALL</span> TABLES <span class="keyword">IN</span> SCHEMA public <span class="keyword">TO</span> readaccess;</span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span> <span class="keyword">ON</span> <span class="keyword">ALL</span> SEQUENCES <span class="keyword">IN</span> SCHEMA public <span class="keyword">TO</span> readaccess;</span><br></pre></td></tr></table></figure>
+
+<p>3、授予后面新增表的访问权限</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">DEFAULT</span> PRIVILEGES <span class="keyword">IN</span> SCHEMA public <span class="keyword">GRANT</span> <span class="keyword">SELECT</span> <span class="keyword">ON</span> TABLES <span class="keyword">TO</span> readaccess;</span><br></pre></td></tr></table></figure>
+
+<p>4、创建用户</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> tomek <span class="keyword">WITH</span> PASSWORD <span class="string">&#x27;@WSX#EDC2wsx3edc&#x27;</span>;</span><br><span class="line"><span class="keyword">GRANT</span> readaccess <span class="keyword">TO</span> tomek;</span><br></pre></td></tr></table></figure>
+    </div>
+    <!--文末结束语-->
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2021/10/30/Nginx%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/">      
+                    Nginx端口转发
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

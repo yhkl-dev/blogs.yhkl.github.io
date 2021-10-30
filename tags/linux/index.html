@@ -42,7 +42,7 @@
     
     <title>
           
-            YHKL Blog
+            YHKL&#39;S BLOG
         
     </title>
     
@@ -58,8 +58,8 @@
                             <div id="sidebar" class="float-right">
     <a href="/" rel="home">
         <v-avatar size=96>
-            <img id="logo" src="/images/avatar.png">     
-        </v-avatar> 
+            <img id="logo" src="/images/avatar.png">
+        </v-avatar>
     </a>
     <v-divider></v-divider>
     <div class="mini-menu">
@@ -67,7 +67,7 @@
             <v-icon>home</v-icon>
         </v-btn>
         <v-btn icon href="/categories/">
-            <v-icon>folder</v-icon>
+            <v-icon>category</v-icon>
         </v-btn>
         <v-btn icon href="/tags/">
             <v-icon>bookmark</v-icon>
@@ -79,142 +79,196 @@
     <v-list id="main-menu" class="font-weight-bold" flat>
         
             
-            <v-list-item href="/" link>
-            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                Home
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        home
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    Home
+                </v-list-item-content>
+                </v-list-item>
+                
             
-            <v-list-item href="/archives/" link>
-            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                Archives
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /archives/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        archive
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    Archives
+                </v-list-item-content>
+                </v-list-item>
+                
             
-            <v-list-item href="/about/" link>
-            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                About
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /about/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        account_circle
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    About
+                </v-list-item-content>
+                </v-list-item>
+                
             
-            <v-list-item href="/links/" link>
-            <v-list-item-icon><v-icon>article</v-icon></v-list-item-icon>
-            <v-list-item-content>
-                link
-            </v-list-item-content>
-            </v-list-item>
-        
+            <v-list-item href=" /links/" link>
+                <v-list-item-icon>
+                    <v-icon>
+                        article
+                    </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    link
+                </v-list-item-content>
+                </v-list-item>
+                
     </v-list>
     <v-divider></v-divider>
     
-        <v-list id="sub-menu" class="font-weight-medium" dense>
+            <v-list id="sub-menu" class="font-weight-medium" dense>
+                
+                    
+                        <v-list-item href="/categories/Vue/" link>
+                            <v-badge :value="menuHover" transition="slide-y-transition" inline
+                                content="1">
+                                <v-hover v-model="menuHover">
+                                    <v-list-item-content>
+                                        <span>
+                                            Vue
+                                        </span>
+                                    </v-list-item-content>
+                                </v-hover>
+                            </v-badge>
+                        </v-list-item>
+                        
+                            
+                    
+                        <v-list-item href="/categories/Linux/" link>
+                            <v-badge :value="menuHover" transition="slide-y-transition" inline
+                                content="7">
+                                <v-hover v-model="menuHover">
+                                    <v-list-item-content>
+                                        <span>
+                                            Linux
+                                        </span>
+                                    </v-list-item-content>
+                                </v-hover>
+                            </v-badge>
+                        </v-list-item>
+                        
+                            
+                    
+                        <v-list-item href="/categories/Design-Pattern/" link>
+                            <v-badge :value="menuHover" transition="slide-y-transition" inline
+                                content="1">
+                                <v-hover v-model="menuHover">
+                                    <v-list-item-content>
+                                        <span>
+                                            Design Pattern
+                                        </span>
+                                    </v-list-item-content>
+                                </v-hover>
+                            </v-badge>
+                        </v-list-item>
+                        
+                            
+                    
+                        <v-list-item href="/categories/Nginx/" link>
+                            <v-badge :value="menuHover" transition="slide-y-transition" inline
+                                content="1">
+                                <v-hover v-model="menuHover">
+                                    <v-list-item-content>
+                                        <span>
+                                            Nginx
+                                        </span>
+                                    </v-list-item-content>
+                                </v-hover>
+                            </v-badge>
+                        </v-list-item>
+                        
+                            
+                    
+                        <v-list-item href="/categories/Zabbix/" link>
+                            <v-badge :value="menuHover" transition="slide-y-transition" inline
+                                content="1">
+                                <v-hover v-model="menuHover">
+                                    <v-list-item-content>
+                                        <span>
+                                            Zabbix
+                                        </span>
+                                    </v-list-item-content>
+                                </v-hover>
+                            </v-badge>
+                        </v-list-item>
+                        
+                            
+                    
+                        <v-list-item href="/categories/PostgreSQL/" link>
+                            <v-badge :value="menuHover" transition="slide-y-transition" inline
+                                content="1">
+                                <v-hover v-model="menuHover">
+                                    <v-list-item-content>
+                                        <span>
+                                            PostgreSQL
+                                        </span>
+                                    </v-list-item-content>
+                                </v-hover>
+                            </v-badge>
+                        </v-list-item>
+                        
+                            
+            </v-list>
             
-                
-                    <v-list-item href="/categories/Vue/" link>
-                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
-                            <v-hover v-model="menuHover">
-                                <v-list-item-content>
-                                    <span>Vue</span>                              
-                                </v-list-item-content>                           
-                            </v-hover>
-                        </v-badge>
-                    </v-list-item>
-                
-            
-                
-                    <v-list-item href="/categories/Linux/" link>
-                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
-                            <v-hover v-model="menuHover">
-                                <v-list-item-content>
-                                    <span>Linux</span>                              
-                                </v-list-item-content>                           
-                            </v-hover>
-                        </v-badge>
-                    </v-list-item>
-                
-            
-                
-                    <v-list-item href="/categories/Design-Pattern/" link>
-                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
-                            <v-hover v-model="menuHover">
-                                <v-list-item-content>
-                                    <span>Design Pattern</span>                              
-                                </v-list-item-content>                           
-                            </v-hover>
-                        </v-badge>
-                    </v-list-item>
-                
-            
-                
-                    <v-list-item href="/categories/Nginx/" link>
-                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
-                            <v-hover v-model="menuHover">
-                                <v-list-item-content>
-                                    <span>Nginx</span>                              
-                                </v-list-item-content>                           
-                            </v-hover>
-                        </v-badge>
-                    </v-list-item>
-                
-            
-                
-                    <v-list-item href="/categories/Zabbix/" link>
-                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
-                            <v-hover v-model="menuHover">
-                                <v-list-item-content>
-                                    <span>Zabbix</span>                              
-                                </v-list-item-content>                           
-                            </v-hover>
-                        </v-badge>
-                    </v-list-item>
-                
-            
-        </v-list>    
-    
 
-    <div id="footer">
-        <div class="footer-social">
-            
-                
-                <v-btn icon href="/kaiyang939325@gmail.com" target="_blank">
-                    <v-icon>fas fa-envelope</v-icon>
-                </v-btn>
-            
-                
-                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
-                    <v-icon>fab fa-github</v-icon>
-                </v-btn>
-            
-                
-                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
-                    <v-icon>fab fa-steam</v-icon>
-                </v-btn>
-            
-        </div>
-        <v-divider></v-divider>
-        <div class="footer-content">
-            
-                <span id="busuanzi_container_site_uv" style="display: none;"> 
-                    Total Visitors <span id="busuanzi_value_site_uv"></span>
-                </span>
-                <br>
-            
-            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
-            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
-            <span>
-                &copy; 2015 - 2021 
-                yhkl
-            </span>
-        </div>
-    </div>
+                <div id="footer">
+                    <div class="footer-social">
+                        
+                            
+                <v-btn icon href=" /kaiyang939325@gmail.com" target="_blank">
+                                <v-icon>
+                                    fas fa-envelope
+                                </v-icon>
+                                </v-btn>
+                                
+                            
+                <v-btn icon href=" https://github.com/yhkl-dev" target="_blank">
+                                <v-icon>
+                                    fab fa-github
+                                </v-icon>
+                                </v-btn>
+                                
+                            
+                <v-btn icon href=" https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                                <v-icon>
+                                    fab fa-steam
+                                </v-icon>
+                                </v-btn>
+                                
+                    </div>
+                    <v-divider></v-divider>
+                    <div class="footer-content">
+                        
+                            <span id="busuanzi_container_site_uv" style="display: none;">
+                                Total Visitors <span id="busuanzi_value_site_uv"></span>
+                            </span>
+                            <br>
+                            
+                                <span>Theme: <a
+                                        target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+                                <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                <span>
+                                    &copy; 
+                                        2015 - 
+                                                2021
+                                                    yhkl
+                                </span>
+                    </div>
+                </div>
 </div>
-
                         </v-col>
                         <v-col cols="12" md="10">
                             <v-row>
@@ -222,7 +276,7 @@
     <div id="site-header">
       <div id="site-title">
         <a href="/" rel="home">
-          YHKL Blog
+          YHKL&#39;S BLOG
         </a>
       </div>
       <div id="site-description">
@@ -289,30 +343,78 @@
                             <v-card class="elevation-2 index-card">
     <v-timeline class="timeline" dense>
         <v-timeline-item class="timeline-header" color="secondary lighten-2">
-            <span class="timeline-title">linux</span>
+            <span class="timeline-title">Linux</span>
             <span class="timeline-subtitle">Tags</span>
         </v-timeline-item>
         
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2020.03.13</span>
-                    <a href="/2020/03/13/Linux-pushd-popd-dirs%E5%91%BD%E4%BB%A4/" class="timeline-item-title">Linux pushd popd dirs命令</a>
+                    <span class="timeline-item-time">2021.10.30</span>
+                    <a href="/2021/10/30/Operation/" class="timeline-item-title">PostgreSQL daily Operation</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2020.03.13</span><br>
-                    <a href="/2020/03/13/Linux-pushd-popd-dirs%E5%91%BD%E4%BB%A4/" class="timeline-item-title">Linux pushd popd dirs命令</a>
+                    <span class="timeline-item-time">2021.10.30</span><br>
+                    <a href="/2021/10/30/Operation/" class="timeline-item-title">PostgreSQL daily Operation</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
         
             <v-timeline-item fill-dot small color="secondary lighten-2">
                 <div class="timeline-item-post d-none d-md-block">
-                    <span class="timeline-item-time">2019.05.29</span>
-                    <a href="/2019/05/29/%E8%BF%9B%E7%A8%8B%E5%B7%A5%E5%85%B7-Daemonize-python-daemonize/" class="timeline-item-title">进程工具 Daemonize &amp;&amp; python-daemonize</a>
+                    <span class="timeline-item-time">2021.10.30</span>
+                    <a href="/2021/10/30/Nginx%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" class="timeline-item-title">Nginx端口转发</a>
                 </div>
                 <div class="timeline-item-post-mobile d-block d-md-none">
-                    <span class="timeline-item-time">2019.05.29</span><br>
-                    <a href="/2019/05/29/%E8%BF%9B%E7%A8%8B%E5%B7%A5%E5%85%B7-Daemonize-python-daemonize/" class="timeline-item-title">进程工具 Daemonize &amp;&amp; python-daemonize</a>
+                    <span class="timeline-item-time">2021.10.30</span><br>
+                    <a href="/2021/10/30/Nginx%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" class="timeline-item-title">Nginx端口转发</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2020.08.15</span>
+                    <a href="/2020/08/15/Linux-strace%E4%BD%BF%E7%94%A8/" class="timeline-item-title">Linux strace使用</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2020.08.15</span><br>
+                    <a href="/2020/08/15/Linux-strace%E4%BD%BF%E7%94%A8/" class="timeline-item-title">Linux strace使用</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.12.08</span>
+                    <a href="/2019/12/08/Rsync-%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" class="timeline-item-title">Rsync 参数详解</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.12.08</span><br>
+                    <a href="/2019/12/08/Rsync-%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" class="timeline-item-title">Rsync 参数详解</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.03.28</span>
+                    <a href="/2019/03/28/%E8%AE%B0%EF%BC%9A-%E4%B8%80%E6%AC%A1%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4%E4%B8%8D%E8%B6%B3%E5%AF%BC%E8%87%B4%E7%9A%84%E9%97%AE%E9%A2%98/" class="timeline-item-title">记： 一次磁盘空间不足导致的问题</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.03.28</span><br>
+                    <a href="/2019/03/28/%E8%AE%B0%EF%BC%9A-%E4%B8%80%E6%AC%A1%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4%E4%B8%8D%E8%B6%B3%E5%AF%BC%E8%87%B4%E7%9A%84%E9%97%AE%E9%A2%98/" class="timeline-item-title">记： 一次磁盘空间不足导致的问题</a>
+                </div>
+                <v-divider></v-divider>
+            </v-timeline-item>
+        
+            <v-timeline-item fill-dot small color="secondary lighten-2">
+                <div class="timeline-item-post d-none d-md-block">
+                    <span class="timeline-item-time">2019.03.23</span>
+                    <a href="/2019/03/23/MySQL%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%96%B9%E6%A1%88/" class="timeline-item-title">MySQL数据备份方案</a>
+                </div>
+                <div class="timeline-item-post-mobile d-block d-md-none">
+                    <span class="timeline-item-time">2019.03.23</span><br>
+                    <a href="/2019/03/23/MySQL%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%96%B9%E6%A1%88/" class="timeline-item-title">MySQL数据备份方案</a>
                 </div>
                 <v-divider></v-divider>
             </v-timeline-item>
@@ -329,33 +431,6 @@
                                 </div>
                             </div>                   
                         </v-col>                                            
-                    </v-row>
-                </v-container>
-            </v-content>
-        </v-app>
-    </div>
-    
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
-<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
-
-<script src="/js/main.js"></script>
-
-
-
-
-    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-
-
-
-
-
-</body>
-</html>                                         
                     </v-row>
                 </v-container>
             </v-content>
