@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Proemtheus--pushgateway使用 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/05/29/Proemtheus-pushgateway%E4%BD%BF%E7%94%A8/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-pushgateway-%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">1. pushgateway 介绍</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-pushgateway%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">2.pushgateway安装使用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E7%BC%96%E5%86%99%E8%87%AA%E5%AE%9A%E4%B9%89%E8%84%9A%E6%9C%AC%E6%94%B6%E9%9B%86%E6%95%B0%E6%8D%AE"><span class="toc-number">3.</span> <span class="toc-text">3.编写自定义脚本收集数据</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-Prometheus-pushgateway%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">4.</span> <span class="toc-text">4 Prometheus pushgateway的优缺点</span></a></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/05/29/Proemtheus-pushgateway%E4%BD%BF%E7%94%A8/">Proemtheus--pushgateway使用</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-05-29
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <h5 id="1-pushgateway-介绍"><a href="#1-pushgateway-介绍" class="headerlink" title="1. pushgateway 介绍"></a>1. pushgateway 介绍</h5><p>pushgateway 是另⼀种采⽤被动推送的⽅式（⽽不是exporter主动获取）获取监控数据的prometheus 插件</p>
+<p>可以单独运行在任意一台机器上， 通过用户自定义脚本将需要监控的数据发送给pushgateway， 然后pushgateway再把数据推送给Prometheus</p>
+<h5 id="2-pushgateway安装使用"><a href="#2-pushgateway安装使用" class="headerlink" title="2.pushgateway安装使用"></a>2.pushgateway安装使用</h5><ul>
+<li><p>下载</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> wget https://github.com/prometheus/pushgateway/releases/download/v0.8.0/pushgateway-0.8.0.linux-amd64.tar.gz</span></span><br></pre></td></tr></table></figure></li>
+<li><p>安装启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(python36env) [root@localhost src]# tar xf pushgateway-0.8.0.linux-amd64.tar.gz</span><br><span class="line">(python36env) [root@localhost src]# cd pushgateway-0.8.0.linux-amd64</span><br><span class="line"></span><br><span class="line">(python36env) [root@localhost data]# cat up.sh</span><br><span class="line">/usr/local/src/pushgateway-0.8.0.linux-amd64/pushgateway --web.listen-address 0.0.0.0:9092</span><br><span class="line"></span><br><span class="line">(python36env) [root@localhost pushgateway]# daemonize -c /data/pushgateway/ /data/pushgateway/up.sh</span><br><span class="line">(python36env) [root@localhost pushgateway]# ps -ef |grep pushgateway</span><br><span class="line">root      42607      1  0 11:11 ?        00:00:00 /bin/sh /data/pushgateway/up.sh</span><br><span class="line">root      42608  42607  0 11:11 ?        00:00:00 /usr/local/src/pushgateway-0.8.0.linux-amd64/pushgateway --web.listen-address 0.0.0.0:9092</span><br></pre></td></tr></table></figure></li>
+<li><p>docker 安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(python36env) [root@localhost prometheus]# docker image pull prom/pushgateway</span><br><span class="line">Using default tag: latest</span><br><span class="line">latest: Pulling from prom/pushgateway</span><br><span class="line">697743189b6d: Already exists</span><br><span class="line">f1989cfd335b: Already exists</span><br><span class="line">73588e2bfc8f: Pull complete</span><br><span class="line">686053c6ff4a: Pull complete</span><br><span class="line">Digest: sha256:aeb2b7fe9f1464455dfea93494d8e84438bf5d60888fcc9e3554366191c1aba8</span><br><span class="line">Status: Downloaded newer image for prom/pushgateway:latest</span><br><span class="line"></span><br><span class="line">(python36env) [root@localhost prometheus]# docker  run -d --name=pushgateway -p 9091:9091 --net=host prom/pushgateway</span><br></pre></td></tr></table></figure></li>
+<li><p>server端配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- job_name: &#x27;pushgateway&#x27;  </span><br><span class="line">  </span><br><span class="line">   scrape_interval: 10s</span><br><span class="line">  </span><br><span class="line">   static_configs:</span><br><span class="line">     - targets: [&#x27;192.168.75.138:9092&#x27; ]  </span><br><span class="line">  </span><br></pre></td></tr></table></figure></li>
+<li><p>重启Prometheus</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(python36env) [root@localhost prometheus-2.10.0.linux-amd64]# docker container restart f138f3ade04b</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="Proemtheus-pushgateway%E4%BD%BF%E7%94%A8/1559100392312.png" alt="1559100392312"></p>
+</li>
+</ul>
+<h5 id="3-编写自定义脚本收集数据"><a href="#3-编写自定义脚本收集数据" class="headerlink" title="3.编写自定义脚本收集数据"></a>3.编写自定义脚本收集数据</h5><p>pushgateway本身并没有主动采集数据能力，它的功能相当于zabbix proxy， 只是负责将本身收到的数据转发给Prometheus</p>
+<ul>
+<li><p>使用示例：</p>
+<p>使用shell编写脚本抓取TCP waiting_connection瞬时数量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">instance_name=`hostname -f| cut -d<span class="string">&#x27;.&#x27;</span> -f1`</span></span><br><span class="line">instance_name=pushgateway</span><br><span class="line">label=&quot;count_netstat_wait_connections&quot;</span><br><span class="line">count_netstat_wait_connections=`netstat -an|grep -i wait|wc -l`</span><br><span class="line">echo &quot;$label: $count_netstat_wait_connections&quot;</span><br><span class="line"></span><br><span class="line">echo &quot;$label $count_netstat_wait_connections&quot; | curl --data-binary @-  http://192.168.75.138:9092/metrics/job/soem_job/instance/$instance_name</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(python36env) [root@localhost prometheus]# sh node_exporter_shell.sh</span><br><span class="line">count_netstat_wait_connections: 0</span><br></pre></td></tr></table></figure>
+
+<p>执行结果展示：</p>
+<p>pushgateway: <a target="_blank" rel="noopener" href="http://localhost:9092/">http://localhost:9092</a></p>
+<p><img src="Proemtheus-pushgateway%E4%BD%BF%E7%94%A8/1559106173446.png" alt="1559106173446"></p>
+<p>prometheus: <a target="_blank" rel="noopener" href="http://localhost:9090/">http://localhost:9090/</a></p>
+<p><img src="Proemtheus-pushgateway%E4%BD%BF%E7%94%A8/1559106207381.png" alt="1559106207381"></p>
+<p><img src="Proemtheus-pushgateway%E4%BD%BF%E7%94%A8/1559106215879.png" alt="1559106215879"></p>
+</li>
+<li><p>pushgateway url 说明</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.75.138:9092/metrics/job/soem_job/instance/$instance_name</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><a target="_blank" rel="noopener" href="http://192.168.75.138:9092/metrics/">http://192.168.75.138:9092/metrics/</a> </p>
+<p>pushgateway主url</p>
+</li>
+<li><p>job/soem_job/ 执行job name </p>
+<p>{job=’soem_job’} 可以自定义</p>
+</li>
+<li><p>intance/$instance_name</p>
+<p>指定instance, 这里最好和promenade.yml配置中的instance 一致，便于区分数据</p>
+</li>
+</ul>
+</li>
+<li><p>使用方法</p>
+<p>编写好的配置脚本需要配合系统的crontab使用</p>
+<p><strong>注意: crontab 默认的最小的执行间隔是一分钟</strong></p>
+<p><strong>如果数据的收集间隔需要小于1分钟， 可以是sleep方法配合前面介绍的daemonize进行使用</strong></p>
+</li>
+</ul>
+<h5 id="4-Prometheus-pushgateway的优缺点"><a href="#4-Prometheus-pushgateway的优缺点" class="headerlink" title="4 Prometheus pushgateway的优缺点"></a>4 Prometheus pushgateway的优缺点</h5><ul>
+<li><p>优点：</p>
+<p>pushgateway这种⾃定义的 采集⽅式⾮常的快速 ⽽且极其灵活 ⼏乎不收到任何约束</p>
+<p>⼀般情况下 只安装 node_exporter 和 DB_exporter两个就足够了</p>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>pushgateway 会形成⼀个单点瓶颈，假如好多个脚本同时推送给⼀个pushgateway的进程， 如果这个进程消失， 那么相应的数据也丢失</li>
+<li>pushgateway 并不能对发送过来的脚本采集数据进⾏更智能的判断,假如脚本中间采集出问题了,那么有问题的数据 pushgateway⼀样照单全收 发送给prometheus</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/06/03/Grafana%E9%85%8D%E7%BD%AEZabbix%E6%95%B0%E6%8D%AE%E6%BA%90/">
+                    Grafana配置Zabbix数据源
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/05/29/%E8%BF%9B%E7%A8%8B%E5%B7%A5%E5%85%B7-Daemonize-python-daemonize/">      
+                    进程工具 Daemonize && python-daemonize
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

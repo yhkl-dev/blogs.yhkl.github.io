@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Prometheus--监控数据模型 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/05/28/Prometheus-%E7%9B%91%E6%8E%A7%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%EF%BC%91-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">１.数据模型介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-Counter"><span class="toc-number">1.1.</span> <span class="toc-text">1)Counter</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-Gauge"><span class="toc-number">1.2.</span> <span class="toc-text">2)Gauge</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-Histogram"><span class="toc-number">1.3.</span> <span class="toc-text">3)Histogram</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#4-Summary"><span class="toc-number">1.4.</span> <span class="toc-text">4)Summary</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-Prometheus%E8%AE%A1%E7%AE%97%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">2.Prometheus计算函数</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-increase"><span class="toc-number">2.1.</span> <span class="toc-text">1)  increase()</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-rate"><span class="toc-number">2.2.</span> <span class="toc-text">2) rate()</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-sum"><span class="toc-number">2.3.</span> <span class="toc-text">3) sum( )</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#4-topk"><span class="toc-number">2.4.</span> <span class="toc-text">4) topk()</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#5-count"><span class="toc-number">2.5.</span> <span class="toc-text">5) count()</span></a></li></ol></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/05/28/Prometheus-%E7%9B%91%E6%8E%A7%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/">Prometheus--监控数据模型</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-05-28
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <h5 id="１-数据模型介绍"><a href="#１-数据模型介绍" class="headerlink" title="１.数据模型介绍"></a>１.数据模型介绍</h5><p>Prometheus 中存储的数据为时间序列，是由 metric 的名字和一系列的标签（键值对）唯一标识的，不同的标签则代表不同的时间序列。</p>
+<ul>
+<li>metric 名字：该名字应该具有语义，一般用于表示 metric 的功能，例如：http_requests_total, 表示 http 请求的总数。其中，metric 名字由 ASCII 字符，数字，下划线，以及冒号组成，且必须满足正则表达式 [a-zA-Z_:][a-zA-Z0-9_:]*。</li>
+<li>标签：使同一个时间序列有了不同维度的识别。例如 http_requests_total{method=”Get”} 表示所有 http 请求中的 Get 请求。当 method=”post” 时，则为新的一个 metric。标签中的键由 ASCII 字符，数字，以及下划线组成，且必须满足正则表达式 [a-zA-Z_:][a-zA-Z0-9_:]*。</li>
+<li>样本：实际的时间序列，每个序列包括一个 float64 的值和一个毫秒级的时间戳。</li>
+<li>格式：<metric name>{<label name>=<label value>, …}，例如：node_cpu_seconds_total{mode=’user’}[1m])</li>
+</ul>
+<h6 id="1-Counter"><a href="#1-Counter" class="headerlink" title="1)Counter"></a>1)Counter</h6><p>一种累加的 metric，典型的应用如：请求的个数，结束的任务数， 出现的错误数等等。</p>
+<p>注意：对于持续增长的counter数据，直接输入key是没有意义的，必须要以获取单位时间内的增量的方式来进行加工， 之后才能有意义 。</p>
+<p>在使⽤任何counter数据类型的时候，先给它加上⼀个 rate() 或者 increase()</p>
+<p>例如，查询 http_requests_total{method=”get”, job=”Prometheus”, handler=”query”} 返回 8，10 秒后，再次查询，则返回 14。</p>
+<h6 id="2-Gauge"><a href="#2-Gauge" class="headerlink" title="2)Gauge"></a>2)Gauge</h6><p>gauge类型的数据 属于随机变化数值，并不像counter那样是持续增长的</p>
+<p>一种常规的 metric，典型的应用如：温度，运行的 goroutines 的个数。</p>
+<p>可以任意加减。</p>
+<p>例如：go_goroutines{instance=”172.17.0.2”, job=”Prometheus”} 返回值 147，10 秒后返回 124。</p>
+<h6 id="3-Histogram"><a href="#3-Histogram" class="headerlink" title="3)Histogram"></a><strong>3)Histogram</strong></h6><ul>
+<li>可以理解为柱状图，典型的应用如：请求持续时间，响应大小。</li>
+<li>可以对观察结果采样，分组及统计。</li>
+</ul>
+<h6 id="4-Summary"><a href="#4-Summary" class="headerlink" title="4)Summary"></a><strong>4)Summary</strong></h6><ul>
+<li>类似于 Histogram, 典型的应用如：请求持续时间，响应大小。</li>
+<li>提供观测值的 count 和 sum 功能。</li>
+<li>提供百分位的功能，即可以按百分比划分跟踪结果。</li>
+</ul>
+<h5 id="2-Prometheus计算函数"><a href="#2-Prometheus计算函数" class="headerlink" title="2.Prometheus计算函数"></a>2.Prometheus计算函数</h5><h6 id="1-increase"><a href="#1-increase" class="headerlink" title="1)  increase()"></a>1)  increase()</h6><p>在prometheus中，increase函数用来针对Counter这种持续增长的数值，截取一段时间的增量</p>
+<p>例如： 获取CPU总使用时间在1分钟内的增量：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">increase(node_cpu_seconds_total[1m])</span><br></pre></td></tr></table></figure>
+
+<p><img src="Prometheus-%E7%9B%91%E6%8E%A7%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/1559037147762.png" alt="1559037147762"></p>
+<h6 id="2-rate"><a href="#2-rate" class="headerlink" title="2) rate()"></a>2) rate()</h6><p>rate函数是Prometheus提供的最重要的函数之一，这个函数是专门用来搭配counter类型数据使用的函数，</p>
+<p>rate()函数按照给定的时间段，取counter在这个时间段段中<code>平均每秒</code>的增量值</p>
+<p>例如：获取系统在1分钟内，接收到的数据(bytes) 平均每秒的增量</p>
+<p><img src="Prometheus-%E7%9B%91%E6%8E%A7%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/1559033025567.png" alt="1559033025567"></p>
+<h6 id="3-sum"><a href="#3-sum" class="headerlink" title="3) sum( )"></a>3) sum( )</h6><p>默认情况下， sum()函数是把结果集的所有数据（无论内容）全部进行加合</p>
+<p><img src="Prometheus-%E7%9B%91%E6%8E%A7%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/1559037424112.png" alt="1559037424112"></p>
+<p>如果要进行下一层的拆分，需要在sum() 函数的后面加上 by (instance)</p>
+<h6 id="4-topk"><a href="#4-topk" class="headerlink" title="4) topk()"></a>4) topk()</h6><p>topk()函数取的是前几位的最高值</p>
+<p>示例：</p>
+<p>Gauge类型的使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">topk(3,node_netstat_Icmp_InMsgs)</span><br></pre></td></tr></table></figure>
+
+<p><img src="Prometheus-%E7%9B%91%E6%8E%A7%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/1559097474435.png" alt="1559097474435"></p>
+<p>Counter类型的使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">topk(3, rate(node_network_transmit_bytes_total[5m]))</span><br></pre></td></tr></table></figure>
+
+<p><img src="Prometheus-%E7%9B%91%E6%8E%A7%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/1559097268233.png" alt="1559097268233"></p>
+<p>这里我的机器目前没有负载所以显示的不是很明显</p>
+<p>正常情况下， topk对于每个时间点， 都只取前三高的数值</p>
+<p>必然会造成单个机器采集的数据不连贯</p>
+<p>比如⽐如 某一server在在⼀分钟的 wait_connection数量排在所有机器的前三 ，到了下⼀分钟 可能就排到垫底了.. ⾃然其曲线就会中断</p>
+<p><strong>实际使用时，使用topk进行瞬时报警</strong></p>
+<h6 id="5-count"><a href="#5-count" class="headerlink" title="5) count()"></a>5) count()</h6><p>count() 函数是把数值符合条件的输出数⽬进⾏加合</p>
+<p>示例：</p>
+<p>找出当前TCP等待数大于200的机器数量</p>
+<p><img src="Prometheus-%E7%9B%91%E6%8E%A7%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/1559097886753.png" alt="1559097886753"></p>
+<p>⼀般⽤它count()函数进⾏⼀些模糊的监控判断 ⽐如说 企业中有100台服务器，那么当只有10台服务器CPU⾼于80%的时候 这个时候不需要报警 但是 当符合80%CPU的服务器数量 超过 30台的时候 那么就会触发报警 count()</p>
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/05/29/%E8%BF%9B%E7%A8%8B%E5%B7%A5%E5%85%B7-Daemonize-python-daemonize/">
+                    进程工具 Daemonize && python-daemonize
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/05/28/Prometheus-%E5%AE%89%E8%A3%85%E5%8F%8A%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/">      
+                    Prometheus--安装及简单使用
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

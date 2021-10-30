@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Centos Firewalld 配置及使用 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/07/11/Centos-Firewalld-%E9%85%8D%E7%BD%AE%E5%8F%8A%E4%BD%BF%E7%94%A8/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-firewalld-%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">1. firewalld 启动命令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-firewalld-%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">2.firewalld 基础操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-firewalld-%E8%A7%84%E5%88%99%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">3. firewalld 规则配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-firewalld-zone"><span class="toc-number">4.</span> <span class="toc-text">4. firewalld zone</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-%E7%A6%81%E7%94%A8%E8%AE%BF%E9%97%AE%E8%A7%84%E5%88%99%E9%85%8D%E7%BD%AE"><span class="toc-number">5.</span> <span class="toc-text">5.禁用访问规则配置</span></a></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/07/11/Centos-Firewalld-%E9%85%8D%E7%BD%AE%E5%8F%8A%E4%BD%BF%E7%94%A8/">Centos Firewalld 配置及使用</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-07-11
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <h5 id="1-firewalld-启动命令"><a href="#1-firewalld-启动命令" class="headerlink" title="1. firewalld 启动命令"></a>1. firewalld 启动命令</h5><ul>
+<li><p>启动firewalld.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start firewalld</span><br><span class="line">systemctl enable firewalld #加入到开机启动</span><br></pre></td></tr></table></figure></li>
+<li><p>查看状态</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl status firewalld</span><br><span class="line">firewall-cmd --state</span><br></pre></td></tr></table></figure></li>
+<li><p>关闭firewalld</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="2-firewalld-基础操作"><a href="#2-firewalld-基础操作" class="headerlink" title="2.firewalld 基础操作"></a>2.firewalld 基础操作</h5><blockquote>
+<p>service 说明</p>
+<p>在 /usr/lib/firewalld/services/ 目录中，还保存了另外一类配置文件，每个文件对应一项具体的网络服务，如 ssh 服务等.<br>与之对应的配置文件中记录了各项服务所使用的 tcp/udp 端口，在最新版本的 firewalld 中默认已经定义了 70+ 种服务供我们使用.<br>当默认提供的服务不够用或者需要自定义某项服务的端口时，我们需要将 service 配置文件放置在 /etc/firewalld/services/ 目录中.<br>service 配置的好处显而易见:<br>第一，通过服务名字来管理规则更加人性化，<br>第二，通过服务来组织端口分组的模式更加高效，如果一个服务使用了若干个网络端口，则服务的配置文件就相当于提供了到这些端口的规则管理的批量操作快捷方式。</p>
+<p>每加载一项 service 配置就意味着开放了对应的端口访问</p>
+</blockquote>
+<ul>
+<li><p>查看/usr/lib/firewalld/services/</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ls /usr/lib/firewalld/services/</span><br><span class="line">amanda-client.xml        high-availability.xml  nrpe.xml                  sips.xml</span><br><span class="line">amanda-k5-client.xml     https.xml              ntp.xml                   sip.xml</span><br><span class="line">bacula-client.xml        http.xml               openvpn.xml               smtp-submission.xml</span><br><span class="line">bacula.xml               imaps.xml              ovirt-imageio.xml         smtps.xml</span><br><span class="line">bitcoin-rpc.xml          imap.xml               ovirt-storageconsole.xml  smtp.xml</span><br><span class="line">bitcoin-testnet-rpc.xml  ipp-client.xml         ovirt-vmconsole.xml       snmptrap.xml</span><br><span class="line">bitcoin-testnet.xml      ipp.xml                pmcd.xml                  snmp.xml</span><br><span class="line">bitcoin.xml              ipsec.xml              pmproxy.xml               spideroak-lansync.xml</span><br><span class="line">ceph-mon.xml             iscsi-target.xml       pmwebapis.xml             squid.xml</span><br><span class="line">ceph.xml                 kadmin.xml             pmwebapi.xml              ssh.xml</span><br><span class="line">cfengine.xml             kerberos.xml           pop3s.xml                 synergy.xml</span><br><span class="line">condor-collector.xml     kibana.xml             pop3.xml                  syslog-tls.xml</span><br><span class="line">ctdb.xml                 klogin.xml             postgresql.xml            syslog.xml</span><br><span class="line">dhcpv6-client.xml        kpasswd.xml            privoxy.xml               telnet.xml</span><br><span class="line">dhcpv6.xml               kshell.xml             proxy-dhcp.xml            tftp-client.xml</span><br><span class="line">dhcp.xml                 ldaps.xml              ptp.xml                   tftp.xml</span><br><span class="line">dns.xml                  ldap.xml               pulseaudio.xml            tinc.xml</span><br><span class="line">docker-registry.xml      libvirt-tls.xml        puppetmaster.xml          tor-socks.xml</span><br><span class="line">dropbox-lansync.xml      libvirt.xml            quassel.xml               transmission-client.xml</span><br><span class="line">elasticsearch.xml        managesieve.xml        radius.xml                vdsm.xml</span><br><span class="line">freeipa-ldaps.xml        mdns.xml               RH-Satellite-6.xml        vnc-server.xml</span><br><span class="line">freeipa-ldap.xml         mosh.xml               rpc-bind.xml              wbem-https.xml</span><br><span class="line">freeipa-replication.xml  mountd.xml             rsh.xml                   xmpp-bosh.xml</span><br><span class="line">freeipa-trust.xml        mssql.xml              rsyncd.xml                xmpp-client.xml</span><br><span class="line">ftp.xml                  ms-wbt.xml             samba-client.xml          xmpp-local.xml</span><br><span class="line">ganglia-client.xml       mysql.xml              samba.xml                 xmpp-server.xml</span><br><span class="line">ganglia-master.xml       nfs.xml                sane.xml</span><br></pre></td></tr></table></figure></li>
+<li><p>查看系统自带默认可配置service</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --get-services</span><br><span class="line">RH-Satellite-6 amanda-client amanda-k5-client bacula bacula-client bitcoin bitcoin-rpc bitcoin-testnet bitcoin-testnet-rpc ceph ceph-mon cfengine condor-collector ctdb dhcp dhcpv6 dhcpv6-client dns docker-registry dropbox-lansync elasticsearch freeipa-ldap freeipa-ldaps freeipa-replication freeipa-trust ftp ganglia-client ganglia-master high-availability http https imap imaps ipp ipp-client ipsec iscsi-target kadmin kerberos kibana klogin kpasswd kshell ldap ldaps libvirt libvirt-tls managesieve mdns mosh mountd ms-wbt mssql mysql nfs nrpe ntpopenvpn ovirt-imageio ovirt-storageconsole ovirt-vmconsole pmcd pmproxy pmwebapi pmwebapis pop3 pop3s postgresql privoxy proxy-dhcp ptp pulseaudio puppetmaster quassel radius rpc-bind rsh rsyncd samba samba-client sane sip sips smtp smtp-submission smtps snmp snmptrap spideroak-lansync squid ssh synergy syslog syslog-tls telnettftp tftp-client tinc tor-socks transmission-client vdsm vnc-server wbem-https xmpp-bosh xmpp-client xmpp-local xmpp-server</span><br></pre></td></tr></table></figure></li>
+<li><p>查看当前系统已经开放的service和port</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --list-services</span><br><span class="line">ssh dhcpv6-client</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --zone=public --list-services</span><br><span class="line">ssh dhcpv6-client</span><br><span class="line">指定区域进行查看</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --list-ports</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# firewall-cmd --zone=public --list-ports</span><br><span class="line"></span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure></li>
+<li><p>查看所有已经开放的service和port</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --list-all</span><br><span class="line">public</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh dhcpv6-client</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# firewall-cmd --zone=public --list-all 查看指定区域</span><br><span class="line">public</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh dhcpv6-client</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# firewall-cmd --list-all-zones 查看所有区域</span><br><span class="line">block </span><br><span class="line">  target: %%REJECT%%</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services:</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">dmz</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">drop</span><br><span class="line">  target: DROP</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services:</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">external</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: yes</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">home</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh mdns samba-client dhcpv6-client</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">internal</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh mdns samba-client dhcpv6-client</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh dhcpv6-client</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">trusted</span><br><span class="line">  target: ACCEPT</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services:</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">work</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh dhcpv6-client</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>查看单个服务启动状态</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --query-service http</span><br><span class="line">no</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="3-firewalld-规则配置"><a href="#3-firewalld-规则配置" class="headerlink" title="3. firewalld 规则配置"></a>3. firewalld 规则配置</h5><ul>
+<li><p>动态添加一条防火墙规则之默认区域（public）， 比如开放服务或端口（此方法可以立刻生效，重启firewalld服务或reload不再生效，没有永久保存在配置文件中）</p>
+<p>以开放8000 http服务为例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --add-port=8000/tcp # 默认添加到public zone 等价于 firewall-cmd --zone=public --add-port=8000/tcp</span><br><span class="line">success</span><br><span class="line">[root@localhost ~]# firewall-cmd --zone=public --list-port</span><br><span class="line">8000/tcp</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# firewall-cmd --add-service=http</span><br><span class="line">success</span><br><span class="line">[root@localhost ~]# firewall-cmd --zone=public --list-port</span><br><span class="line">8000/tcp</span><br><span class="line">[root@localhost ~]# firewall-cmd --zone=public --list-service</span><br><span class="line">ssh dhcpv6-client http</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# cat !$</span><br><span class="line">cat /usr/lib/firewalld/zones/public.xml</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;zone&gt;</span><br><span class="line">  &lt;short&gt;Public&lt;/short&gt;</span><br><span class="line">  &lt;description&gt;For use in public areas. You do not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.&lt;/description&gt;</span><br><span class="line">  &lt;service name=&quot;ssh&quot;/&gt;</span><br><span class="line">  &lt;service name=&quot;dhcpv6-client&quot;/&gt;</span><br><span class="line">&lt;/zone&gt;</span><br><span class="line">可以看到， 此时并没有加入到指定规则中， 这个配置文件是默认，命令行添加规则并不会影响该文件， 如需修改， 修改前需备份</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意：</span><br><span class="line">	http 默认开启80端口 如需修改端口，需要修改xml文件</span><br><span class="line">[root@localhost ~]# cat /usr/lib/firewalld/services/http.xml</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;service&gt;</span><br><span class="line">  &lt;short&gt;WWW (HTTP)&lt;/short&gt;</span><br><span class="line">  &lt;description&gt;HTTP is the protocol used to serve Web pages. If you plan to make your Web server publicly available, enable this option. This option is not required for viewing pages locally or developing Web pages.&lt;/description&gt;</span><br><span class="line">  &lt;port protocol=&quot;tcp&quot; port=&quot;80&quot;/&gt; 修改端口在此处</span><br><span class="line">&lt;/service&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>动态添加防火墙规则后需要添加参数 <code>--permanent</code>才能保存至zone中（reload才生效）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --zone=public --add-port=8000/tcp --permanent</span><br><span class="line">success</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# firewall-cmd --list-ports</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 没有reload 所以无法查询到</span></span><br><span class="line"></span><br><span class="line">[root@localhost ~]# firewall-cmd --reload</span><br><span class="line">success</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# firewall-cmd --list-ports</span><br><span class="line">8000/tcp</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>动态移除和永久移除规则</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --list-services</span><br><span class="line">ssh dhcpv6-client http</span><br><span class="line">[root@localhost ~]# firewall-cmd --remove-service=http</span><br><span class="line">success</span><br><span class="line">[root@localhost ~]# firewall-cmd --list-services</span><br><span class="line">ssh dhcpv6-client</span><br><span class="line"><span class="meta">#</span><span class="bash"> 移除直接生效</span></span><br><span class="line"></span><br><span class="line">[root@localhost ~]# firewall-cmd --reload</span><br><span class="line">success</span><br><span class="line">[root@localhost ~]# firewall-cmd --list-services</span><br><span class="line">ssh dhcpv6-client http</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# firewall-cmd --remove-service=http --permanent 永久移除</span><br><span class="line">success</span><br><span class="line">[root@localhost ~]# firewall-cmd --list-services</span><br><span class="line">ssh dhcpv6-client http</span><br><span class="line">[root@localhost ~]# firewall-cmd --reload</span><br><span class="line">success</span><br><span class="line">[root@localhost ~]# firewall-cmd --list-services</span><br><span class="line">ssh dhcpv6-client</span><br></pre></td></tr></table></figure></li>
+<li><p>firewalld重载</p>
+<p>一般来说，手动修改zone配置后需要进行重载方可生效</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --reload</span><br><span class="line">success</span><br><span class="line">重新加载防火墙，并不中断用户连接，即不丢失状态信息</span><br></pre></td></tr></table></figure>
+
+<p>当防火墙出现严重问题时，可使用如下命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --complete-reload</span><br><span class="line">success</span><br><span class="line">比如，防火墙规则是正确的，但却出现状态信息问题和无法建立连接, 可以使用该命令</span><br><span class="line">这条命令会重置连接， 非特殊情况不可使用</span><br></pre></td></tr></table></figure></li>
+<li><p>端口转发</p>
+<ul>
+<li>将同一台服务器上80端口的流量转发至本机8000</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --list-ports</span><br><span class="line">8000/tcp</span><br><span class="line">[root@localhost ~]# firewall-cmd --add-forward-port=port=80:proto=tcp:toport=8000</span><br><span class="line">success</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# python -m SimpleHTTPServer</span><br><span class="line">Serving HTTP on 0.0.0.0 port 8000 ...</span><br></pre></td></tr></table></figure>
+
+<p>访问本机80端口</p>
+<p><img src="Centos-Firewalld-%E9%85%8D%E7%BD%AE%E5%8F%8A%E4%BD%BF%E7%94%A8/1562809255866.png" alt="1562809255866"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# python -m SimpleHTTPServer</span><br><span class="line">Serving HTTP on 0.0.0.0 port 8000 ...</span><br><span class="line">192.168.75.1 - - [11/Jul/2019 09:41:44] &quot;GET / HTTP/1.1&quot; 200 -</span><br><span class="line">192.168.75.1 - - [11/Jul/2019 09:41:44] &quot;GET / HTTP/1.1&quot; 200 -</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# firewall-cmd --list-all</span><br><span class="line">public</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh dhcpv6-client http</span><br><span class="line">  ports: 8000/tcp</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports: port=80:proto=tcp:toport=8000:toaddr=</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br></pre></td></tr></table></figure></li>
+<li><p>如果要将的端口转发到另一台服务器上， 在需要的区域中激活masquerade</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --zone=public --add-masquerade</span><br><span class="line">success</span><br></pre></td></tr></table></figure>
+
+<p>添加转发规则</p>
+<p>例子：将本地的80端口的流量转发到ip地址为192.168.75.138的8000端口上</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --zone=public --add-forward-port=port=80:proto=tcp:toport=8000:toaddr=192.168.75.138</span><br><span class="line">success</span><br><span class="line">[root@localhost ~]# firewall-cmd --list-all</span><br><span class="line">public</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh dhcpv6-client</span><br><span class="line">  ports: 8000/tcp</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: yes</span><br><span class="line">  forward-ports: port=80:proto=tcp:toport=8000:toaddr=192.168.75.138</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="Centos-Firewalld-%E9%85%8D%E7%BD%AE%E5%8F%8A%E4%BD%BF%E7%94%A8/1562809817806.png" alt="1562809817806"></p>
+</li>
+<li><p>伪装IP</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --query-masquerade # 检查是否允许伪装ip</span><br><span class="line">yes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@localhost ~]# firewall-cmd --add-masquerade --zone=public # 允许伪装</span><br><span class="line">Warning: ALREADY_ENABLED: masquerade already enabled in &#x27;public&#x27;</span><br><span class="line">success</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# firewall-cmd --remove-masquerade --zone=public # 禁止防火墙伪装IP</span><br><span class="line">success</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="4-firewalld-zone"><a href="#4-firewalld-zone" class="headerlink" title="4. firewalld zone"></a>4. firewalld zone</h5><blockquote>
+<p>区域”是针对给定位置或场景（例如家庭、公共、受信任等）可能具有的各种信任级别的预构建规则集。不同的区域允许不同的网络服务和入站流量类型，而拒绝其他任何流量。 首次启用 FirewallD 后，public 将是默认区域。</p>
+<p>区域也可以用于不同的网络接口。例如，要分离内部网络和互联网的接口，你可以在 internal 区域上允许 DHCP，但在external 区域仅允许 HTTP 和 SSH。未明确设置为特定区域的任何接口将添加到默认区域。</p>
+</blockquote>
+<ul>
+<li><p>查看所有区域中的配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --list-all-zones</span><br><span class="line">block</span><br><span class="line">  target: %%REJECT%%</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services:</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">dmz</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">drop</span><br><span class="line">  target: DROP</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services:</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">external</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: yes</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">home</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh mdns samba-client dhcpv6-client</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">internal</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh mdns samba-client dhcpv6-client</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh dhcpv6-client</span><br><span class="line">  ports: 8000/tcp</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports: port=80:proto=tcp:toport=8000:toaddr=192.168.75.138</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">trusted</span><br><span class="line">  target: ACCEPT</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services:</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">work</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh dhcpv6-client</span><br><span class="line">  ports:</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br></pre></td></tr></table></figure></li>
+<li><p>查看当前系统中默认使用哪个区域</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd  --get-default-zone</span><br><span class="line">public</span><br></pre></td></tr></table></figure></li>
+<li><p>信任级别</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">drop: 丢弃所有进入的包，而不给出任何响应 </span><br><span class="line">block: 拒绝所有外部发起的连接，允许内部发起的连接 </span><br><span class="line">public: 允许指定的进入连接 </span><br><span class="line">external: 同上，对伪装的进入连接，一般用于路由转发 </span><br><span class="line">dmz: 允许受限制的进入连接 </span><br><span class="line">work: 允许受信任的计算机被限制的进入连接，类似 workgroup </span><br><span class="line">home: 同上，类似 homegroup </span><br><span class="line">internal: 同上，范围针对所有互联网用户 </span><br><span class="line">trusted: 信任所有连接</span><br></pre></td></tr></table></figure></li>
+<li><p>查看当前系统中默认使用哪个区域</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --get-active-zones</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>修改默认区域, 修改后即时生效，而且reload、重启后也是生效的。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --set-default-zone=public</span><br><span class="line">Warning: ZONE_ALREADY_SET: public</span><br><span class="line">success</span><br></pre></td></tr></table></figure></li>
+<li><p>获取指定区域的所有配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --zone=public --list-all</span><br><span class="line">public</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces:</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh dhcpv6-client</span><br><span class="line">  ports: 8000/tcp</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports: port=80:proto=tcp:toport=8000:toaddr=192.168.75.138</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>如果有多个网络接口可以通过此方法进行配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --zone=public --change-interface=ens33</span><br><span class="line">success</span><br></pre></td></tr></table></figure></li>
+<li><p>危险命令：[立即生效]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">如果是远程的机器执行上面的规则会立刻断开网络连接,必须紧记不能随便执行。如果你只是虚拟机或者物理机器登陆就可以执行来调试。</span><br><span class="line"></span><br><span class="line">拒绝所有包：firewall-cmd --panic-on </span><br><span class="line">取消拒绝状态： firewall-cmd --panic-off </span><br><span class="line">查看是否拒绝： firewall-cmd --query-panic</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="5-禁用访问规则配置"><a href="#5-禁用访问规则配置" class="headerlink" title="5.禁用访问规则配置"></a>5.禁用访问规则配置</h5><ul>
+<li><p>添加禁止响应ping</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --add-rich-rule=&#x27;rule protocol value=icmp drop&#x27;</span><br><span class="line">success</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# ping 192.168.75.142</span><br><span class="line">PING 192.168.75.142 (192.168.75.142) 56(84) bytes of data.</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>查看是否有此规则 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --query-rich-rule=&#x27;rule protocol value=&#x27;icmp&#x27; drop&#x27;</span><br><span class="line">yes</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# firewall-cmd --list-all</span><br><span class="line">public (active)</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces: ens33</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh dhcpv6-client</span><br><span class="line">  ports: 8000/tcp</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports: port=80:proto=tcp:toport=8000:toaddr=192.168.75.138</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line">	rule protocol value=&quot;icmp&quot; drop</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>删除规则</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --remove-rich-rule=&#x27;rule protocol value=icmp drop&#x27;</span><br><span class="line">success</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# firewall-cmd --list-all</span><br><span class="line">public (active)</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces: ens33</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh dhcpv6-client</span><br><span class="line">  ports: 8000/tcp</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports: port=80:proto=tcp:toport=8000:toaddr=192.168.75.138</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br></pre></td></tr></table></figure></li>
+<li><p>添加拒绝某个ip访问ssh端口</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --add-rich-rule=&#x27;rule family=ipv4 source address=192.168.75.138 service name=&#x27;ssh&#x27; reject&#x27;</span><br><span class="line">success</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# ssh 192.168.75.142</span><br><span class="line">ssh: connect to host 192.168.75.142 port 22: Connection refused</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>或者对端口进行操作</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --add-rich-rule=&#x27;rule family=ipv4 source address=192.168.75.138 port port=22 protocol=tcp reject&#x27;</span><br><span class="line">success</span><br><span class="line">[root@localhost ~]# firewall-cmd --list-all</span><br><span class="line">public (active)</span><br><span class="line">  target: default</span><br><span class="line">  icmp-block-inversion: no</span><br><span class="line">  interfaces: ens33</span><br><span class="line">  sources:</span><br><span class="line">  services: ssh dhcpv6-client</span><br><span class="line">  ports: 8000/tcp</span><br><span class="line">  protocols:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports: port=80:proto=tcp:toport=8000:toaddr=192.168.75.138</span><br><span class="line">  source-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line">	rule family=&quot;ipv4&quot; source address=&quot;192.168.75.138&quot; port port=&quot;22&quot; protocol=&quot;tcp&quot; reject</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>说明</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">说明：</span><br><span class="line">    rule :规则</span><br><span class="line">    family:ipv4  指定ipv4的地址</span><br><span class="line">    source address=10.0.10.1  要拒绝的IP，可以是IP或者是IP段</span><br><span class="line">    service name=&#x27;ssh&#x27;指定的是ssh服务 </span><br><span class="line">    drop :就是此条规则的执行方法是丢弃</span><br><span class="line">    如果要放行直接修改后面的reject为accept即可</span><br></pre></td></tr></table></figure></li>
+<li><p>只允许来自某个ip通过防火墙</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --remove-service=ssh</span><br><span class="line">Warning: NOT_ENABLED: &#x27;ssh&#x27; not in &#x27;public&#x27;</span><br><span class="line">success</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# firewall-cmd --add-rich-rule=&#x27;rule family=ipv4 source address=192.168.75.138 service name=&#x27;ssh&#x27; accept&#x27;</span><br><span class="line">success</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# ssh 192.168.75.142</span><br><span class="line">Last login: Thu Jul 11 10:44:47 2019 from 192.168.75.138</span><br></pre></td></tr></table></figure></li>
+<li><p>对指定的ip开放指定的端口段</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  firewall-cmd --permanent --add-rich-rule=&quot;rule family=&quot;ipv4&quot; source address=&quot;192.168.75.138&quot; port protocol=&quot;tcp&quot; port=&quot;30000-31000&quot; accept&quot;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/07/13/Go-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+                    GO-常用命令
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/06/24/Python-Crypto-AES%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/">      
+                    Python Crypto AES密码加密解密
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

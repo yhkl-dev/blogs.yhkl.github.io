@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+    
+        <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        
+            load: ['[tex]/mhchem'],
+        
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        
+            packages: {'[+]': ['mhchem']},
+        
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+          
+
+    
+    
+    
+    
+    <title>
+          
+            YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <v-list id="sub-menu" class="font-weight-medium" dense>
+            
+                
+                    <v-list-item href="/categories/Linux/" link>
+                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
+                            <v-hover v-model="menuHover">
+                                <v-list-item-content>
+                                    <span>Linux</span>                              
+                                </v-list-item-content>                           
+                            </v-hover>
+                        </v-badge>
+                    </v-list-item>
+                
+            
+        </v-list>    
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 index-card">
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-03-15
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/Django/ >Django</a>
+                  </span>
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/Python/ >Python</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/03/15/WSGI-ASGI/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/03/15/WSGI-ASGI/">WSGI&amp;ASGI</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          WSGIPython Web Server Gateway Interface, Python Web服务器网关接口， 实际上是一种接口规范，描述web server如何与web application通信的规范，是为Python语言定义的Web服务器和Web应用程序或框架之间的一种简单而通用的接口，要实现WSGI协议，必须同时实现web server和web application
+uwsgi与WSGI一样是一种通信协议， 是uWSGI服务器的独占协议，用于定义传输信息的类型，每个uwsgi packet前4byte为传输信息类型的描述，与WSGI协议是两种东西
+uWSGI是一个web...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/03/15/WSGI-ASGI/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-03-15
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/MySQL/ >MySQL</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/03/15/MySQL%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-MySQL-Group-Replication%E6%90%AD%E5%BB%BA/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/03/15/MySQL%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-MySQL-Group-Replication%E6%90%AD%E5%BB%BA/">MySQL安装文档-MySQL-Group-Replication搭建</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          MySQL安装文档-MySQL-Group-Replication搭建
+
+Group Replication is a technique that can be used to implement fault-tolerant systems. The replication group is a set of servers that interact with each other through message passing. The communication layer provides a set of guarantees such as atomic message ...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/03/15/MySQL%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-MySQL-Group-Replication%E6%90%AD%E5%BB%BA/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-03-14
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/MySQL/ >MySQL</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/03/14/MySQL%E9%85%8D%E7%BD%AE%E6%96%87%E6%A1%A3-my-cnf/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/03/14/MySQL%E9%85%8D%E7%BD%AE%E6%96%87%E6%A1%A3-my-cnf/">MySQL配置文档-my.cnf</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119[client] [mysql]prompt=(\\u@\\h) [\\d]&gt;\\_   ...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/03/14/MySQL%E9%85%8D%E7%BD%AE%E6%96%87%E6%A1%A3-my-cnf/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-03-13
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/Python/ >Python</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/03/13/Python-AsyncSSH%E6%A8%A1%E5%9D%97/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/03/13/Python-AsyncSSH%E6%A8%A1%E5%9D%97/">Python AsyncSSH模块</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          Python AsyncSSH模块
+AsyncSSH是一个Python实现异步ssh的模块，基于Python3.4 + asyncio框架之上提供SSHv2协议的异步客户端和服务器实现
+功能
+
+完全支持SSHv2，SFTP和SCP客户端和服务器功能
+
+Shell，命令和子系统通道
+环境变量，终端类型和窗口大小
+直接和转发的TCP / IP通道
+OpenSSH兼容的直接和转发的UNIX域套接字通道
+本地和远程TCP / IP端口转发
+本地和远程UNIX域套接字转发
+通过SOCKS转发动态TCP / IP端口
+客户端和服务器上的X11转发支持
+具有OpenSSH扩展的SFTP协议版本3
+SC...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/03/13/Python-AsyncSSH%E6%A8%A1%E5%9D%97/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-03-13
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/zabbix/ >zabbix</a>
+                  </span>
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/%E8%BF%90%E7%BB%B4/ >运维</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/03/13/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E4%BD%BF%E7%94%A8SNMP%E7%9B%91%E6%8E%A7Linux%E4%B8%BB%E6%9C%BA/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/03/13/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E4%BD%BF%E7%94%A8SNMP%E7%9B%91%E6%8E%A7Linux%E4%B8%BB%E6%9C%BA/">Zabbix监控文档-使用SNMP监控Linux主机</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          1.zabbix agent (被监控主机)配置
+安装snmp软件
+1yum install -y net-snmp
+编辑配置文件
+1234567891011121314151617grep -Ev &quot;^$|^#&quot; /etc/snmp/snmpd.confcom2sec notConfigUser  default       zabbix  定义名称后面web用group   notConfigGroup v1           notConfigUsergroup   notConfigGroup v2c           notConfigUserview ...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/03/13/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E4%BD%BF%E7%94%A8SNMP%E7%9B%91%E6%8E%A7Linux%E4%B8%BB%E6%9C%BA/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-03-13
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/zabbix/ >zabbix</a>
+                  </span>
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/%E8%BF%90%E7%BB%B4/ >运维</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/03/13/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-SNMP%E5%B8%B8%E8%AF%86/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/03/13/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-SNMP%E5%B8%B8%E8%AF%86/">Zabbix监控文档-SNMP常识</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          
+SNMP协议是一款非常古老的协议。几乎所有设备都支持该协议，他是用UDP的161、和UDP的162端口。他有三个版本，v1、v2c、v3，每个版本之间的差异很大，并不会完全的兼容。该协议本身不安全，所以，启用SNMP需要经过精心的设计，他拥有管理的功能，例如禁用网卡、远程重启等等；实际生产中，在被监控的状态下，一般只启用数据请求、响应功能（只读：get、getnext），不应该启用管理功能（写：set）；SNMP被管控端可以使用trap方法，将数据发送给管控端，类似于Zabbix trapper；
+MIB：Management Information Base，管理信息数据库
+OID：...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/03/13/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-SNMP%E5%B8%B8%E8%AF%86/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-03-13
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/zabbix/ >zabbix</a>
+                  </span>
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/%E8%BF%90%E7%BB%B4/ >运维</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/03/13/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7%E7%A3%81%E7%9B%98IO/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/03/13/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7%E7%A3%81%E7%9B%98IO/">Zabbix监控文档-监控磁盘IO</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          1.配置zabbix agent
+脚本配置 
+Disk_discovery.sh
+123456789101112131415161718192021222324252627282930#!/bin/bashdisk_array=(`grep -E &quot;(vd[a-z]$|sd[a-z]$)&quot; /proc/partitions | awk &#x27;&#123;print $4&#125;&#x27;`)length=$&#123;#disk_array[@]&#125;printf &quot;&#123;\n&quot;printf  &#x27;\t&#x27;&...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/03/13/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7%E7%A3%81%E7%9B%98IO/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-03-07
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/zabbix/ >zabbix</a>
+                  </span>
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/%E8%BF%90%E7%BB%B4/ >运维</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/03/07/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7Web/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/03/07/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7Web/">Zabbix监控文档-监控Web</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          Zabbix监控文档-监控Web.md
+
+应用场景
+​    Nginx或http服务本身运行正常， 但是网页挂了， 可以使用zabbix将页面访问一同监控起来，第一时间得到web崩溃信息
+
+1.zabbix server配置zabbix的web监控不依赖zabbix agent， 是由zabbix agent去直接请求配置URL
+
+
+
+
+
+添加触发器
+
+
+
+
+测试
+ok
+
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/03/07/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7Web/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-03-06
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/zabbix/ >zabbix</a>
+                  </span>
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/%E8%BF%90%E7%BB%B4/ >运维</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/03/06/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7MySQL/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/03/06/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7MySQL/">Zabbix监控文档-监控MySQL</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          1.MySQL 安装配置
+略
+
+2.zabbix agent配置
+zabbix agent 安装
+略
+
+配置/var/lib/zabbix/.my.cnf
+12345[client]user=rootsocket=/data/mysql/3306/run/mysql.sock #指定socket#host= IP-ADDR						   #或指定hostpassword= PASSWORD
+编辑/etc/zabbix/zabbix.agentd.d/userparameter_mysql.conf
+12345678910[root@localhost zabbix_agentd.d]#...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/03/06/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7MySQL/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-03-05
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/zabbix/ >zabbix</a>
+                  </span>
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/%E8%BF%90%E7%BB%B4/ >运维</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/03/05/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7nginx/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/03/05/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7nginx/">Zabbix监控文档-监控nginx</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          1.安装nginx
+安装依赖包
+1yum install -y pcre-devel openssl-devel popt-devel 
+下载nginx
+1http://120.52.51.15/nginx.org/download/nginx-1.14.2.tar.gz
+安装软件
+123456789101112useradd nginx./configure --prefix=/usr/local/nginx --with-http_ssl_module --with-stream  --with-stream_ssl_module --with-http_stub_status_mo...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/03/05/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E7%9B%91%E6%8E%A7nginx/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+   
+</v-card>  
+
+
+  <div id="pagination" class="text-center">
+    <v-pagination 
+      v-model="currentPage" 
+      :length=9 
+      @input="PageChange" 
+      prev-icon="chevron_left"
+      next-icon="chevron_right"
+      color="secondary"
+    ></v-pagination>
+  </div>
+         
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

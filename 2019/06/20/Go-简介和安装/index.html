@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Go-简介和安装 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/06/20/Go-%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80-Go%E8%AF%AD%E8%A8%80%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">一 Go语言介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-Go%E8%AF%AD%E8%A8%80%E8%83%8C%E6%99%AF"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 Go语言背景</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-Go%E5%AE%89%E8%A3%85"><span class="toc-number"></span> <span class="toc-text">二  Go安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-Hello-World"><span class="toc-number"></span> <span class="toc-text">三  Hello World!</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-hello-world"><span class="toc-number">0.1.</span> <span class="toc-text">3.1 hello world</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-%E8%BF%90%E8%A1%8C"><span class="toc-number">0.2.</span> <span class="toc-text">3.2 运行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-Go%E8%AF%AD%E6%B3%95%E6%B3%A8%E6%84%8F"><span class="toc-number">0.3.</span> <span class="toc-text">3.3 Go语法注意</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-Go%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7"><span class="toc-number"></span> <span class="toc-text">四 Go版本管理工具</span></a>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/06/20/Go-%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/">Go-简介和安装</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-06-20
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <h3 id="一-Go语言介绍"><a href="#一-Go语言介绍" class="headerlink" title="一 Go语言介绍"></a>一 Go语言介绍</h3><h4 id="1-1-Go语言背景"><a href="#1-1-Go语言背景" class="headerlink" title="1.1 Go语言背景"></a>1.1 Go语言背景</h4><p>Go语言是Google公司开发的一种静态、编译型语言，具备自动垃圾回收功能，原生支持并发开发。   </p>
+<p>Go的诞生是为了解决当下编程语言对并发支持不友好、编译速度慢、编程复杂这三个主要问题。   </p>
+<p>Go既拥有接近静态编译语言（如C）的安全和性能，又有接近脚本语言（如python）的开发效率，其主要特点有：   </p>
+<ul>
+<li>天然并发：语言层面支持并发，包括gorotuine、channel</li>
+<li>语法优势：没有历史包袱，包含多返回值、匿名函数、defer</li>
+<li>语言层面支持多核CPU利用</li>
+</ul>
+<p>与Java相比的不同：</p>
+<ul>
+<li>没有Java支持的一些面向对象思想：重载、构造函数、继承等</li>
+<li>代码规范严格：花括号位置固定，变量名大小写代表公有私有等</li>
+<li>支持函数式编程：匿名函数，闭包</li>
+<li>接口非侵入式：Java直接继承接口，造成耦合</li>
+</ul>
+<h2 id="二-Go安装"><a href="#二-Go安装" class="headerlink" title="二  Go安装"></a>二  Go安装</h2><p>推荐使用官方的安装包直接安装，下载地址：<a target="_blank" rel="noopener" href="https://golang.org/dl/">https://golang.org/dl/</a>  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Win安装：</span><br><span class="line">        打开Win安装包下一步下一步即可，默认安装在目录：c:\Go</span><br><span class="line"></span><br><span class="line">Mac安装：</span><br><span class="line">        需要预装Xcode，然后打开Mac安装包下一步下一步即可  </span><br><span class="line"></span><br><span class="line">Linux安装：</span><br><span class="line">        wget https://storage.googleapis.com/golang/go1.12.1.linux-amd64.tar.gz</span><br><span class="line">        tar zxvf go*.tar.gz -C /usr/local/ </span><br><span class="line">        # 配置环境</span><br><span class="line">        vim /etc/profile</span><br><span class="line">        export GOROOT=/usr/local/go         # 默认/usr/local/go/go,（新版go目录下还有一个go目录）</span><br><span class="line">        export PATH=$PATH:$GOROOT/bin</span><br><span class="line">        export GOPATH=$HOME/goproject       # 可选配置：Go项目目录，1.12版本后推荐使用go mod，不再使用GOPATH</span><br><span class="line">​        source /etc/profile </span><br><span class="line"></span><br><span class="line">测试安装： </span><br><span class="line">        go version</span><br></pre></td></tr></table></figure>
+
+<p>容易混淆的环境：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GOROOT: Go的安装目录，比如c:/Go</span><br><span class="line">GOPATH: Go的项目目录，1.1-1.7必须设置，</span><br><span class="line">        1.8后Unix上默认为$HOME/go,Win上默认为%USERPROFILE%/go</span><br><span class="line">        当有多个项目目录时，请注意分隔符（Windows是分号，Linux是冒号），且默认会将go get的内容放在第一个目录下。</span><br></pre></td></tr></table></figure>
+
+<p>GOPATH目录约定有三个子目录：</p>
+<ul>
+<li>src:存放源代码（比如：.go .c .h .s等）</li>
+<li>pkg:编译后生成的文件（比如：.a）</li>
+<li>bin:编译后生成的可执行文件（为了方便，可以把此目录加入到<code>$PATH</code> 变量中，如果有多个gopath，那么使用<code>$&#123;GOPATH//://bin:&#125;/bin</code>添加所有的bin目录）</li>
+</ul>
+<p>win的GOPATH重设办法：进入环境变量<br><img src="Go-%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/lang-01.png"></p>
+<h2 id="三-Hello-World"><a href="#三-Hello-World" class="headerlink" title="三  Hello World!"></a>三  Hello World!</h2><h4 id="3-1-hello-world"><a href="#3-1-hello-world" class="headerlink" title="3.1 hello world"></a>3.1 hello world</h4><p>在GOPATH的项目目录中创建三个文件夹：bin，src，pkg，在src文件夹中新建一个hello.go文件：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main                        <span class="comment">//每个程序都有且仅有一个main包</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span>                       </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;                       <span class="comment">//主函数main只有一个</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;Hello World!&quot;</span>)     <span class="comment">//函数调用：包名.函数名</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-运行"><a href="#3-2-运行" class="headerlink" title="3.2 运行"></a>3.2 运行</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 执行方式一：先编译，再运行</span><br><span class="line">go build hello.go        # 编译。在同级目录下生成文件`hello`，添加参数`-o 名称` 则可指定生成的文件名 </span><br><span class="line">./hello                  # 运行。贴士：win下生成的是.exe文件，直接双击执行即可</span><br><span class="line"></span><br><span class="line"># 执行方式二：直接运行</span><br><span class="line">go run hello.go         </span><br></pre></td></tr></table></figure>
+
+<p>两种执行流程的区别：  </p>
+<ul>
+<li>先编译方式：可执行文件可以在任意没有go环境的机器上运行，（因为go依赖被打包进了可执行文件）</li>
+<li>直接执行方式：源码执行时，依赖于机器上的go环境，没有go环境无法直接运行</li>
+</ul>
+<h4 id="3-3-Go语法注意"><a href="#3-3-Go语法注意" class="headerlink" title="3.3 Go语法注意"></a>3.3 Go语法注意</h4><ul>
+<li>Go源文件以 “go” 为扩展名</li>
+<li>与Java、C语言类似，Go应用程序的执行入口也是main()函数</li>
+<li>Go语言严格区分大小写</li>
+<li>Go不需要分号结尾</li>
+<li>Go编译是一行一行执行，所以不能将类似两个 Print函数写在一行</li>
+<li>Go语言定义的变量或者import的包如果没有使用到，代码不能编译通过</li>
+<li>Go的注释使用 // 或者 /*  */</li>
+</ul>
+<h2 id="四-Go版本管理工具"><a href="#四-Go版本管理工具" class="headerlink" title="四 Go版本管理工具"></a>四 Go版本管理工具</h2><p>Go也有支持多版本管理的工具，例如：gvm(<a target="_blank" rel="noopener" href="https://github.com/moovweb/gvm">https://github.com/moovweb/gvm</a>)   </p>
+<p>使用方式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 安装gvm:</span><br><span class="line">bash &lt; &lt;(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)</span><br><span class="line"></span><br><span class="line"># 安装、切换go版本</span><br><span class="line">gvm install go1.8.3</span><br><span class="line">gvm use go1.8.3         # 使用参数 --default，可以每次启动不需要调用use</span><br></pre></td></tr></table></figure>
+
+
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/06/24/Python-Crypto-AES%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/">
+                    Python Crypto AES密码加密解密
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/06/03/Grafana%E9%85%8D%E7%BD%AEZabbix%E6%95%B0%E6%8D%AE%E6%BA%90/">      
+                    Grafana配置Zabbix数据源
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

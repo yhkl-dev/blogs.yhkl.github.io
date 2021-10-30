@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Python frozenset 应用 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2020/05/10/Python-frozenset-%E5%BA%94%E7%94%A8/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2020/05/10/Python-frozenset-%E5%BA%94%E7%94%A8/">Python frozenset 应用</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2020-05-10
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <blockquote>
+<p> <strong>frozenset()</strong> 返回一个冻结的集合，冻结后集合不能再添加或删除任何元素</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FARule</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, state, character, new_state</span>):</span></span><br><span class="line">        self.state = state</span><br><span class="line">        self.character = character</span><br><span class="line">        self.new_state = new_state</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">applies_to</span>(<span class="params">self, state, character</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.state == state <span class="keyword">and</span> self.character == character</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">follow</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.new_state</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;#&lt;FARule &#123;&#125; -- &#123;&#125; --&gt; &#123;&#125;&gt;&quot;</span>.<span class="built_in">format</span>(self.state, self.character,</span><br><span class="line">                                                  self.new_state)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NFARulebook</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, rules</span>):</span></span><br><span class="line">        self.rules = rules</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">next_state</span>(<span class="params">self, states, character</span>):</span></span><br><span class="line">        n_states = []</span><br><span class="line">        <span class="keyword">for</span> state <span class="keyword">in</span> states:</span><br><span class="line">            s = self.follow_rules_for(state, character)</span><br><span class="line">            n_states += s</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">set</span>(n_states)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">follow_rules_for</span>(<span class="params">self, state, character</span>):</span></span><br><span class="line">        <span class="keyword">return</span> [rule.follow() <span class="keyword">for</span> rule <span class="keyword">in</span> self.rule_for(state, character)]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">rule_for</span>(<span class="params">self, state, character</span>):</span></span><br><span class="line">        <span class="keyword">return</span> [rule <span class="keyword">for</span> rule <span class="keyword">in</span> self.rules <span class="keyword">if</span> rule.applies_to(state, character)]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">follow_free_moves</span>(<span class="params">self, states</span>):</span></span><br><span class="line">        more_states = self.next_state(states, <span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> more_states.issubset(states):</span><br><span class="line">            <span class="keyword">return</span> states</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> self.follow_free_moves(more_states | states)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">alphabet</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">list</span>(<span class="built_in">set</span>([rule.character <span class="keyword">for</span> rule <span class="keyword">in</span> self.rules <span class="keyword">if</span></span><br><span class="line">                         rule.character]))</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NFA</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, current_state, accept_state, rulebook</span>):</span></span><br><span class="line">        self.accept_state = accept_state</span><br><span class="line">        self.rulebook = rulebook</span><br><span class="line">        self.current_state = <span class="built_in">frozenset</span>(self.rulebook.follow_free_moves(current_state) )</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">accept</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">bool</span>(self.current_state &amp; <span class="built_in">set</span>(self.accept_state)) </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">read_string</span>(<span class="params">self, string</span>):</span></span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> string:</span><br><span class="line">            self.read_character(s)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">read_character</span>(<span class="params">self, character</span>):</span></span><br><span class="line">        self.current_state = self.rulebook.next_state(self.current_state,</span><br><span class="line">                                                      character)</span><br><span class="line">        self.current_state = self.rulebook.follow_free_moves(self.current_state) </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NFADesign</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, start_state, accept_state, rulebook</span>):</span></span><br><span class="line">        self.start_state = start_state</span><br><span class="line">        self.accept_state = accept_state</span><br><span class="line">        self.rulebook = rulebook</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">is_accepting</span>(<span class="params">self, string</span>):</span></span><br><span class="line">        nfa = self.to_nfa()</span><br><span class="line">        nfa.read_string(string)</span><br><span class="line">        <span class="keyword">return</span> nfa.accept()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">to_nfa</span>(<span class="params">self, current_state=<span class="literal">None</span></span>):</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> current_state:</span><br><span class="line">            current_state = &#123;self.start_state&#125;</span><br><span class="line">        <span class="keyword">return</span> NFA(current_state, self.accept_state, self.rulebook)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NFASimulation</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, nfa_design</span>):</span></span><br><span class="line">        self.nfa_design = nfa_design </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">next_state</span>(<span class="params">self, state, character</span>):</span></span><br><span class="line">        nfa = self.nfa_design.to_nfa(state)</span><br><span class="line">        nfa.read_character(character)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">frozenset</span>(nfa.current_state)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">rules_for</span>(<span class="params">self, state</span>):</span></span><br><span class="line">        <span class="keyword">return</span> [FARule(state, character, self.next_state(state, character)) <span class="keyword">for</span></span><br><span class="line">               character <span class="keyword">in</span> self.nfa_design.rulebook.alphabet()]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">discover_states_and_rules</span>(<span class="params">self, states</span>):</span></span><br><span class="line">        rules = []</span><br><span class="line">        <span class="keyword">for</span> state <span class="keyword">in</span> states:</span><br><span class="line">            rules += self.rules_for(state)</span><br><span class="line">        more_states = <span class="built_in">set</span>([rule.follow() <span class="keyword">for</span> rule <span class="keyword">in</span> rules])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> more_states.issubset(states):</span><br><span class="line">            <span class="keyword">return</span> [states, rules]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> self.discover_states_and_rules(states | more_states)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    rulebook = NFARulebook(</span><br><span class="line">        [</span><br><span class="line">            FARule(<span class="number">1</span>, <span class="string">&#x27;a&#x27;</span>, <span class="number">1</span>), FARule(<span class="number">1</span>, <span class="string">&#x27;a&#x27;</span>, <span class="number">2</span>), FARule(<span class="number">1</span>, <span class="literal">None</span>, <span class="number">2</span>),</span><br><span class="line">            FARule(<span class="number">2</span>, <span class="string">&#x27;b&#x27;</span>, <span class="number">3</span>),</span><br><span class="line">            FARule(<span class="number">3</span>, <span class="string">&#x27;b&#x27;</span>, <span class="number">1</span>), FARule(<span class="number">3</span>, <span class="literal">None</span>, <span class="number">2</span>)</span><br><span class="line">        ]</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    nfa_design = NFADesign(<span class="number">1</span>, [<span class="number">3</span>], rulebook)</span><br><span class="line">    <span class="built_in">print</span>(nfa_design)</span><br><span class="line">    <span class="built_in">print</span>(nfa_design.to_nfa().current_state)</span><br><span class="line">    <span class="built_in">print</span>(nfa_design.to_nfa(&#123;<span class="number">2</span>&#125;).current_state)</span><br><span class="line">    <span class="built_in">print</span>(nfa_design.to_nfa(&#123;<span class="number">3</span>&#125;).current_state)</span><br><span class="line"></span><br><span class="line">    nfa = nfa_design.to_nfa(&#123;<span class="number">2</span>, <span class="number">3</span>&#125;)</span><br><span class="line">    nfa.read_character(<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(nfa.current_state)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;-&quot;</span> * <span class="number">100</span>)</span><br><span class="line">    simulation = NFASimulation(nfa_design)</span><br><span class="line">    <span class="built_in">print</span>(simulation.next_state(&#123;<span class="number">1</span>, <span class="number">2</span>&#125;, <span class="string">&#x27;a&#x27;</span>))</span><br><span class="line">    <span class="built_in">print</span>(simulation.next_state(&#123;<span class="number">1</span>, <span class="number">2</span>&#125;, <span class="string">&#x27;b&#x27;</span>))</span><br><span class="line">    <span class="built_in">print</span>(simulation.next_state(&#123;<span class="number">3</span>, <span class="number">2</span>&#125;, <span class="string">&#x27;b&#x27;</span>))</span><br><span class="line">    <span class="built_in">print</span>(simulation.next_state(&#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>&#125;, <span class="string">&#x27;b&#x27;</span>))</span><br><span class="line">    <span class="built_in">print</span>(simulation.next_state(&#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>&#125;, <span class="string">&#x27;a&#x27;</span>))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;-&quot;</span> * <span class="number">100</span>)</span><br><span class="line">    <span class="built_in">print</span>(rulebook.alphabet())</span><br><span class="line">    rules = simulation.rules_for(<span class="built_in">frozenset</span>(&#123;<span class="number">1</span>, <span class="number">2</span>&#125;))</span><br><span class="line">    <span class="keyword">for</span> r <span class="keyword">in</span> rules:</span><br><span class="line">        <span class="built_in">print</span>(r)</span><br><span class="line">    rules = simulation.rules_for(<span class="built_in">frozenset</span>(&#123;<span class="number">3</span>, <span class="number">2</span>&#125;))</span><br><span class="line">    <span class="keyword">for</span> r <span class="keyword">in</span> rules:</span><br><span class="line">        <span class="built_in">print</span>(r)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;-&quot;</span> * <span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">    start_state = nfa_design.to_nfa().current_state</span><br><span class="line">    <span class="built_in">print</span>(start_state)</span><br><span class="line">    states, rules = simulation.discover_states_and_rules(<span class="built_in">set</span>([start_state]))</span><br><span class="line">    <span class="built_in">print</span>(states)</span><br><span class="line">    <span class="keyword">for</span> r <span class="keyword">in</span> rules:</span><br><span class="line">        <span class="built_in">print</span>(r)</span><br></pre></td></tr></table></figure>
+
+
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2020/05/25/Centos-split-%E5%88%87%E5%89%B2%E6%96%87%E4%BB%B6%E5%8F%8A%E5%90%88%E5%B9%B6%E6%96%87%E4%BB%B6/">
+                    Centos split 切割文件及合并文件
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2020/04/29/Python-Lambda-While-Loop/">      
+                    Python Lambda While Loop
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

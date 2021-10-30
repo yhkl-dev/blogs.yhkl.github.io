@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            进程工具 Daemonize &amp;&amp; python-daemonize | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/05/29/%E8%BF%9B%E7%A8%8B%E5%B7%A5%E5%85%B7-Daemonize-python-daemonize/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Daemonize"><span class="toc-number">1.</span> <span class="toc-text">Daemonize</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%80%89%E9%A1%B9"><span class="toc-number">1.1.</span> <span class="toc-text">选项</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%EF%BC%9A-Prometheus%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C"><span class="toc-number">1.3.</span> <span class="toc-text">使用： Prometheus后台运行</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#python-daemonize"><span class="toc-number">2.</span> <span class="toc-text">python daemonize</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E"><span class="toc-number">3.</span> <span class="toc-text">参数说明</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%EF%BC%9A"><span class="toc-number">3.1.</span> <span class="toc-text">使用：</span></a></li></ol></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/05/29/%E8%BF%9B%E7%A8%8B%E5%B7%A5%E5%85%B7-Daemonize-python-daemonize/">进程工具 Daemonize &amp;&amp; python-daemonize</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-05-29
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <blockquote>
+<p>守护进程是生存期长的一种进程。它们独立于控制终端并且周期性的执行某种任务或等待处理某些发生的事件。他们常常在系统引导装入时启动，在系统关闭时终止。</p>
+<p>守护进程的特性</p>
+<p>1.在后台运行</p>
+<p>2.与其运行前的环境隔离开来。这些环境包括未关闭的文件描述符、控制终端、会话和进程组、工作目录以及文件创建掩码等。这些环境通常是守护进程从执行它的父进程（特别是shell）中继承下来的。</p>
+<p>3.启动方式特殊，它可以在系统启动时从启动脚本/etc/rc.d中启动，可以由inetd守护进程启动，可以由crond启动，还可以由用户终端（通常是shell）执行。</p>
+<p>总之，除开这些特殊性以外，守护进程与普通进程基本上没有什么区别。因此，编写守护进程实际上是把一个普通进程按照上述的守护进程的特性改造成为守护进程。</p>
+<p>守护进程编程规则</p>
+<p>1.在后台运行，调用fork ，然后使父进程exit</p>
+<p>2.脱离控制终端，登录会话和进程组，调用setsid（）使进程成为会话组长</p>
+<p>3.禁止进程重新打开控制终端</p>
+<p>4.关闭打开的文件描述符，调用fclose（）</p>
+<p>5.将当前工作目录更改为根目录</p>
+<p>6.重设文件创建掩码为0</p>
+<p>7.处理SIGCHLD 信号</p>
+</blockquote>
+<blockquote>
+<p> daemonize Unix系统后台守护进程管理软件</p>
+<p>daemonize可以将一个命令运行成Unix的后台。后台程序是不需要借助终端或者登陆的shell运行在服务器上的，并且等待一些时间的出现，或者等待去执行一些规定的任务在一定周期内</p>
+</blockquote>
+<h4 id="Daemonize"><a href="#Daemonize" class="headerlink" title="Daemonize"></a>Daemonize</h4><h5 id="选项"><a href="#选项" class="headerlink" title="选项"></a>选项</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">-a</span><br><span class="line"></span><br><span class="line">挂载到输出文件，而不是冲掉默认值。只有应用了-e and/or -o 被指定的情况。</span><br><span class="line"></span><br><span class="line">-e</span><br><span class="line"></span><br><span class="line">重定向输出标准错误到指定的文件中，替代/dev/null</span><br><span class="line"></span><br><span class="line">-o</span><br><span class="line"></span><br><span class="line">重定向输出标准到指定的文件中，替代/dev/null</span><br><span class="line"></span><br><span class="line">-E name=value</span><br><span class="line"></span><br><span class="line">增加环境变量给给后台程序。这个这个参数类型一定要是name=value格式。可以设置多次。</span><br><span class="line"></span><br><span class="line">-c directory</span><br><span class="line"></span><br><span class="line">指定运⾏路径。</span><br><span class="line"></span><br><span class="line">-p pidfile</span><br><span class="line"></span><br><span class="line">定制自己的pid存放位置。</span><br><span class="line"></span><br><span class="line">-l lockfile</span><br><span class="line"></span><br><span class="line">单实例启动时将会检查这个文件。</span><br><span class="line"></span><br><span class="line">-u user</span><br><span class="line"></span><br><span class="line">定制程序以谁的身份运行的。</span><br><span class="line"></span><br><span class="line">-v</span><br><span class="line"></span><br><span class="line">将会触发daemonize将自己程序的运行详细的日志输出到标准输出中。</span><br></pre></td></tr></table></figure>
+
+<h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/bmc/daemonize.git</span> </span><br><span class="line"><span class="meta">$</span><span class="bash"> sh configure &amp;&amp; make &amp;&amp; sudo make install</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="使用：-Prometheus后台运行"><a href="#使用：-Prometheus后台运行" class="headerlink" title="使用： Prometheus后台运行"></a>使用： Prometheus后台运行</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> daemonize -c /data/prometheus/ /data/prometheus/up.sh</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat  /data/prometheus/up.sh</span></span><br><span class="line">/data/prometheus/prometheus --web.listenaddress=&quot;0.0.0.0:9090&quot;        --web.read-timeout=5m    --web.maxconnections=10  --storage.tsdb.retention=15d  --</span><br><span class="line">storage.tsdb.path=&quot;data/&quot;   --query.max-concurrency=20   --</span><br><span class="line">query.timeout=2m</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="python-daemonize"><a href="#python-daemonize" class="headerlink" title="python daemonize"></a>python daemonize</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pip install daemonize</span></span><br></pre></td></tr></table></figure>
+
+<p>github示例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">from</span> daemonize <span class="keyword">import</span> Daemonize</span><br><span class="line"></span><br><span class="line">pid = <span class="string">&quot;/tmp/test.pid&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        sleep(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">daemon = Daemonize(app=<span class="string">&quot;test_app&quot;</span>, pid=pid, action=main)</span><br><span class="line">daemon.start()</span><br></pre></td></tr></table></figure>
+
+<h4 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">:param app: contains the application name which will be sent to syslog.</span><br><span class="line">:param pid: path to the pidfile.</span><br><span class="line">:param action: your custom function which will be executed after daemonization.</span><br><span class="line">:param keep_fds: optional <span class="built_in">list</span> of fds which should <span class="keyword">not</span> be closed.</span><br><span class="line">:param auto_close_fds: optional parameter to <span class="keyword">not</span> close opened fds.</span><br><span class="line">:param privileged_action: action that will be executed before drop privileges <span class="keyword">if</span> user <span class="keyword">or</span></span><br><span class="line">                          group parameter <span class="keyword">is</span> provided.</span><br><span class="line">                          If you want to transfer anything <span class="keyword">from</span> privileged_action to action, such <span class="keyword">as</span></span><br><span class="line">                          opened privileged file descriptor, you should <span class="keyword">return</span> it <span class="keyword">from</span></span><br><span class="line">                          privileged_action function <span class="keyword">and</span> catch it inside action function.</span><br><span class="line">:param user: drop privileges to this user <span class="keyword">if</span> provided.</span><br><span class="line">:param group: drop privileges to this group <span class="keyword">if</span> provided.</span><br><span class="line">:param verbose: send debug messages to logger <span class="keyword">if</span> provided.</span><br><span class="line">:param logger: use this logger <span class="built_in">object</span> instead of creating new one, <span class="keyword">if</span> provided.</span><br><span class="line">:param foreground: stay <span class="keyword">in</span> foreground; do <span class="keyword">not</span> fork (<span class="keyword">for</span> debugging)</span><br><span class="line">:param chdir: change working directory <span class="keyword">if</span> provided <span class="keyword">or</span> /</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="使用："><a href="#使用：" class="headerlink" title="使用："></a>使用：</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> daemonize <span class="keyword">import</span> Daemonize</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line">pid = <span class="string">&quot;/tmp/test.pid&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span> 主函数， 将业务逻辑放在此处</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        sleep(<span class="number">5</span>)</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;/tmp/test.daemon.log&#x27;</span>, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(<span class="string">&quot;hello world &#123;&#125;&quot;</span>.<span class="built_in">format</span>(datetime.now()))</span><br><span class="line"></span><br><span class="line">daemon = Daemonize(app=<span class="string">&quot;ykyk&quot;</span>, pid=pid, action=main)</span><br><span class="line"><span class="comment"># app 名称可以自定义 syslog中可以查看</span></span><br><span class="line">daemon.start()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(python36env) [root@localhost tmp]# ps -ef |grep python</span><br><span class="line">root      38408      1  0 10:15 ?        00:00:00 python test_daemon.py</span><br><span class="line">            </span><br><span class="line">(python36env) [root@localhost tmp]# tail -f test.daemon.log</span><br><span class="line">hello world 2019-05-29 10:19:21.743699</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/05/29/Proemtheus-pushgateway%E4%BD%BF%E7%94%A8/">
+                    Proemtheus--pushgateway使用
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/05/28/Prometheus-%E7%9B%91%E6%8E%A7%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/">      
+                    Prometheus--监控数据模型
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

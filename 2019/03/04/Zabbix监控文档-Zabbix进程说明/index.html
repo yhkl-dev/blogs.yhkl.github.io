@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Zabbix监控文档-Zabbix进程说明 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/03/04/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-Zabbix%E8%BF%9B%E7%A8%8B%E8%AF%B4%E6%98%8E/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%9B%E7%A8%8B-zabbix-server"><span class="toc-number">1.</span> <span class="toc-text">1.服务器进程 zabbix_server</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-Agent"><span class="toc-number">2.</span> <span class="toc-text">2. Agent</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-Proxy"><span class="toc-number">3.</span> <span class="toc-text">3.Proxy</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-Java-gateway"><span class="toc-number">4.</span> <span class="toc-text">4. Java gateway</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-Zabbix-sender"><span class="toc-number">5.</span> <span class="toc-text">5.Zabbix sender</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-zabbix-get"><span class="toc-number">6.</span> <span class="toc-text">6. zabbix get</span></a></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/03/04/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-Zabbix%E8%BF%9B%E7%A8%8B%E8%AF%B4%E6%98%8E/">Zabbix监控文档-Zabbix进程说明</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-03-04
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <p>Zabbix 进程</p>
+<p>zabbix运行流程如下：</p>
+<p><img src="Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-Zabbix%E8%BF%9B%E7%A8%8B%E8%AF%B4%E6%98%8E/zabbix_flow.jpg" alt="zabbix-flow"></p>
+<p>​    </p>
+<h5 id="1-服务器进程-zabbix-server"><a href="#1-服务器进程-zabbix-server" class="headerlink" title="1.服务器进程 zabbix_server"></a>1.服务器进程 zabbix_server</h5><ul>
+<li><p>说明</p>
+<blockquote>
+<blockquote>
+<p>Zabbix server是整个Zabbix软件的核心程序。</p>
+<p>Server通过轮询和捕获数据，计算是否满足触发器条件，向用户发送通知。它是Zabbix监控代理和Proxy代理报告系统可用性和完整性数据的核心组件。Server自身可以通过简单服务远程检查网络服务(如Web服务器和邮件服务)。</p>
+<p>Sever是一个包含了被存储了所有配置，统计方面的和可操作数据的中央仓库,它是监控系统问题升级以至于激活警告管理器的Zabbix中的实体。</p>
+<p>基本的Zabbix服务器起作用分三个不同的组件;他们是:Zabbix服务器，Web前端和数据库存储。</p>
+<p>Zabbix的所有配置信息都存储在服务器和Web前端进行交互的数据库中。Zabbix的所有配置信息都存储在服务器和Web前端进行交互的数据库中。例如，当你通过Web前端（或者API）新增一个条目时，它会被添加到数据库的item表里。然后，Zabbix服务器以每分钟一次的频率查询item表中的活动列表，接着将它存储在Zabbix服务器中的缓存里。这就是为什么Zabbix前端所做的任何更改最多需要花费两分钟才能显示在最新的数据段的原因。</p>
+</blockquote>
+</blockquote>
+</li>
+<li><p>命令行参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-c --config&lt;file&gt; 		配置文件的绝对路径（默认为/etc/zabbix/zabbix_server.conf）</span><br><span class="line">-R --runtime-control	执行管理</span><br><span class="line">-h --help				</span><br><span class="line">-V --version			版本号</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>runtime control</p>
+<table>
+<thead>
+<tr>
+<th align="left">Option</th>
+<th>Description</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">config_cache_reload</td>
+<td>重新加载配置缓存. 忽略当前已加载的缓存.</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">housekeeper_execute</td>
+<td>启动管家程序. 忽略当前正在进行中的管家程序.</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>修改配置后可以使用runtime control 重新加载server的配置缓存</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; zabbix_server -c /usr/local/etc/zabbix_server.conf -R config_cache_reload</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>注意</strong>：如果zabbix server和zabbix agent运维在同一服务器下，建议将zabbix server的运行用户和zabbix agent的运行用户分开</p>
+</li>
+</ul>
+<h5 id="2-Agent"><a href="#2-Agent" class="headerlink" title="2. Agent"></a>2. Agent</h5><p>​    Zabbix agent部署在监控的目标上，主动监测本地的资源和应用(硬件驱动，内存，处理器统计等)。</p>
+<ul>
+<li><p>zabbix agent的两种监控模式</p>
+<ul>
+<li><p>被动模式：</p>
+<p>zabbix agent默认的工作模式，由zabbix sever向zabbix agent发出指令获取数据，zabbix agnet被动地去获取数据，并返回给zabbix server， zabbix server会周期性地向agent索取数据，此模式的最大问题就是会增加zabbix server的工作量，在大量的服务器环境下， zabbix server 不能及时获取到数据</p>
+<p>被动模式配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@zabbix_proxy ~]# grep -Ev &#x27;^$|^#&#x27; /etc/zabbix/zabbix_agentd.conf</span><br><span class="line">PidFile=/var/run/zabbix/zabbix_agentd.pid</span><br><span class="line">LogFile=/var/log/zabbix/zabbix_agentd.log</span><br><span class="line">LogFileSize=0</span><br><span class="line">Server=192.168.75.135 被动模式IP</span><br><span class="line">#ServerActive=192.168.75.135 主动模式IP</span><br><span class="line">Hostname=zabbix_proxy</span><br><span class="line">Include=/etc/zabbix/zabbix_agentd.d/*.conf</span><br></pre></td></tr></table></figure></li>
+<li><p>主动模式</p>
+<p>由zabbix agent主动采集数据并返回给zabbix server，不需要zabbix sever的另行干预，因此主动模式在一定程度上减轻了zabbix server的压力</p>
+<p>主动模式配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@zabbix_proxy ~]# grep -Ev &#x27;^$|^#&#x27; /etc/zabbix/zabbix_agentd.conf</span><br><span class="line">PidFile=/var/run/zabbix/zabbix_agentd.pid</span><br><span class="line">LogFile=/var/log/zabbix/zabbix_agentd.log</span><br><span class="line">LogFileSize=0</span><br><span class="line">Server=192.168.75.135					主动模式IP</span><br><span class="line">ServerActive=192.168.75.135				被动模式IP</span><br><span class="line">Hostname=zabbix_proxy</span><br><span class="line">Include=/etc/zabbix/zabbix_agentd.d/*.conf</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>命令行参数</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-t –test <item key></td>
+<td>测试指定监控项并退出。</td>
+</tr>
+<tr>
+<td>-p –print</td>
+<td>显示已知监控项并打印到屏幕</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h5 id="3-Proxy"><a href="#3-Proxy" class="headerlink" title="3.Proxy"></a>3.Proxy</h5><ul>
+<li><p>zabbix proxy是一个或者多个受监控设备收集监控数据，并将信息发送到zabbix server的进程， 基本上是代表serve工作的， 所有收集的数据都在本地进行缓存，然后传送到proxy所属的zabbix server</p>
+<p>zabbix proxy是一种分布式监控解决方案， 当需要监控两地机房的服务器时，可以在其中一个机房部署proxy转发到另一机房的zabbix server中进行监控， 缓解zabbix server负载</p>
+</li>
+<li><p><strong>注意：</strong> zabbix proxy需要使用独立的数据库</p>
+</li>
+<li><p>命令行参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-c --config &lt;file&gt;               配置文件的绝对路径</span><br><span class="line">-R --runtime-control &lt;option&gt;    执行管理功能</span><br><span class="line">-h --help                        帮助</span><br><span class="line">-V --version                     显示版本号</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>runtime-control</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>config_cache_reload</td>
+<td>重新加载配置缓存。若当前已被加载，则忽略。<br/>激活Zabbix proxy将会连接到Zabbix server并查询配置数据。</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="4-Java-gateway"><a href="#4-Java-gateway" class="headerlink" title="4. Java gateway"></a>4. Java gateway</h5><ul>
+<li><p>描述</p>
+<p>从zabbix 2.0开始，zabbix以守护进程的形式原生支持监控JMX程序，即为Zabbix Java Gateway， Zabbix Java Gateway是用java语言编写的。</p>
+<p>要查询一台主机的JMX计数器值， Zabbix server首先向zabbix java gateway发送请求， zabbix java gateway使用JMX管理API请求远程的有关应用， 应用不需要额外软件，只需要启动时在命令行指定 </p>
+<p><strong>-Dcom.sun.management.jmxremote</strong> 即可，具体流程如下：</p>
+<p><img src="Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-Zabbix%E8%BF%9B%E7%A8%8B%E8%AF%B4%E6%98%8E/1551766158560.png" alt="1551766158560"></p>
+<p>Zabbix Java gateway接受来自zabbix server或agent的传入连接，且只能用做“<strong>被动proxy</strong>”， </p>
+<p>与zabbix proxy相反，java gateway也可以从zabbix agent调用（zabbix agent不能被链接）。每个java gateway的访问都直接在zabbix server或proxy配置文件中配置，因此每个zabbix server或zabbix agent只能配置一个java gateway。如果一台主机具有JMX agent类型的监控项和其他类型的监控项，则只将JMX监控项传递到Java Gateway进行检索。</p>
+<p>当在java gateway上的一个监控项值更新， zabbix server或agent将连接javagateway请求查询该值， java gateway会依次retrieve并传回到server或proxy。</p>
+<p>Java gateway不会缓存任何值</p>
+<p>Zabbix sever或proxy具有连接到Java gateway特定类型的进程，由 START_POLLERS 选项控制。 在内部，Java gateway启动多个由该选项控制的线程。 在sever端，如果连接超过 Timeout 秒，则将终止，但Java gateway可能仍忙于从JMX计数器检索值。 为了解决这个问题，由于Zabbix 2.0.15，Zabbix 2.2.10和Zabbix 2.4.5在Java gateway中有TIMEOUT选项，允许为JMX网络操作设置超时。</p>
+<p>Zabbix server或agent将尽可能地将请求集中到一个JMX目标（受监控项间隔影响），并将它们发送到单一连接中的Java gateway，以获得更好的性能。 建议 StartJavaPollers 小于或等于 START_POLLERS ，否则可能导致当连接Java gateway时而Java gateway没有多余的线程进行处理</p>
+</li>
+</ul>
+<h5 id="5-Zabbix-sender"><a href="#5-Zabbix-sender" class="headerlink" title="5.Zabbix sender"></a>5.Zabbix sender</h5><p>Zabbix sender 是一个命令行工具， 可以将性能数据发送到zabbix server进行处理，该应用通常用在长时间运行的用户脚本，用于定期发送可用性和性能数据。</p>
+<ul>
+<li><p>使用场景：</p>
+<p>定制脚本发送数据， 如需在agent端汇总量日志进行统计，正常情况下zabbix server 必然会超时，这时可以使用zabbix sender</p>
+</li>
+</ul>
+<h5 id="6-zabbix-get"><a href="#6-zabbix-get" class="headerlink" title="6. zabbix get"></a>6. zabbix get</h5><p>Zabbix get 是一种命令行应用，它可以用于与Zabbix agent进行通信，并从agent哪里获取所需的信息 该应用通常被用于Zabbix agent故障排除</p>
+<p>代码示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# zabbix_get -s 192.168.75.128  -p 10050 -k system.cpu.load[all]</span><br><span class="line">0.230000</span><br></pre></td></tr></table></figure>
+
+
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/03/05/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Java-gateway-3-4-15-%E7%9B%91%E6%8E%A7Tomcat/">
+                    Zabbix安装文档-Zabbix-Java-gateway-3-4-15-监控Tomcat
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/03/04/Centos-Python%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">      
+                    Centos Python开发环境配置
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

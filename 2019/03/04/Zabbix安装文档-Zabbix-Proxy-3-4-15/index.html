@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Zabbix安装文档-Zabbix-proxy-3-4-15 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Proxy-3-4-15/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Proxy-3-4-15/">Zabbix安装文档-Zabbix-proxy-3-4-15</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-03-04
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <p>Zabbix Proxy Install</p>
+<p>1.安装配置</p>
+<ul>
+<li><p>安装zabbix-proxy</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install zabbix-proxy-mysql -y</span><br></pre></td></tr></table></figure></li>
+<li><p>安装数据库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install mariadb -y</span><br></pre></td></tr></table></figure></li>
+<li><p>创建数据库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p123456 -S /data/mysql/3306/run/mysql.sock</span><br><span class="line"></span><br><span class="line">create database zabbix_proxy default character set utf8;</span><br><span class="line"></span><br><span class="line">create user zabbix_proxy@&#x27;%&#x27; identified by &#x27;zabbixproxy&#x27;;</span><br><span class="line"></span><br><span class="line">grant all on zabbix_proxy.* to zabbix_proxy@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure></li>
+<li><p>导入proxy数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/share/doc/zabbix-proxy-mysql-3.4.15</span><br><span class="line"></span><br><span class="line">zcat schema.sql.gz |mysql -uroot -p123456 -S /data/mysql/3306/run/</span><br><span class="line">mysql.sock zabbix_proxy  </span><br><span class="line"></span><br><span class="line"> mysql -uzabbix_proxy -p&#x27;zabbixproxy&#x27; -h 192.168.75.134 -P 3308 </span><br></pre></td></tr></table></figure></li>
+<li><p>编辑配置文件 /etc/zabbix/zabbix_proxy.conf</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep -Ev &#x27;^#|^$&#x27; /etc/zabbix/zabbix_proxy.conf </span><br><span class="line">Server=192.168.75.135   						#zabbix server</span><br><span class="line">ServerPort=10051								#port可以自定义</span><br><span class="line">Hostname=Zabbix proxy							#proxy主机名 自定义 可与本机hostname不一致</span><br><span class="line">LogFile=/var/log/zabbix/zabbix_proxy.log</span><br><span class="line">LogFileSize=0</span><br><span class="line">PidFile=/var/run/zabbix/zabbix_proxy.pid</span><br><span class="line">SocketDir=/var/run/zabbix</span><br><span class="line">DBHost=192.168.75.134							#数据库服务器IP</span><br><span class="line">DBName=zabbix_proxy								#数据库名称</span><br><span class="line">DBUser=zabbix_proxy								#用户名</span><br><span class="line">DBPassword=zabbixproxy							#密码</span><br><span class="line">DBPort=3308										#端口</span><br><span class="line">HeartbeatFrequency=60							#心跳检测</span><br><span class="line">ConfigFrequency=3600 							</span><br><span class="line">DataSenderFrequency=1							#proxy端向server端发送数据的时间，单位是秒</span><br><span class="line">SNMPTrapperFile=/var/log/snmptrap/snmptrap.log</span><br><span class="line">Timeout=4</span><br><span class="line">ExternalScripts=/usr/lib/zabbix/externalscripts</span><br><span class="line">LogSlowQueries=3000</span><br></pre></td></tr></table></figure></li>
+<li><p>启动服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start zabbix-proxy</span><br><span class="line">systemctl enable zabbix-proxy</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>2.Zabbix server 配置</p>
+<ul>
+<li>创建代理</li>
+</ul>
+<p><img src="Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Proxy-3-4-15/1551679914190.png" alt="1551679914190"></p>
+<p><img src="Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Proxy-3-4-15/1551683779703.png" alt="1551683779703"></p>
+<p><img src="Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Proxy-3-4-15/1551683795405.png" alt="1551683795405"></p>
+<p><img src="Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Proxy-3-4-15/1551684396176.png" alt="1551684396176"></p>
+<p>完成。</p>
+<ul>
+<li><p>报错处理 1 ：/var/log/zabbix/zabbix_proxy.log</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cannot parse proxy data from active proxy at &quot;192.168.75.134&quot;: proxy &quot;Zabbix proxy&quot; not found</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解决办法</p>
+<p>重启zabbix-proxy服务器</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>3.zabbix proxy服务器监控</p>
+<p>​    proxy 端作为服务转发端依然需要监控，这里在server端配置proxy本机监控</p>
+<ul>
+<li><p>安装zabbix-agent</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install zabbix-agent -y</span><br></pre></td></tr></table></figure></li>
+<li><p>编辑配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">grep -Ev &#x27;^#|^$&#x27; /etc/zabbix/zabbix_agentd.conf </span><br><span class="line">	PidFile=/var/run/zabbix/zabbix_agentd.pid</span><br><span class="line">	LogFile=/var/log/zabbix/zabbix_agentd.log</span><br><span class="line">	LogFileSize=0</span><br><span class="line">	Server=192.168.75.135</span><br><span class="line">	ServerActive=192.168.75.135</span><br><span class="line">	Hostname=Zabbix proxy agent</span><br><span class="line">	Include=/etc/zabbix/zabbix_agentd.d/*.conf</span><br></pre></td></tr></table></figure></li>
+<li><p>web端配置</p>
+<p><img src="Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Proxy-3-4-15/1551685484740.png" alt="1551685484740"></p>
+<p><img src="Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Proxy-3-4-15/1551685519926.png" alt="1551685519926"></p>
+</li>
+</ul>
+<p>​      </p>
+<p>​    报错信息待定 /var/log/zabbix/zabbix_server.log</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">27623:20190304:023944.705 item &quot;Zabbix proxy agent:zabbix[process,data sender,avg,busy]&quot; became not supported: Invalid second parameter.</span><br><span class="line">27623:20190304:023946.710 item &quot;Zabbix proxy agent:zabbix[process,heartbeat sender,avg,busy]&quot; became not supported: Invalid second parameter.</span><br><span class="line">27623:20190304:023951.734 item &quot;Zabbix proxy agent:zabbix[process,ipmi manager,avg,busy]&quot; became not supported: No &quot;ipmi manager&quot; processes started.</span><br><span class="line">27624:20190304:023952.735 item &quot;Zabbix proxy agent:zabbix[process,ipmi poller,avg,busy]&quot; became not supported: No &quot;ipmi poller&quot; processes started.</span><br><span class="line">27624:20190304:023953.737 item &quot;Zabbix proxy agent:zabbix[process,java poller,avg,busy]&quot; became not supported: No &quot;java poller&quot; processes started.</span><br><span class="line">27624:20190304:023956.746 item &quot;Zabbix proxy agent:zabbix[process,snmp trapper,avg,busy]&quot; became not supported: No &quot;snmp trapper&quot; processes started.</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>4.zabbix proxy下属服务器监控</p>
+<ul>
+<li><p>配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">grep -Ev &#x27;^$|^#&#x27; /etc/zabbix/zabbix_agentd.conf</span><br><span class="line">PidFile=/var/run/zabbix/zabbix_agentd.pid</span><br><span class="line">LogFile=/var/log/zabbix/zabbix_agentd.log</span><br><span class="line">LogFileSize=0</span><br><span class="line">EnableRemoteCommands=1</span><br><span class="line">Server=192.168.75.134					#zabbix proxy IP</span><br><span class="line">#Server=192.168.75.128,192.168.75.131   #当需要发送多个IP时，可做如下配置</span><br><span class="line">ServerActive=192.168.75.134				#zabbix proxy IP</span><br><span class="line">Hostname=Nginx							#主机名称， 可自定义， 可与本机hostname不同</span><br><span class="line">Timeout=8</span><br><span class="line">Include=/etc/zabbix/zabbix_agentd.d/</span><br><span class="line">UnsafeUserParameters=1</span><br></pre></td></tr></table></figure></li>
+<li><p>启动服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start zabbix-agent</span><br><span class="line">systemctl enable zabbix-agent</span><br></pre></td></tr></table></figure></li>
+<li><p>web 端配置</p>
+<p><img src="Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Proxy-3-4-15/1551686382980.png" alt="1551686382980"></p>
+<p><img src="Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Proxy-3-4-15/1551686399763.png" alt="1551686399763"></p>
+<p><img src="Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-Zabbix-Proxy-3-4-15/1551688424505.png" alt="1551688424505"></p>
+</li>
+</ul>
+<p>完成</p>
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/03/04/Centos-Python%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+                    Centos Python开发环境配置
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/03/04/Zabbix%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-%E9%85%8D%E7%BD%AE%E4%B8%AD%E6%96%87%E7%8E%AF%E5%A2%83/">      
+                    Zabbix安装文档-配置中文环境
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

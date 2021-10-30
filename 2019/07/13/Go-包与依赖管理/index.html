@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Go-包与依赖管理 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/07/13/Go-%E5%8C%85%E4%B8%8E%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E5%8C%85"><span class="toc-number">1.</span> <span class="toc-text">一 包</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-package%E4%B8%8Eimport"><span class="toc-number">1.0.1.</span> <span class="toc-text">1.1 package与import</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-GoPath"><span class="toc-number">1.0.2.</span> <span class="toc-text">1.2 GoPath</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E5%8C%85%E4%B8%AD%E7%9A%84%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">1.0.3.</span> <span class="toc-text">1.3 包中的函数调用方式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-go-mod"><span class="toc-number">2.</span> <span class="toc-text">二 go mod</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-go-mod-%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">2.0.1.</span> <span class="toc-text">2.1 go mod 的使用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E8%AF%A6%E7%BB%86%E4%BD%BF%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">2.2 详细使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-%E7%BF%BB%E5%A2%99%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="toc-number">4.</span> <span class="toc-text">三 翻墙问题解决</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-%E6%8E%A8%E8%8D%90%E6%96%B9%E5%BC%8F-GOPROXY"><span class="toc-number">4.0.1.</span> <span class="toc-text">3.1 推荐方式 GOPROXY</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-replace%E6%96%B9%E5%BC%8F"><span class="toc-number">4.0.2.</span> <span class="toc-text">3.2 replace方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-%E6%89%8B%E5%8A%A8%E4%B8%8B%E8%BD%BD-%E6%97%A7%E7%89%88go%E7%9A%84%E8%A7%A3%E5%86%B3"><span class="toc-number">4.0.3.</span> <span class="toc-text">3.3 手动下载 旧版go的解决</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-go-mod%E5%BC%95%E8%B5%B7%E7%9A%84%E5%8F%98%E5%8C%96"><span class="toc-number">5.</span> <span class="toc-text">四 go mod引起的变化</span></a></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/07/13/Go-%E5%8C%85%E4%B8%8E%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/">Go-包与依赖管理</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-07-13
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <h2 id="一-包"><a href="#一-包" class="headerlink" title="一 包"></a>一 包</h2><h4 id="1-1-package与import"><a href="#1-1-package与import" class="headerlink" title="1.1 package与import"></a>1.1 package与import</h4><p>在实际的开发中，我们往往需要在不同的文件中，去调用其它文件的定义的函数，比如 main.go 中，需要使用”fmt”包中的Println()函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>在Go中，Go的每一个文件都是属于一个包的，也就是说Go是以包的形式来管理文件和项目目录结构。所以如果要导入某些第三方包，直接输入包所在地址即可。文件的包名通常和文件所在的文件夹名一致，一般为小写字母。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">引入方式 1:import &quot;包名&quot;</span><br><span class="line">引入方式 2:</span><br><span class="line">import (</span><br><span class="line">	&quot;包名&quot;</span><br><span class="line">	&quot;包名&quot; </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>package 指令在 文件第一行，然后是 import 指令</li>
+<li>在 import 包时，路径从 $GOPATH 的 src 下开始，不用带 src , 编译器会自动从 src 下开始引入</li>
+<li>为了让其它包的文件，可以访问到本包的函数，则该函数名的首字母需要大写，类似其它语言 的 public ,这样才能跨包访问</li>
+<li>在访问其它包函数，变量时，其语法是 <code>包名.函数名</code></li>
+</ul>
+<h4 id="1-2-GoPath"><a href="#1-2-GoPath" class="headerlink" title="1.2 GoPath"></a>1.2 GoPath</h4><p>GoPath目录用来存放代码文件、可运行文件、编译后的包文件。  </p>
+<p>从1.1版本到1.7必须设置这个变量，而且不能和Go的安装目录一样，1.8版本后会有默认值：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Unix:$HOME/go</span><br><span class="line">Windows:%USERPROFILE%/go。</span><br></pre></td></tr></table></figure>
+
+<p>GOPATH允许多个目录，多个目录的时候Windows是分号，Linux系统是冒号隔开。当有多个GOPATH时，默认会将go get的内容放在第一个目录下，$GOPATH 目录约定有三个子目录：</p>
+<ul>
+<li>src:存放源代码，一般一个项目分配一个子目录;</li>
+<li>pkg:编译后生成的文件，如.a文件</li>
+<li>bin:编译后生成的可执行文件,可以加入$PATH中</li>
+</ul>
+<blockquote>
+<p>注意：一般建议package的名称和目录名保持一致</p>
+</blockquote>
+<h4 id="1-3-包中的函数调用方式"><a href="#1-3-包中的函数调用方式" class="headerlink" title="1.3 包中的函数调用方式"></a>1.3 包中的函数调用方式</h4><p>函数调用的方式：</p>
+<ul>
+<li>同包下：直接调用即可</li>
+<li>不同包下：包名.函数名</li>
+</ul>
+<h2 id="二-go-mod"><a href="#二-go-mod" class="headerlink" title="二 go mod"></a>二 go mod</h2><h4 id="2-1-go-mod-的使用"><a href="#2-1-go-mod-的使用" class="headerlink" title="2.1 go mod 的使用"></a>2.1 go mod 的使用</h4><p>go的项目依赖管理一直饱受诟病，在go1.11后正式引入了<code>go mod</code>功能，类似nodejs的npm。在go1.13版本中将会默认启用。  </p>
+<p>使用Gomod可以让项目完全摆脱GOPATH的困扰。</p>
+<p><code>go mod</code> 初步使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 开启go mod</span><br><span class="line">export GO111MODULE=on</span><br><span class="line"></span><br><span class="line"># 在新建的项目根目录下（src）下使用该命令</span><br><span class="line">go mod init 项目名                      # 此时会生成一个go.mod文件</span><br><span class="line"></span><br><span class="line"># 使用</span><br><span class="line">在项目中可以随时import依赖，当 go run 时候，会自动安装依赖，比如：</span><br><span class="line">import (</span><br><span class="line">	&quot;github.com/gin-gonic/gin&quot;</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>go run 后的 go.mod:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">module api_server</span><br><span class="line"></span><br><span class="line">go 1.12</span><br><span class="line"></span><br><span class="line">require (</span><br><span class="line">	github.com/gin-contrib/sse v0.0.0-20190301062529-5545eab6dad3 // indirect</span><br><span class="line">	github.com/gin-gonic/gin v1.3.0 // indirect</span><br><span class="line">	github.com/golang/protobuf v1.3.1 // indirect</span><br><span class="line">	github.com/mattn/go-isatty v0.0.7 // indirect</span><br><span class="line">	github.com/ugorji/go/codec v0.0.0-20190320090025-2dc34c0b8780 // indirect</span><br><span class="line">	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect</span><br><span class="line">	gopkg.in/yaml.v2 v2.2.2 // indirect</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>go mod</code>后，run产生的依赖源码不会安装在当前项目中，而是安装在：<code>$GOPATH/pkg/mod</code></p>
+<h2 id="2-2-详细使用"><a href="#2-2-详细使用" class="headerlink" title="2.2 详细使用"></a>2.2 详细使用</h2><p>详细使用地址：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/59687626">https://zhuanlan.zhihu.com/p/59687626</a></p>
+<h2 id="三-翻墙问题解决"><a href="#三-翻墙问题解决" class="headerlink" title="三 翻墙问题解决"></a>三 翻墙问题解决</h2><h4 id="3-1-推荐方式-GOPROXY"><a href="#3-1-推荐方式-GOPROXY" class="headerlink" title="3.1 推荐方式 GOPROXY"></a>3.1 推荐方式 GOPROXY</h4><p>从 Go 1.11 版本开始，还新增了 GOPROXY 环境变量，如果设置了该变量，下载源代码时将会通过这个环境变量设置的代理地址，而不再是以前的直接从代码库下载。goproxy.io 这个开源项目帮我们实现好了我们想要的。该项目允许开发者一键构建自己的 GOPROXY 代理服务。同时，也提供了公用的代理服务 <a href="https://goproxy.io，我们只需设置该环境变量即可正常下载被墙的源码包了：">https://goproxy.io，我们只需设置该环境变量即可正常下载被墙的源码包了：</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 开发时设置Goland的Prefrence-Go-proxy即可</span><br><span class="line"></span><br><span class="line"># linux开启代理</span><br><span class="line">export GOPROXY=https://goproxy.io			# 注意：必须开启go mod才能使用</span><br><span class="line"></span><br><span class="line"># win开启代理</span><br><span class="line">$env:GOPROXY = &quot;https://goproxy.io&quot;</span><br><span class="line"></span><br><span class="line"># 关闭代理</span><br><span class="line">export GOPROXY=</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-replace方式"><a href="#3-2-replace方式" class="headerlink" title="3.2 replace方式"></a>3.2 replace方式</h4><p>从 Go 1.11 版本开始，新增支持了 go modules 用于解决包依赖管理问题。该工具提供了 replace，就是为了解决包的别名问题，也能替我们解决 golang.org/x 无法下载的的问题。</p>
+<p>go module 被集成到原生的 go mod 命令中，但是如果你的代码库在 $GOPATH 中，module 功能是默认不会开启的，想要开启也非常简单，通过一个环境变量即可开启 export GO111MODULE=on。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">module example.com/hello</span><br><span class="line"></span><br><span class="line">require (</span><br><span class="line">    golang.org/x/text v0<span class="number">.3</span><span class="number">.0</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">replace (</span><br><span class="line">    golang.org/x/text =&gt; github.com/golang/text v0<span class="number">.3</span><span class="number">.0</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-手动下载-旧版go的解决"><a href="#3-3-手动下载-旧版go的解决" class="headerlink" title="3.3 手动下载 旧版go的解决"></a>3.3 手动下载 旧版go的解决</h4><p>我们常见的 golang.org/x/… 包，一般在 GitHub 上都有官方的镜像仓库对应。比如 golang.org/x/text 对应 github.com/golang/text。所以，我们可以手动下载或 clone 对应的 GitHub 仓库到指定的目录下。</p>
+<p>mkdir $GOPATH/src/golang.org/x<br>cd $GOPATH/src/golang.org/x<br>git clone <a href="mailto:&#x67;&#105;&#116;&#x40;&#103;&#105;&#116;&#x68;&#117;&#x62;&#x2e;&#x63;&#111;&#x6d;">&#x67;&#105;&#116;&#x40;&#103;&#105;&#116;&#x68;&#117;&#x62;&#x2e;&#x63;&#111;&#x6d;</a>:golang/text.git<br>rm -rf text/.git<br>当如果需要指定版本的时候，该方法就无解了，因为 GitHub 上的镜像仓库多数都没有 tag。并且，手动嘛，程序员怎么能干呢，尤其是依赖的依赖，太多了。</p>
+<h2 id="四-go-mod引起的变化"><a href="#四-go-mod引起的变化" class="headerlink" title="四 go mod引起的变化"></a>四 go mod引起的变化</h2><p>引包方式变化：</p>
+<ul>
+<li>不使用go mod 引包：”./test”  引入test文件夹</li>
+<li>使用go mod 引包：”projectmodlue/test” 使用go.mod中的modlue名/包名</li>
+</ul>
+<p>因为在go1.11后如果开启了<code>go mod</code>，需要在src目录下存在go.mod文件，并书写主module名（一般为项目名），否则无法build。</p>
+<p>开启<code>go mod</code>编译运行变化：</p>
+<ul>
+<li>使用vscode开发，必须在src目录下使用 <code>go build</code>命令执行，不要使用code runner插件</li>
+<li>使用IDEA开发，项目本身配置go.mod文件扔不能支持，开发工具本身也要开启<code>go mod</code>支持（位于配置的go设置中）</li>
+</ul>
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/07/13/Go-%E6%A0%87%E8%AF%86%E7%AC%A6%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+                    Go-标识符与数据类型
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/07/13/Go-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">      
+                    GO-常用命令
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

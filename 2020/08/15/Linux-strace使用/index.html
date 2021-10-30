@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Linux strace使用 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2020/08/15/Linux-strace%E4%BD%BF%E7%94%A8/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#strace%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">strace工具介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">参数解析</span></a></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2020/08/15/Linux-strace%E4%BD%BF%E7%94%A8/">Linux strace使用</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2020-08-15
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <blockquote>
+<p>在操作系统运维中会出现程序或系统命令运行失败，通过报错和日志无法定位问题根本原因</p>
+<p>比如keepalive脚本执行失败，但是体现在日志中是其他提示，没有相关报错</p>
+<p>如何在没有内核或程序代码的情况下查看系统调用的进程</p>
+</blockquote>
+<h4 id="strace工具介绍"><a href="#strace工具介绍" class="headerlink" title="strace工具介绍"></a>strace工具介绍</h4><ul>
+<li>strace是一个非常有用的诊断、说明和调试工具，Linux系统管理员可以在不需要源代码的情况下即可跟踪系统调用情况</li>
+<li>strace显示有关进程的系统调用的信息，这可以帮助确定一个程序使用的哪个函数，当然在系统出现问题时可以使用strace定位系统调用过程中失败的原因，这是定位系统问题的很好的解决办法</li>
+</ul>
+<h4 id="参数解析"><a href="#参数解析" class="headerlink" title="参数解析"></a>参数解析</h4><ul>
+<li><p>-c</p>
+<p>统计每一体统调用所执行的时间，次数和出错的次数等</p>
+<p>例如：打印执行uptime时系统调用的时间、次数、出错次数和syscall</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> strace -c uptime</span> </span><br><span class="line"> 11:05:10 up 42 min,  3 users,  load average: 0.24, 0.14, 0.14</span><br><span class="line"><span class="meta">%</span><span class="bash"> time     seconds  usecs/call     calls    errors syscall</span></span><br><span class="line">------ ----------- ----------- --------- --------- ----------------</span><br><span class="line"> 27.11    0.000247           3        67           mmap</span><br><span class="line"> 26.45    0.000241           3        61        30 open</span><br><span class="line"> 19.98    0.000182           4        44           mprotect</span><br><span class="line">  7.79    0.000071           2        29           fstat</span><br><span class="line">  6.70    0.000061           1        37           read</span><br><span class="line">  4.94    0.000045           1        31           close</span><br><span class="line">  2.20    0.000020           2         9         7 stat</span><br><span class="line">  0.99    0.000009           0        21           alarm</span><br><span class="line">  0.88    0.000008           0        16           rt_sigaction</span><br><span class="line">  0.77    0.000007           0        14           fcntl</span><br><span class="line">  0.55    0.000005           1         4         3 access</span><br><span class="line">  0.44    0.000004           4         1           write</span><br><span class="line">  0.33    0.000003           0         6           munmap</span><br><span class="line">  0.33    0.000003           3         1           execve</span><br><span class="line">  0.22    0.000002           0         3           brk</span><br><span class="line">  0.22    0.000002           2         1           arch_prctl</span><br><span class="line">  0.11    0.000001           0         4           lseek</span><br><span class="line">  0.00    0.000000           0         1           rt_sigprocmask</span><br><span class="line">  0.00    0.000000           0         1           uname</span><br><span class="line">  0.00    0.000000           0         1           getrlimit</span><br><span class="line">  0.00    0.000000           0         2         2 statfs</span><br><span class="line">  0.00    0.000000           0         1           set_tid_address</span><br><span class="line">  0.00    0.000000           0         1           set_robust_list</span><br><span class="line">------ ----------- ----------- --------- --------- ----------------</span><br><span class="line">100.00    0.000911                   356        42 total</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>-d</p>
+<p>显示有关标准错误的strace本身的一些调试输入</p>
+</li>
+<li><p>-f</p>
+<p>跟踪子进程，这些子进程是由于fork(2)系统调用而由当前跟踪的进程创建的</p>
+</li>
+<li><p>-i</p>
+<p>在系统调用时打印指针命令</p>
+</li>
+<li><p>-t</p>
+<p>跟踪的每一行都以时间为前缀</p>
+</li>
+<li><p>-tt</p>
+<p>如果给出两次，则打印时间包含微秒</p>
+</li>
+<li><p>-ttt</p>
+<p>如果给定三次，则打印时间将包括微秒，并且前导部分将打印为自该**以来的秒数</p>
+</li>
+<li><p>-T</p>
+<p>显示花费在系统调用上的时间，这将记录每个系统调用的开始和结束之间的时间差</p>
+</li>
+<li><p>-v</p>
+<p>打印环境，统计信息，temios等调用的未缩写版本，这些结构在调用中非常常见，因此默认行为显示了结构成员的合理子集，使用此选项可获取所有详细信息</p>
+</li>
+<li><p>-V</p>
+<p>显示版本号</p>
+</li>
+<li><p>-e expr</p>
+<p>限度表达式，用于修改要跟踪的事件或如何跟踪他们</p>
+</li>
+<li><p>-e trace=set</p>
+<p>仅跟踪指定的系统调用集，该-c 选项用于确定哪些系统调用可能时跟踪有用的，例如：trace=open，close，read，write表示仅跟踪这四个系统调用</p>
+</li>
+<li><p>-e trace=file</p>
+<p>跟踪所有以文件名作为参数的系统调用</p>
+<p>例如：打印执行ls时跟文件有关的调用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">[root@yangkai ~]# strace -e trace=file ls</span><br><span class="line">execve(&quot;/usr/bin/ls&quot;, [&quot;ls&quot;], 0x7fff24a1d180 /* 37 vars */) = 0</span><br><span class="line">access(&quot;/etc/ld.so.preload&quot;, R_OK)      = -1 ENOENT (No such file or directory)</span><br><span class="line">open(&quot;/usr/local/lib/tls/x86_64/libselinux.so.1&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</span><br><span class="line">stat(&quot;/usr/local/lib/tls/x86_64&quot;, 0x7ffeed24d4d0) = -1 ENOENT (No such file or directory)</span><br><span class="line">open(&quot;/usr/local/lib/tls/libselinux.so.1&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</span><br><span class="line">stat(&quot;/usr/local/lib/tls&quot;, 0x7ffeed24d4d0) = -1 ENOENT (No such file or directory)</span><br><span class="line">open(&quot;/usr/local/lib/x86_64/libselinux.so.1&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</span><br><span class="line">stat(&quot;/usr/local/lib/x86_64&quot;, 0x7ffeed24d4d0) = -1 ENOENT (No such file or directory)</span><br><span class="line">open(&quot;/usr/local/lib/libselinux.so.1&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</span><br><span class="line">stat(&quot;/usr/local/lib&quot;, &#123;st_mode=S_IFDIR|0755, st_size=248, ...&#125;) = 0</span><br><span class="line">open(&quot;/etc/ld.so.cache&quot;, O_RDONLY|O_CLOEXEC) = 3</span><br><span class="line">open(&quot;/lib64/libselinux.so.1&quot;, O_RDONLY|O_CLOEXEC) = 3</span><br><span class="line">open(&quot;/usr/local/lib/libcap.so.2&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</span><br><span class="line">open(&quot;/lib64/libcap.so.2&quot;, O_RDONLY|O_CLOEXEC) = 3</span><br><span class="line">open(&quot;/usr/local/lib/libacl.so.1&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</span><br><span class="line">open(&quot;/lib64/libacl.so.1&quot;, O_RDONLY|O_CLOEXEC) = 3</span><br><span class="line">open(&quot;/usr/local/lib/libc.so.6&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</span><br><span class="line">open(&quot;/lib64/libc.so.6&quot;, O_RDONLY|O_CLOEXEC) = 3</span><br><span class="line">open(&quot;/usr/local/lib/libpcre.so.1&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</span><br><span class="line">open(&quot;/lib64/libpcre.so.1&quot;, O_RDONLY|O_CLOEXEC) = 3</span><br><span class="line">open(&quot;/usr/local/lib/libdl.so.2&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</span><br><span class="line">open(&quot;/lib64/libdl.so.2&quot;, O_RDONLY|O_CLOEXEC) = 3</span><br><span class="line">open(&quot;/usr/local/lib/libattr.so.1&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</span><br><span class="line">open(&quot;/lib64/libattr.so.1&quot;, O_RDONLY|O_CLOEXEC) = 3</span><br><span class="line">open(&quot;/usr/local/lib/libpthread.so.0&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</span><br><span class="line">open(&quot;/lib64/libpthread.so.0&quot;, O_RDONLY|O_CLOEXEC) = 3</span><br><span class="line">statfs(&quot;/sys/fs/selinux&quot;, 0x7ffeed24ecc0) = -1 ENOENT (No such file or directory)</span><br><span class="line">statfs(&quot;/selinux&quot;, 0x7ffeed24ecc0)      = -1 ENOENT (No such file or directory)</span><br><span class="line">open(&quot;/proc/filesystems&quot;, O_RDONLY)     = 3</span><br><span class="line">stat(&quot;/etc/sysconfig/64bit_strstr_via_64bit_strstr_sse2_unaligned&quot;, 0x7ffeed24e830) = -1 ENOENT (No such file or directory)</span><br><span class="line">access(&quot;/etc/selinux/config&quot;, F_OK)     = 0</span><br><span class="line">open(&quot;/usr/lib/locale/locale-archive&quot;, O_RDONLY|O_CLOEXEC) = 3</span><br><span class="line">openat(AT_FDCWD, &quot;.&quot;, O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3</span><br><span class="line">open(&quot;/usr/lib64/gconv/gconv-modules.cache&quot;, O_RDONLY) = 3</span><br><span class="line">actions-runner-linux-x64-2.263.0.tar.gz  downloads		       github			     response_data_handler.py  vim-8.1.2033		      yhkl-projects</span><br><span class="line">assignment				 Envs			       go			     snap		       weibo_freshdata.2020-04-10     yunshu_ningxia20200806.DMP</span><br><span class="line">assignment_yhkl.zip			 extraWork		       p7zip_9.20.1_src_all.tar.bz2  source.ini		       weibo_freshdata.2020-04-10.7z  编写高质量代码_改善Python程序的91个建议.pdf</span><br><span class="line">db-aggretaion				 foreign-organizations-client  postgis-2.5.1		     test_local_speed.txt      work_dir			      计算的本质：深入剖析程序和计算机_截取版.pdf</span><br><span class="line">doc					 gdb-8.3.1.tar.gz	       python36			     TurtleDove		       y</span><br><span class="line">docker-compose.yml			 geoserver-2.16.0	       requirements.txt		     v2ray		       yhkl.pem</span><br><span class="line">+++ exited with 0 +++</span><br></pre></td></tr></table></figure></li>
+<li><p>-e trace=process</p>
+<p>跟踪涉及过程管理的所有系统调用，对于观察进程的派生，等待和执行步骤很有用</p>
+</li>
+<li><p>-e trace=network</p>
+<p>跟踪所有与网络相关的系统调用</p>
+</li>
+<li><p>-e trace=signal</p>
+<p>跟踪所有信号相关的系统调用</p>
+</li>
+<li><p>-e trace=ipc</p>
+<p>跟踪所有与ipc相关的系统调用</p>
+</li>
+<li><p>-o filename</p>
+<p>将跟踪输出写入导文件中而不是stderr</p>
+</li>
+<li><p>-p pid</p>
+<p>使用进程ID pid附加导该进程并开始跟踪，跟踪可以随时通过键盘中断信号（Ctrl-C）终止</p>
+</li>
+<li><p>-S </p>
+<p>按指定条件对-c选项打印的直方图输出进行排序</p>
+<p>例如：打印执行uname系统调用中calls的次数排序</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@yangkai ~]# strace -fc -S calls uname </span><br><span class="line">Linux</span><br><span class="line"><span class="meta">%</span><span class="bash"> time     seconds  usecs/call     calls    errors syscall</span></span><br><span class="line">------ ----------- ----------- --------- --------- ----------------</span><br><span class="line"> 18.58    0.000047           5         9           mmap</span><br><span class="line"> 20.55    0.000052           7         7         4 open</span><br><span class="line">  3.95    0.000010           2         5           close</span><br><span class="line"> 13.83    0.000035           8         4         3 stat</span><br><span class="line">  3.95    0.000010           2         4           fstat</span><br><span class="line">  6.72    0.000017           4         4           mprotect</span><br><span class="line">  7.51    0.000019           4         4           brk</span><br><span class="line">  5.14    0.000013           6         2           munmap</span><br><span class="line">  1.19    0.000003           3         1           read</span><br><span class="line">  2.37    0.000006           6         1           write</span><br><span class="line">  9.09    0.000023          23         1         1 access</span><br><span class="line">  5.53    0.000014          14         1           execve</span><br><span class="line">  0.79    0.000002           2         1           uname</span><br><span class="line">  0.79    0.000002           2         1           arch_prctl</span><br><span class="line">------ ----------- ----------- --------- --------- ----------------</span><br><span class="line">100.00    0.000253                    45         8 total</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2020/08/24/Python%E5%BC%82%E5%B8%B8%E7%B1%BB%E7%9A%84%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84/">
+                    Python异常类的层次结构
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2020/06/06/PostgreSQL-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">      
+                    PostgreSQL 常用命令
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

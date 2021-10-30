@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Prometheus--安装及简单使用 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/05/28/Prometheus-%E5%AE%89%E8%A3%85%E5%8F%8A%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Prometheus%E7%BB%84%E6%88%90%E5%8F%8A%E6%9E%B6%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">1. Prometheus组成及架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Prometheus-%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">2. Prometheus 安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Prometheus-docker%E5%AE%89%E8%A3%85"><span class="toc-number">3.</span> <span class="toc-text">3. Prometheus docker安装</span></a></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/05/28/Prometheus-%E5%AE%89%E8%A3%85%E5%8F%8A%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/">Prometheus--安装及简单使用</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-05-28
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <blockquote>
+<p>Prometheus 是一套开源的系统监控报警框架,  广泛用于 Kubernetes 集群的监控系统</p>
+</blockquote>
+<h4 id="1-Prometheus组成及架构"><a href="#1-Prometheus组成及架构" class="headerlink" title="1. Prometheus组成及架构"></a>1. Prometheus组成及架构</h4><p>Prometheus 生态圈中包含了多个组件，其中许多组件是可选的：</p>
+<ul>
+<li><strong>Prometheus Server</strong>: 用于收集和存储时间序列数据。</li>
+<li><strong>Client Library</strong>: 客户端库，为需要监控的服务生成相应的 metrics 并暴露给 Prometheus server。当 Prometheus server 来 pull 时，直接返回实时状态的 metrics。</li>
+<li><strong>Push Gateway</strong>: 主要用于短期的 jobs。由于这类 jobs 存在时间较短，可能在 Prometheus 来 pull 之前就消失了。为此，这次 jobs 可以直接向 Prometheus server 端推送它们的 metrics。这种方式主要用于服务层面的 metrics，对于机器层面的 metrices，需要使用 node exporter。</li>
+<li><strong>Exporters</strong>: 用于暴露已有的第三方服务的 metrics 给 Prometheus。</li>
+<li><strong>Alertmanager</strong>: 从 Prometheus server 端接收到 alerts 后，会进行去除重复数据，分组，并路由到对收的接受方式，发出报警。常见的接收方式有：电子邮件，pagerduty，OpsGenie, webhook 等。</li>
+<li>一些其他的工具。</li>
+</ul>
+<p>架构图</p>
+<p><img src="https://www.ibm.com/developerworks/cn/cloud/library/cl-lo-prometheus-getting-started-and-practice/image001.png" alt="img"></p>
+<p>工作流程：</p>
+<ol>
+<li>Prometheus server 定期从配置好的 jobs 或者 exporters 中拉 metrics，或者接收来自 Pushgateway 发过来的 metrics，或者从其他的 Prometheus server 中拉 metrics。</li>
+<li>Prometheus server 在本地存储收集到的 metrics，并运行已定义好的 alert.rules，记录新的时间序列或者向 Alertmanager 推送警报。</li>
+<li>Alertmanager 根据配置文件，对接收到的警报进行处理，发出告警。</li>
+<li>在图形界面中，可视化采集数据。</li>
+</ol>
+<h4 id="2-Prometheus-安装"><a href="#2-Prometheus-安装" class="headerlink" title="2. Prometheus 安装"></a>2. Prometheus 安装</h4><ul>
+<li><p>下载Prometheus安装包及node_expoter安装包并解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> wget https://github.com/prometheus/prometheus/releases/download/v2.10.0/prometheus-2.10.0.linux-amd64.tar.gz</span> </span><br><span class="line">(python36env) [root@localhost src]# tar xf prometheus-2.10.0.linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> wget https://github.com/prometheus/node_exporter/releases/download/v0.18.0/node_exporter-0.18.0.linux-amd64.tar.gz</span></span><br><span class="line">(python36env) [root@localhost src]# tar xf node_exporter-0.18.0.linux-amd64.tar.gz</span><br></pre></td></tr></table></figure></li>
+<li><p>启动prometheus</p>
+<p>默认情况下，直接执行prometheus目录下的Prometheus即可启动服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">(python36env) [root@localhost src]# cd prometheus-2.10.0.linux-amd64</span><br><span class="line">(python36env) [root@localhost prometheus-2.10.0.linux-amd64]# ./prometheus</span><br><span class="line">level=info ts=2019-05-28T03:32:08.501Z caller=main.go:286 msg=&quot;no time or size retention was set so using thedefault time retention&quot; duration=15d</span><br><span class="line">level=info ts=2019-05-28T03:32:08.501Z caller=main.go:322 msg=&quot;Starting Prometheus&quot; version=&quot;(version=2.10.0,branch=HEAD, revision=d20e84d0fb64aff2f62a977adc8cfb656da4e286)&quot;</span><br><span class="line">level=info ts=2019-05-28T03:32:08.501Z caller=main.go:323 build_context=&quot;(go=go1.12.5, user=root@a49185acd9b0, date=20190525-12:28:13)&quot;</span><br><span class="line">level=info ts=2019-05-28T03:32:08.501Z caller=main.go:324 host_details=&quot;(Linux 3.10.0-957.el7.x86_64 #1 SMP Thu Nov 8 23:39:32 UTC 2018 x86_64 localhost.localdomain (none))&quot;</span><br><span class="line">level=info ts=2019-05-28T03:32:08.501Z caller=main.go:325 fd_limits=&quot;(soft=1024, hard=4096)&quot;</span><br><span class="line">level=info ts=2019-05-28T03:32:08.501Z caller=main.go:326 vm_limits=&quot;(soft=unlimited, hard=unlimited)&quot;</span><br><span class="line">level=info ts=2019-05-28T03:32:08.503Z caller=main.go:645 msg=&quot;Starting TSDB ...&quot;</span><br><span class="line">level=info ts=2019-05-28T03:32:08.579Z caller=web.go:417 component=web msg=&quot;Start listening for connections&quot; address=0.0.0.0:9090</span><br><span class="line">level=info ts=2019-05-28T03:32:08.584Z caller=main.go:660 fs_type=XFS_SUPER_MAGIC</span><br><span class="line">level=info ts=2019-05-28T03:32:08.584Z caller=main.go:661 msg=&quot;TSDB started&quot;</span><br><span class="line">level=info ts=2019-05-28T03:32:08.584Z caller=main.go:730 msg=&quot;Loading configuration file&quot; filename=prometheus.yml</span><br><span class="line">level=info ts=2019-05-28T03:32:08.587Z caller=main.go:758 msg=&quot;Completed loading of configuration file&quot; filename=prometheus.yml</span><br><span class="line">level=info ts=2019-05-28T03:32:08.588Z caller=main.go:614 msg=&quot;Server is ready to receive web requests.</span><br></pre></td></tr></table></figure>
+
+<p>服务器地址 <a target="_blank" rel="noopener" href="http://localhost:9090/">http://localhost:9090/</a></p>
+<p><img src="Prometheus-%E5%AE%89%E8%A3%85%E5%8F%8A%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/1559014446298.png" alt="1559014446298"></p>
+<p><img src="Prometheus-%E5%AE%89%E8%A3%85%E5%8F%8A%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/1559014477687.png" alt="1559014477687"></p>
+<p>默认情况下，Prometheus会读取默认配置 ， 默认配置如下：</p>
+<p><code>prometheus.yml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># my global config</span></span><br><span class="line"><span class="attr">global:</span> <span class="comment"># 全局设置，可以被覆盖</span></span><br><span class="line">  <span class="attr">scrape_interval:</span>     <span class="string">15s</span> <span class="comment"># 默认值为 15s，用于设置每次数据收集的间隔</span></span><br><span class="line">  <span class="attr">evaluation_interval:</span> <span class="string">15s</span> <span class="comment"># 所有时间序列和警告与外部通信时用的外部标签</span></span><br><span class="line">  <span class="comment"># scrape_timeout is set to the global default (10s).</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Alertmanager configuration</span></span><br><span class="line"><span class="attr">alerting:</span></span><br><span class="line">  <span class="attr">alertmanagers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">static_configs:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">targets:</span></span><br><span class="line">      <span class="comment"># - alertmanager:9093</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Load rules once and periodically evaluate them according to the global &#x27;evaluation_interval&#x27;.</span></span><br><span class="line"><span class="attr">rule_files:</span>  <span class="comment"># 	警告规则设置文件</span></span><br><span class="line">  <span class="comment"># - &quot;first_rules.yml&quot;</span></span><br><span class="line">  <span class="comment"># - &quot;second_rules.yml&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A scrape configuration containing exactly one endpoint to scrape:</span></span><br><span class="line"><span class="comment"># Here it&#x27;s Prometheus itself.</span></span><br><span class="line"><span class="comment"># 用于配置 scrape 的 endpoint  配置需要 scrape 的 targets 以及相应的参数</span></span><br><span class="line"><span class="attr">scrape_configs:</span></span><br><span class="line">  <span class="comment"># The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">job_name:</span> <span class="string">&#x27;prometheus&#x27;</span>  </span><br><span class="line"> <span class="comment"># 一定要全局唯一, 采集 Prometheus 自身的 metrics</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># metrics_path defaults to &#x27;/metrics&#x27;</span></span><br><span class="line">    <span class="comment"># scheme defaults to &#x27;http&#x27;.</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">static_configs:</span> <span class="comment"># 静态目标的配置 </span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">targets:</span> [<span class="string">&#x27;localhost:9090&#x27;</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>  以守护进程方式运行</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> daemonize -c /data/prometheus/ /data/prometheus/up.sh</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cat  /data/prometheus/up.sh</span></span><br><span class="line">/data/prometheus/prometheus --web.listenaddress=&quot;0.0.0.0:9090&quot;        --web.read-timeout=5m    --web.maxconnections=10  --storage.tsdb.retention=15d  --</span><br><span class="line">storage.tsdb.path=&quot;data/&quot;   --query.max-concurrency=20   --</span><br><span class="line">query.timeout=2m</span><br></pre></td></tr></table></figure>
+
+<p>  参数说明</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">--web.read-timeout=5m  Maximum duration before timing out read of the request, and closing idle connections.请求链接的最⼤等待时间 prometheus process -&gt; GET PUSH 防⽌太多的空闲链接 占⽤资源</span><br><span class="line"></span><br><span class="line">--web.max-connections=512  Maximum number of simultaneous connections.</span><br><span class="line">最⼤链接数</span><br><span class="line"></span><br><span class="line">--storage.tsdb.retention=15d  How long to retain samples in the storage.</span><br><span class="line">prometheus开始采集监控数据后 会存在内存中和硬盘中对于保留期限的设置 很重要 太长的话 硬盘和内存都吃不消 太短的话 要查历史数据就没有了 企业中设置 15天为宜</span><br><span class="line"></span><br><span class="line">--storage.tsdb.path=&quot;data/&quot;  Base path for metrics storage.</span><br><span class="line">存储数据路径 这个也很重要,不要随便放在⼀个地⽅就执⾏ 会把/ 根⽬录塞满了</span><br><span class="line"></span><br><span class="line">--query.timeout=2m     Maximum time a query may take before being aborted.</span><br><span class="line"></span><br><span class="line">--query.max-concurrency=20   Maximum number of queries executed</span><br><span class="line">concurrently.</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><p>启动node_exporter</p>
+<p>同样的， node_exporter 也不需要配置即可直接执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">(python36env) [root@localhost node_exporter-0.18.0.linux-amd64]# nohup ./node_exporter &amp;</span><br><span class="line">(python36env) [root@localhost node_exporter-0.18.0.linux-amd64]# cat nohup.out</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot;Starting node_exporter (version=0.18.0, branch=HEAD, revision=f97f01c46cfde2ff97b5539b7964f3044c04947b)&quot; source=&quot;node_exporter.go:156&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot;Build context (go=go1.12.5, user=root@77cb1854c0b0, date=20190509-23:12:18)&quot; source=&quot;node_exporter.go:157&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot;Enabled collectors:&quot; source=&quot;node_exporter.go:97&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - arp&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - bcache&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - bonding&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - conntrack&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - cpu&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - cpufreq&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - diskstats&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - edac&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - entropy&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - filefd&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - filesystem&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - hwmon&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - infiniband&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - ipvs&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - loadavg&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - mdadm&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - meminfo&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - netclass&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - netdev&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - netstat&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - nfs&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - nfsd&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - pressure&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - sockstat&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - stat&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - textfile&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - time&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - timex&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - uname&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - vmstat&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - xfs&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot; - zfs&quot; source=&quot;node_exporter.go:104&quot;</span><br><span class="line">time=&quot;2019-05-28T11:53:51+08:00&quot; level=info msg=&quot;Listening on :9100&quot; source=&quot;node_exporter.go:170&quot;</span><br></pre></td></tr></table></figure>
+
+<p>访问 <a target="_blank" rel="noopener" href="http://localhost:9100/metrics">http://localhost:9100/metrics</a> 可以看到数据</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">(python36env) [root@localhost node_exporter-0.18.0.linux-amd64]# curl   http://localhost:9100/metrics </span><br><span class="line"><span class="meta">#</span><span class="bash"> HELP go_gc_duration_seconds A summary of the GC invocation durations.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> TYPE go_gc_duration_seconds summary</span></span><br><span class="line">go_gc_duration_seconds&#123;quantile=&quot;0&quot;&#125; 0</span><br><span class="line">go_gc_duration_seconds&#123;quantile=&quot;0.25&quot;&#125; 0</span><br><span class="line">go_gc_duration_seconds&#123;quantile=&quot;0.5&quot;&#125; 0</span><br><span class="line">go_gc_duration_seconds&#123;quantile=&quot;0.75&quot;&#125; 0</span><br><span class="line">go_gc_duration_seconds&#123;quantile=&quot;1&quot;&#125; 0</span><br><span class="line">go_gc_duration_seconds_sum 0</span><br><span class="line">go_gc_duration_seconds_count 0</span><br><span class="line"><span class="meta">#</span><span class="bash"> HELP go_goroutines Number of goroutines that currently exist.</span></span><br><span class="line">数据较多 不一一展示</span><br></pre></td></tr></table></figure></li>
+<li><p>配置prometheus 收集 node_exporter数据（pull模式）</p>
+<p>vim prometheus.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># my global config</span></span><br><span class="line"><span class="attr">global:</span></span><br><span class="line">  <span class="attr">scrape_interval:</span>     <span class="string">15s</span> <span class="comment"># Set the scrape interval to every 15 seconds. Default is every 1 minute.</span></span><br><span class="line">  <span class="attr">evaluation_interval:</span> <span class="string">15s</span> <span class="comment"># Evaluate rules every 15 seconds. The default is every 1 minute.</span></span><br><span class="line">  <span class="comment"># scrape_timeout is set to the global default (10s).</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Alertmanager configuration</span></span><br><span class="line"><span class="attr">alerting:</span></span><br><span class="line">  <span class="attr">alertmanagers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">static_configs:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">targets:</span></span><br><span class="line">      <span class="comment"># - alertmanager:9093</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Load rules once and periodically evaluate them according to the global &#x27;evaluation_interval&#x27;.</span></span><br><span class="line"><span class="attr">rule_files:</span></span><br><span class="line">  <span class="comment"># - &quot;first_rules.yml&quot;</span></span><br><span class="line">  <span class="comment"># - &quot;second_rules.yml&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A scrape configuration containing exactly one endpoint to scrape:</span></span><br><span class="line"><span class="comment"># Here it&#x27;s Prometheus itself.</span></span><br><span class="line"><span class="attr">scrape_configs:</span></span><br><span class="line">  <span class="comment"># The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">job_name:</span> <span class="string">&#x27;prometheus&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># metrics_path defaults to &#x27;/metrics&#x27;</span></span><br><span class="line">    <span class="comment"># scheme defaults to &#x27;http&#x27;.</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">static_configs:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">targets:</span> [<span class="string">&#x27;localhost:9090&#x27;</span>]</span><br><span class="line"></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">job_name:</span> <span class="string">&#x27;node&#x27;</span> <span class="comment"># 必须全局唯一</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># metrics_path defaults to &#x27;/metrics&#x27;</span></span><br><span class="line">    <span class="comment"># scheme defaults to &#x27;http&#x27;.</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">static_configs:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">targets:</span> [<span class="string">&#x27;localhost:9100&#x27;</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>访问 <a target="_blank" rel="noopener" href="http://localhost:9090/%E6%9F%A5%E7%9C%8B">http://localhost:9090/查看</a></p>
+<p><img src="Prometheus-%E5%AE%89%E8%A3%85%E5%8F%8A%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/1559015956232.png" alt="1559015956232"></p>
+</li>
+</ul>
+<h4 id="3-Prometheus-docker安装"><a href="#3-Prometheus-docker安装" class="headerlink" title="3. Prometheus docker安装"></a>3. Prometheus docker安装</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker image pull prom/prometheus</span></span><br></pre></td></tr></table></figure>
+
+<p>启动 Prometheus 容器，并把服务绑定在本机的 9090 端口</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(python36env) [root@localhost ~]# docker run -d -p 9090:9090 \</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> -v /usr/<span class="built_in">local</span>/src/prometheus-2.10.0.linux-amd64/prometheus.yml:/etc/prometheus/prometheus.yml \</span></span><br><span class="line"><span class="bash">&gt; --name prometheus \</span></span><br><span class="line"><span class="bash">&gt; --net=host \</span></span><br><span class="line"><span class="bash">&gt; prom/prometheus</span></span><br><span class="line">WARNING: Published ports are discarded when using host network mode</span><br><span class="line">f138f3ade04bc45d564413460767a92c32640947fe7874044d1e40c3495799de</span><br><span class="line">(python36env) [root@localhost ~]# docker container ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES</span><br><span class="line">f138f3ade04b        prom/prometheus     &quot;/bin/prometheus --c…&quot;   12 seconds ago      Up 11 seconds               prometheus</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>访问 <a target="_blank" rel="noopener" href="http://localhost:9090/">http://localhost:9090/</a></p>
+<p><img src="Prometheus-%E5%AE%89%E8%A3%85%E5%8F%8A%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/1559024255541.png" alt="1559024255541"></p>
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/05/28/Prometheus-%E7%9B%91%E6%8E%A7%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/">
+                    Prometheus--监控数据模型
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/05/27/Python-namedtuple-%E5%91%BD%E5%90%8D%E5%85%83%E7%A5%96%E7%9A%84%E4%BD%BF%E7%94%A8/">      
+                    Python namedtuple 命名元祖的使用
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

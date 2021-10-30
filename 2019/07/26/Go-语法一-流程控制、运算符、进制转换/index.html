@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Go-语法一-流程控制、运算符、进制转换 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/07/26/Go-%E8%AF%AD%E6%B3%95%E4%B8%80-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E3%80%81%E8%BF%90%E7%AE%97%E7%AC%A6%E3%80%81%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6"><span class="toc-number">1.</span> <span class="toc-text">一、流程控制</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.1.</span> <span class="toc-text">1. 条件语句</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.2.</span> <span class="toc-text">2. 循环语句</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">2.</span> <span class="toc-text">二、运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E8%BF%90%E7%AE%97%E7%AC%A6%E6%B1%87%E6%80%BB"><span class="toc-number">2.1.</span> <span class="toc-text">1.运算符汇总</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-go%E8%87%AA%E5%A2%9E%E5%92%8C%E8%87%AA%E5%87%8F"><span class="toc-number">2.2.</span> <span class="toc-text">2.go自增和自减</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="toc-number">2.3.</span> <span class="toc-text">3.位运算</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">2.4.</span> <span class="toc-text">4.优先级</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E8%BF%9B%E5%88%B6%E4%B8%8E%E8%BD%AC%E6%8D%A2"><span class="toc-number">3.</span> <span class="toc-text">三、进制与转换</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%B8%B8%E8%A7%81%E8%BF%9B%E5%88%B6"><span class="toc-number">3.1.</span> <span class="toc-text">1.常见进制</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E4%BB%BB%E6%84%8F%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%8D%81%E8%BF%9B%E5%88%B6"><span class="toc-number">3.2.</span> <span class="toc-text">2.任意进制转换为十进制</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E5%8F%8D%E7%A0%81%E8%A1%A5%E7%A0%81"><span class="toc-number">3.3.</span> <span class="toc-text">3.反码补码</span></a></li></ol></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/07/26/Go-%E8%AF%AD%E6%B3%95%E4%B8%80-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E3%80%81%E8%BF%90%E7%AE%97%E7%AC%A6%E3%80%81%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2/">Go-语法一-流程控制、运算符、进制转换</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-07-26
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <h4 id="一、流程控制"><a href="#一、流程控制" class="headerlink" title="一、流程控制"></a>一、流程控制</h4><h5 id="1-条件语句"><a href="#1-条件语句" class="headerlink" title="1. 条件语句"></a>1. 条件语句</h5><ul>
+<li><p>判断语句 if</p>
+<p>if 判断实例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化与判断写在一起： if a := 10; a == 10</span></span><br><span class="line"><span class="keyword">if</span> i == <span class="string">&#x27;3&#x27;</span> &#123;</span><br><span class="line">		</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>特殊写法</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> err := Connect(); err != <span class="literal">nil</span> &#123;&#125; <span class="comment">// 这里的 err!=nil 才是真正的if判断表达式</span></span><br></pre></td></tr></table></figure></li>
+<li><p>分支语句switch</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> num &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">		fmt.Println(<span class="string">&quot;a&quot;</span>)</span><br><span class="line">	<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">		fmt.Println(<span class="string">&quot;b&quot;</span>)</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		fmt.Println(<span class="string">&quot;default&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="2-循环语句"><a href="#2-循环语句" class="headerlink" title="2. 循环语句"></a>2. 循环语句</h5><ul>
+<li><p>for循环</p>
+<p>Golang 只支持for一种循环， 但是可以对应很多场景</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//传统的for循环</span></span><br><span class="line"><span class="keyword">for</span> init,condition;post&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//for循环简化</span></span><br><span class="line"><span class="keyword">var</span> i <span class="keyword">int</span></span><br><span class="line"><span class="keyword">for</span> ; ; i++ &#123;</span><br><span class="line">   <span class="keyword">if</span>(i &gt; <span class="number">10</span>)&#123;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//类似while循环</span></span><br><span class="line"><span class="keyword">for</span> condition &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//死循环</span></span><br><span class="line"><span class="keyword">for</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//for range:一般用于遍历数组、切片、字符串、map、管道</span></span><br><span class="line"><span class="keyword">for</span> k, v := <span class="keyword">range</span> []<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125; &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>跳出循环</p>
+<p>常用的跳出循环关键字：</p>
+<ul>
+<li><code>break</code>用于函数内跳出当前<code>for</code>、<code>switch</code>、<code>select</code>语句的执行</li>
+<li><code>continue</code>用于跳出<code>for</code>循环的本次迭代。  </li>
+<li><code>goto</code>可以退出多层循环</li>
+</ul>
+<p>break跳出循环案例(continue同下)：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">2</span>; i++ &#123;</span><br><span class="line">      <span class="keyword">for</span> j := <span class="number">0</span>; j &lt; <span class="number">10</span>; j++ &#123;</span><br><span class="line">         <span class="keyword">switch</span> j &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">               fmt.Println(i,j)</span><br><span class="line">               <span class="keyword">break</span> OuterLopp</span><br><span class="line">            <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">               fmt.Println(i,j)</span><br><span class="line">               <span class="keyword">break</span> OuterLopp</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>goto跳出多重循环案例</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> x:=<span class="number">0</span>; x&lt;<span class="number">10</span>; x++ &#123;</span><br><span class="line"> </span><br><span class="line">   <span class="keyword">for</span> y:=<span class="number">0</span>; y&lt;<span class="number">10</span>; x++ &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> y==<span class="number">2</span> &#123;</span><br><span class="line">            <span class="keyword">goto</span> breakHere</span><br><span class="line">         &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br><span class="line">breakHere:</span><br><span class="line">   fmt.Println(<span class="string">&quot;break&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>goto也可以用来统一错误处理。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">   <span class="keyword">goto</span> onExit</span><br><span class="line">&#125;</span><br><span class="line">onExit:</span><br><span class="line">   fmt.Pritln(err)</span><br><span class="line">   exitProcess()</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="二、运算符"><a href="#二、运算符" class="headerlink" title="二、运算符"></a>二、运算符</h4><h5 id="1-运算符汇总"><a href="#1-运算符汇总" class="headerlink" title="1.运算符汇总"></a>1.运算符汇总</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">算术运算符：	+	-	*	/	%	++	--	</span><br><span class="line">关系运算符：	==	!=	&lt;=	&gt;=	&lt;	&gt;	</span><br><span class="line">逻辑运算符：	!	&amp;&amp;	||</span><br><span class="line">位运算：	 &amp;（按位与）	|（按位或）	^（按位取反）	&lt;&lt;（左移）	&gt;&gt;（右移）</span><br><span class="line">赋值运算符：	=	+=	-=	*=	/=	%=	&lt;&lt;=	&gt;&gt;=	&amp;=	^=	|=</span><br><span class="line">其他运算符：	&amp;（取地址）	*（取指针值）</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-go自增和自减"><a href="#2-go自增和自减" class="headerlink" title="2.go自增和自减"></a>2.go自增和自减</h5><p>Go中只有<code>后--</code>和<code>后++</code>，且自增自减不能用于表达式中，只能独立使用</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = i++           <span class="comment">//错误用法</span></span><br><span class="line"><span class="keyword">if</span> i++ &gt; <span class="number">0</span> &#123;&#125;     <span class="comment">//错误用法</span></span><br><span class="line">i++               <span class="comment">//正确用法</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="3-位运算"><a href="#3-位运算" class="headerlink" title="3.位运算"></a>3.位运算</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&amp;     按位与，参与运算的两个数二进制位相与：同时为1，结果为1，否则为0</span><br><span class="line">|     按位或，参与运算的两个数二进制位相或：有一个为1，结果为1，否则为0</span><br><span class="line">^     按位异或：二进位不同，结果为1，否则为0</span><br><span class="line">&lt;&lt;    按位左移：二进位左移若干位，高位丢弃，低位补0，左移n位其实就是乘以2的n次方</span><br><span class="line">&gt;&gt;    按位右移：二进位右移若干位，右移n位其实就是除以2的n次方</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-优先级"><a href="#4-优先级" class="headerlink" title="4.优先级"></a>4.优先级</h5><table>
+<thead>
+<tr>
+<th>分类</th>
+<th>描述</th>
+<th>关联性</th>
+<th>优先级</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>后缀</td>
+<td>() [] -&gt; . ++ –</td>
+<td>左到右</td>
+<td>高</td>
+</tr>
+<tr>
+<td>单目</td>
+<td>+ - ! ~ (type) * &amp; typeof</td>
+<td>右到左</td>
+<td>|</td>
+</tr>
+<tr>
+<td>乘法</td>
+<td>* / %</td>
+<td>左到右</td>
+<td>|</td>
+</tr>
+<tr>
+<td>加法</td>
+<td>+ -</td>
+<td>左到右</td>
+<td>|</td>
+</tr>
+<tr>
+<td>移位</td>
+<td>&lt;&lt; &gt;&gt;</td>
+<td>左到右</td>
+<td>|</td>
+</tr>
+<tr>
+<td>关系</td>
+<td>&lt; &lt;= &gt; &gt;=</td>
+<td>左到右</td>
+<td>|</td>
+</tr>
+<tr>
+<td>相等（关系）</td>
+<td>==  !=</td>
+<td>左到右</td>
+<td>|</td>
+</tr>
+<tr>
+<td>按位and</td>
+<td>&amp;</td>
+<td>左到右</td>
+<td>|</td>
+</tr>
+<tr>
+<td>按位xor</td>
+<td>^</td>
+<td>左到右</td>
+<td>|</td>
+</tr>
+<tr>
+<td>按位or</td>
+<td>|</td>
+<td>左到右</td>
+<td>|</td>
+</tr>
+<tr>
+<td>逻辑and</td>
+<td>&amp;&amp;</td>
+<td>左到右</td>
+<td>|</td>
+</tr>
+<tr>
+<td>逻辑or</td>
+<td>||</td>
+<td>左到右</td>
+<td>|</td>
+</tr>
+<tr>
+<td>赋值运算符</td>
+<td>= += -= /= %= &gt;&gt;= &lt;&lt;= &amp;= ^= |=</td>
+<td>右到左</td>
+<td>|</td>
+</tr>
+<tr>
+<td>逗号</td>
+<td>,</td>
+<td>左到右</td>
+<td>低</td>
+</tr>
+</tbody></table>
+<h4 id="三、进制与转换"><a href="#三、进制与转换" class="headerlink" title="三、进制与转换"></a>三、进制与转换</h4><h5 id="1-常见进制"><a href="#1-常见进制" class="headerlink" title="1.常见进制"></a>1.常见进制</h5><ul>
+<li>二进制</li>
+<li>八进制</li>
+<li>十进制</li>
+<li>十六进制</li>
+</ul>
+<h5 id="2-任意进制转换为十进制"><a href="#2-任意进制转换为十进制" class="headerlink" title="2.任意进制转换为十进制"></a>2.任意进制转换为十进制</h5><p>略</p>
+<h5 id="3-反码补码"><a href="#3-反码补码" class="headerlink" title="3.反码补码"></a>3.反码补码</h5><p>对于有符号数而言， 二进制的最高位是符号位，0表示整数， 1表示负数</p>
+<p>比如1在二进制中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1  二进制位：0000  0001</span><br><span class="line">-1 二进制位：1000  0001</span><br></pre></td></tr></table></figure>
+
+<p>正数的原码、反码、补码都一样，负数的反码=原码符号位不变，其他位取反，补码是反码+1</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">         1              -1</span><br><span class="line">原码  0000  0001        1000  0001</span><br><span class="line">反码  0000  0001        1111  1110</span><br><span class="line">补码  0000  0001        1111  1111</span><br></pre></td></tr></table></figure>
+
+<p>常见理解：</p>
+<ul>
+<li>0的反码补码都是0</li>
+<li>计算机中是以补码形式运算的</li>
+</ul>
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/07/27/Go-%E8%AF%AD%E6%B3%95%E4%BA%8C-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+                    Go-语法二-数据类型
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/07/20/Javascript-html-Dom/">      
+                    Javascript html Dom
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

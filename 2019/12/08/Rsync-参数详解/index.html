@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Rsync 参数详解 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/12/08/Rsync-%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/12/08/Rsync-%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3/">Rsync 参数详解</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-12-08
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <table>
+<thead>
+<tr>
+<th align="left">选项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-a, ––archive</td>
+<td>归档模式，表示以递归方式传输文件，并保持所有文件属性，等价于 -rlptgoD (注意不包括 -H)</td>
+</tr>
+<tr>
+<td align="left">-r, ––recursive</td>
+<td>对子目录以递归模式处理</td>
+</tr>
+<tr>
+<td align="left">-l, ––links</td>
+<td>保持符号链接文件</td>
+</tr>
+<tr>
+<td align="left">-H, ––hard-links</td>
+<td>保持硬链接文件</td>
+</tr>
+<tr>
+<td align="left">-p, ––perms</td>
+<td>保持文件权限</td>
+</tr>
+<tr>
+<td align="left">-t, ––times</td>
+<td>保持文件时间信息</td>
+</tr>
+<tr>
+<td align="left">-g, ––group</td>
+<td>保持文件属组信息</td>
+</tr>
+<tr>
+<td align="left">-o, ––owner</td>
+<td>保持文件属主信息 (super-user only)</td>
+</tr>
+<tr>
+<td align="left">-D</td>
+<td>保持设备文件和特殊文件 (super-user only)</td>
+</tr>
+<tr>
+<td align="left">-z, ––compress</td>
+<td>在传输文件时进行压缩处理</td>
+</tr>
+<tr>
+<td align="left">––exclude=PATTERN</td>
+<td>指定排除一个不需要传输的文件匹配模式</td>
+</tr>
+<tr>
+<td align="left">––exclude-from=FILE</td>
+<td>从 FILE 中读取排除规则</td>
+</tr>
+<tr>
+<td align="left">––include=PATTERN</td>
+<td>指定需要传输的文件匹配模式</td>
+</tr>
+<tr>
+<td align="left">––include-from=FILE</td>
+<td>从 FILE 中读取包含规则</td>
+</tr>
+<tr>
+<td align="left">––copy-unsafe-links</td>
+<td>拷贝指向SRC路径目录树以外的链接文件</td>
+</tr>
+<tr>
+<td align="left">––safe-links</td>
+<td>忽略指向SRC路径目录树以外的链接文件（默认）</td>
+</tr>
+<tr>
+<td align="left">––existing</td>
+<td>仅仅更新那些已经存在于接收端的文件，而不备份那些新创建的文件</td>
+</tr>
+<tr>
+<td align="left">––ignore-existing</td>
+<td>忽略那些已经存在于接收端的文件，仅备份那些新创建的文件</td>
+</tr>
+<tr>
+<td align="left">-b, ––backup</td>
+<td>当有变化时，对目标目录中的旧版文件进行备份</td>
+</tr>
+<tr>
+<td align="left">––backup-dir=DIR</td>
+<td>与 -b 结合使用，将备份的文件存到 DIR 目录中</td>
+</tr>
+<tr>
+<td align="left">––link-dest=DIR</td>
+<td>当文件未改变时基于 DIR 创建硬链接文件</td>
+</tr>
+<tr>
+<td align="left">––delete</td>
+<td>删除那些接收端还有而发送端已经不存在的文件</td>
+</tr>
+<tr>
+<td align="left">––delete-before</td>
+<td>接收者在传输之前进行删除操作 (默认)</td>
+</tr>
+<tr>
+<td align="left">––delete-during</td>
+<td>接收者在传输过程中进行删除操作</td>
+</tr>
+<tr>
+<td align="left">––delete-after</td>
+<td>接收者在传输之后进行删除操作</td>
+</tr>
+<tr>
+<td align="left">––delete-excluded</td>
+<td>在接收方同时删除被排除的文件</td>
+</tr>
+<tr>
+<td align="left">-e, ––rsh=COMMAND</td>
+<td>指定替代 rsh 的 shell 程序</td>
+</tr>
+<tr>
+<td align="left">––ignore-errors</td>
+<td>即使出现 I/O 错误也进行删除</td>
+</tr>
+<tr>
+<td align="left">––partial</td>
+<td>保留那些因故没有完全传输的文件，以是加快随后的再次传输</td>
+</tr>
+<tr>
+<td align="left">––progress</td>
+<td>在传输时显示传输过程</td>
+</tr>
+<tr>
+<td align="left">-P</td>
+<td>等价于 ––partial ––progress</td>
+</tr>
+<tr>
+<td align="left">––delay-updates</td>
+<td>将正在更新的文件先保存到一个临时目录（默认为 “.<del>tmp</del>”），待传输完毕再更新目标文件</td>
+</tr>
+<tr>
+<td align="left">-v, ––verbose</td>
+<td>详细输出模式</td>
+</tr>
+<tr>
+<td align="left">-q, ––quiet</td>
+<td>精简输出模式</td>
+</tr>
+<tr>
+<td align="left">-h, ––human-readable</td>
+<td>输出文件大小使用易读的单位（如，K，M等）</td>
+</tr>
+<tr>
+<td align="left">-n, ––dry-run</td>
+<td>显示哪些文件将被传输</td>
+</tr>
+<tr>
+<td align="left">––list-only</td>
+<td>仅仅列出文件而不进行复制</td>
+</tr>
+<tr>
+<td align="left">––rsyncpath=PROGRAM</td>
+<td>指定远程服务器上的 rsync 命令所在路径</td>
+</tr>
+<tr>
+<td align="left">––password-file=FILE</td>
+<td>从 FILE 中读取口令，以避免在终端上输入口令，通常在 cron 中连接 rsync 服务器时使用</td>
+</tr>
+<tr>
+<td align="left">-4, ––ipv4</td>
+<td>使用 IPv4</td>
+</tr>
+<tr>
+<td align="left">-6, ––ipv6</td>
+<td>使用 IPv6</td>
+</tr>
+<tr>
+<td align="left">––version</td>
+<td>打印版本信息</td>
+</tr>
+<tr>
+<td align="left">––help</td>
+<td>显示帮助信息</td>
+</tr>
+</tbody></table>
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2020/01/16/%E6%96%B0%E7%9A%84%E4%B8%80%E5%B9%B4/">
+                    新的一年
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/11/06/Go-%E7%BB%93%E6%9E%84%E4%BD%93%E5%92%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">      
+                    Go 结构体和单元测试
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

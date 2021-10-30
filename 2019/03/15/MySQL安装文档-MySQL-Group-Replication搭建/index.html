@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            MySQL安装文档-MySQL-Group-Replication搭建 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/03/15/MySQL%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-MySQL-Group-Replication%E6%90%AD%E5%BB%BA/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83%E8%AF%B4%E6%98%8E"><span class="toc-number">1.</span> <span class="toc-text">搭建环境说明;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E6%A0%B7%E4%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">配置文件样例</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#etc-hosts"><span class="toc-number">3.</span> <span class="toc-text">&#x2F;etc&#x2F;hosts</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96mysql"><span class="toc-number">4.</span> <span class="toc-text">初始化mysql</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-192-168-75-139%E8%8A%82%E7%82%B9%E9%85%8D%E7%BD%AE"><span class="toc-number">5.</span> <span class="toc-text">1.192.168.75.139节点配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%89%A9%E4%BD%99%E4%B8%A4%E4%B8%AA%E8%8A%82%E7%82%B9%E9%85%8D%E7%BD%AE"><span class="toc-number">6.</span> <span class="toc-text">2. 剩余两个节点配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E8%A7%82%E5%AF%9F%E7%9B%B8%E5%85%B3%E7%8A%B6%E6%80%81%E5%92%8C%E5%88%87%E6%8D%A2"><span class="toc-number">7.</span> <span class="toc-text">3.观察相关状态和切换</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-MGR%E5%8A%A8%E6%80%81%E6%96%B0%E5%A2%9E%E5%92%8C%E5%88%A0%E9%99%A4%E8%8A%82%E7%82%B9"><span class="toc-number">8.</span> <span class="toc-text">4.MGR动态新增和删除节点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-%E5%88%87%E6%8D%A2%E5%88%B0%E5%A4%9A%E4%B8%BB%E6%A8%A1%E5%BC%8F"><span class="toc-number">9.</span> <span class="toc-text">5.切换到多主模式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-%E5%88%87%E5%9B%9E%E5%8D%95%E4%B8%BB%E6%A8%A1%E5%BC%8F"><span class="toc-number">10.</span> <span class="toc-text">6.切回单主模式</span></a></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/03/15/MySQL%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-MySQL-Group-Replication%E6%90%AD%E5%BB%BA/">MySQL安装文档-MySQL-Group-Replication搭建</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-03-15
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <p>MySQL安装文档-MySQL-Group-Replication搭建</p>
+<blockquote>
+<p>Group Replication is a technique that can be used to implement fault-tolerant systems. The replication group is a set of servers that interact with each other through message passing. The communication layer provides a set of guarantees such as atomic message and total order message delivery. These are very powerful properties that translate into very useful abstractions that one can resort to build more advanced database replication solutions.</p>
+<p>MySQL Group Replication builds on top of such properties and abstractions and implements a multi-master update everywhere replication protocol. In essence, a replication group is formed by multiple servers and each server in the group may execute transactions independently. But all read-write (RW) transactions commit only after they have been approved by the group. Read-only (RO) transactions need no coordination within the group and thus commit immediately. In other words, for any RW transaction the group needs to decide whether it commits or not, thus the commit operation is not a unilateral decision from the originating server. To be precise, when a transaction is ready to commit at the originating server, the server atomically broadcasts the write values (rows changed) and the correspondent write set (unique identifiers of the rows that were updated). Then a global total order is established for that transaction. Ultimately, this means that all servers receive the same set of transactions in the same order. As a consequence, all servers apply the same set of changes in the same order, therefore they remain consistent within the group.</p>
+<p>However, there may be conflicts between transactions that execute concurrently on different servers. Such conflicts are detected by inspecting the write sets of two different and concurrent transactions, in a process called <em>certification</em>. If two concurrent transactions, that executed on different servers, update the same row, then there is a conflict. The resolution procedure states that the transaction that was ordered first commits on all servers, whereas the transaction ordered second aborts, and thus is rolled back on the originating server and dropped by the other servers in the group. This is in fact a distributed first commit wins rule.</p>
+</blockquote>
+<p><img src="MySQL%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-MySQL-Group-Replication%E6%90%AD%E5%BB%BA/1552541224970.png" alt="1552541224970"></p>
+<h5 id="搭建环境说明"><a href="#搭建环境说明" class="headerlink" title="搭建环境说明;"></a>搭建环境说明;</h5><table>
+<thead>
+<tr>
+<th>ip</th>
+<th>hostname</th>
+<th>server_id</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>192.168.75.139</td>
+<td>mysql1</td>
+<td>101</td>
+</tr>
+<tr>
+<td>192.168.75.140</td>
+<td>mysql2</td>
+<td>102</td>
+</tr>
+<tr>
+<td>192.168.75.141</td>
+<td>mysql3</td>
+<td>103</td>
+</tr>
+</tbody></table>
+<h5 id="配置文件样例"><a href="#配置文件样例" class="headerlink" title="配置文件样例"></a>配置文件样例</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line">[client]</span><br><span class="line"></span><br><span class="line">[mysql]</span><br><span class="line">prompt=(\\u@\\h) [\\d]&gt;\\_</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line">########basic settings########</span><br><span class="line">server-id = 101</span><br><span class="line">port = 3306</span><br><span class="line">user = mysql</span><br><span class="line">#ibind_address=192.168.1.254</span><br><span class="line">autocommit = 0</span><br><span class="line">character_set_server=utf8</span><br><span class="line">skip_name_resolve = 1</span><br><span class="line">max_connections = 800</span><br><span class="line">max_connect_errors = 5000</span><br><span class="line">datadir = /data/mysql/3306/data</span><br><span class="line">default_storage_engine=INNODB</span><br><span class="line">transaction_isolation = READ-COMMITTED</span><br><span class="line">explicit_defaults_for_timestamp = 1</span><br><span class="line">join_buffer_size = 134217728</span><br><span class="line">tmp_table_size = 67108864</span><br><span class="line">tmpdir = /data/mysql/3306/tmp</span><br><span class="line">socket = /data/mysql/3306/run/mysql.sock</span><br><span class="line">pid-file = /data/mysql/3306/run/mysql.pid</span><br><span class="line">max_allowed_packet = 16777216</span><br><span class="line">sql_mode = &quot;STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER&quot;</span><br><span class="line">interactive_timeout = 1800</span><br><span class="line">wait_timeout = 1800</span><br><span class="line">lock_wait_timeout = 1800</span><br><span class="line">read_buffer_size = 16777216</span><br><span class="line">read_rnd_buffer_size = 33554432</span><br><span class="line">sort_buffer_size = 33554432</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">########log settings########</span><br><span class="line">log_bin = /data/mysql/3306/binlog/bin.log</span><br><span class="line">log_error = /data/mysql/3306/log/error.log</span><br><span class="line">slow_query_log = 1</span><br><span class="line">slow_query_log_file = /data/mysql/3306/log/slow.log</span><br><span class="line">log_queries_not_using_indexes = 1</span><br><span class="line">log_slow_admin_statements = 1</span><br><span class="line">log_slow_slave_statements = 1</span><br><span class="line">log_throttle_queries_not_using_indexes = 10</span><br><span class="line">expire_logs_days = 90</span><br><span class="line">long_query_time = 2</span><br><span class="line">min_examined_row_limit = 100</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">########replication settings########</span><br><span class="line">master_info_repository = TABLE</span><br><span class="line">relay_log_info_repository = TABLE</span><br><span class="line">sync_binlog = 10</span><br><span class="line">gtid_mode = on</span><br><span class="line">enforce_gtid_consistency = 1</span><br><span class="line">log_slave_updates = 1</span><br><span class="line">binlog_format = row</span><br><span class="line">relay_log = /data/mysql/3306/relay-log/relay.log</span><br><span class="line">relay_log_recovery = 1</span><br><span class="line">binlog_gtid_simple_recovery = 1</span><br><span class="line">slave_skip_errors = ddl_exist_errors</span><br><span class="line">binlog_checksum = NONE</span><br><span class="line"></span><br><span class="line">transaction_write_set_extraction=XXHASH64</span><br><span class="line">loose-group_replication_group_name=&quot;aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa&quot;</span><br><span class="line">loose-group_replication_start_on_boot=off</span><br><span class="line">loose-group_replication_local_address= &quot;192.168.75.139:33061&quot;</span><br><span class="line">loose-group_replication_group_seeds= &quot;192.168.75.139:33061,192.168.75.140:33061,192.168.75.141:33061&quot;</span><br><span class="line">loose-group_replication_bootstrap_group=off</span><br><span class="line"></span><br><span class="line">########innodb settings########</span><br><span class="line">innodb_data_home_dir = /data/mysql/3306/innodb</span><br><span class="line">innodb_data_file_path = ibdata1:2000M;ibdata2:2000M:autoextend</span><br><span class="line">innodb_page_size = 8192</span><br><span class="line">innodb_buffer_pool_size = 750M</span><br><span class="line">innodb_buffer_pool_instances = 8</span><br><span class="line">innodb_buffer_pool_load_at_startup = 1</span><br><span class="line">innodb_buffer_pool_dump_at_shutdown = 1</span><br><span class="line">innodb_lru_scan_depth = 2000</span><br><span class="line">innodb_lock_wait_timeout = 5</span><br><span class="line">innodb_io_capacity = 4000</span><br><span class="line">innodb_io_capacity_max = 8000</span><br><span class="line">innodb_flush_method = O_DIRECT</span><br><span class="line">innodb_flush_log_at_trx_commit = 2</span><br><span class="line">innodb_file_format = Barracuda</span><br><span class="line">innodb_file_format_max = Barracuda</span><br><span class="line">innodb_log_group_home_dir = /data/mysql/3306/redo/</span><br><span class="line">innodb_undo_directory = /data/mysql/3306/undo/</span><br><span class="line">innodb_undo_logs = 128</span><br><span class="line">innodb_undo_tablespaces = 3</span><br><span class="line">innodb_flush_neighbors = 1</span><br><span class="line">innodb_log_file_size = 4G</span><br><span class="line">innodb_log_buffer_size = 16777216</span><br><span class="line">innodb_purge_threads = 4</span><br><span class="line">innodb_large_prefix = 1</span><br><span class="line">innodb_thread_concurrency = 64</span><br><span class="line">innodb_print_all_deadlocks = 1</span><br><span class="line">innodb_strict_mode = 1</span><br><span class="line">innodb_sort_buffer_size = 67108864</span><br><span class="line"></span><br><span class="line">metadata_locks_hash_instances = 64</span><br><span class="line">innodb_open_files = 4096</span><br><span class="line">table_open_cache = 4096</span><br><span class="line">table_definition_cache = 4096</span><br><span class="line">table_open_cache_instances = 128</span><br><span class="line">thread_cache_size = 64</span><br><span class="line">innodb_online_alter_log_max_size=1G</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">########semi sync replication settings########</span><br><span class="line">#plugin_dir=/usr/local/mysql/lib/plugin</span><br><span class="line">#plugin_load = &quot;rpl_semi_sync_master=semisync_master.so;rpl_semi_sync_slave=semisync_slave.so&quot;</span><br><span class="line">#loose_rpl_semi_sync_master_enabled = 1</span><br><span class="line">#loose_rpl_semi_sync_slave_enabled = 1</span><br><span class="line">#loose_rpl_semi_sync_master_timeout = 5000</span><br><span class="line"></span><br><span class="line">[mysqld-5.7]</span><br><span class="line">innodb_buffer_pool_dump_pct = 40</span><br><span class="line">innodb_page_cleaners = 4</span><br><span class="line">innodb_undo_log_truncate = 1</span><br><span class="line">innodb_max_undo_log_size = 2G</span><br><span class="line">innodb_purge_rseg_truncate_frequency = 128</span><br><span class="line">binlog_gtid_simple_recovery=1</span><br><span class="line">log_timestamps=system</span><br><span class="line">transaction_write_set_extraction=MURMUR32</span><br><span class="line">show_compatibility_56=on</span><br></pre></td></tr></table></figure>
+
+<h5 id="etc-hosts"><a href="#etc-hosts" class="headerlink" title="/etc/hosts"></a>/etc/hosts</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost 3306]# cat /etc/hosts</span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line">192.168.75.139 mysql1</span><br><span class="line">192.168.75.140 mysql2</span><br><span class="line">192.168.75.141 mysql3</span><br></pre></td></tr></table></figure>
+
+<h5 id="初始化mysql"><a href="#初始化mysql" class="headerlink" title="初始化mysql"></a>初始化mysql</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bin/mysqld  --defaults-file=/data/mysql/3306/etc/my.cnf --initialize --user=mysql</span><br><span class="line">bin/mysql_ssl_rsa_setup --datadir=/data/mysql/3306/ssl/</span><br><span class="line">bin/mysqld --defaults-file=/data/mysql/3306/etc/my.cnf --user=mysql &amp;</span><br><span class="line">grep temp /data/mysql/3306/log/error.log</span><br><span class="line">bin/mysql -uroot -p&#x27;password&#x27; -S /data/mysql3306/run/mysql.sock</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-192-168-75-139节点配置"><a href="#1-192-168-75-139节点配置" class="headerlink" title="1.192.168.75.139节点配置"></a>1.192.168.75.139节点配置</h5><ul>
+<li><p>设置复制账号权限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SET SQL_LOG_BIN=0;</span><br><span class="line">CREATE USER rpl_user@&#x27;%&#x27; IDENTIFIED BY &#x27;password&#x27;;</span><br><span class="line">GRANT REPLICATION SLAVE ON *.* TO rpl_user@&#x27;%&#x27;;</span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line">SET SQL_LOG_BIN=1;</span><br></pre></td></tr></table></figure></li>
+<li><p>指定恢复渠道channel</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CHANGE MASTER TO MASTER_USER=&#x27;rpl_user&#x27;, MASTER_PASSWORD=&#x27;password&#x27; FOR CHANNEL &#x27;group_replication_recovery&#x27;;</span><br></pre></td></tr></table></figure></li>
+<li><p>安装插件plugin和查看</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSTALL PLUGIN group_replication SONAME &#x27;group_replication.so&#x27;;</span><br><span class="line">show plugins;</span><br></pre></td></tr></table></figure></li>
+<li><p>开启组复制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 设置group_replication_bootstrap_group为ON是为了标示以后加入集群的服务器以这台服务器为基准，以后加入的就不需要设置</span><br><span class="line">SET GLOBAL group_replication_bootstrap_group=ON;</span><br><span class="line">START GROUP_REPLICATION;</span><br><span class="line">SET GLOBAL group_replication_bootstrap_group=OFF;</span><br></pre></td></tr></table></figure></li>
+<li><p>查看mgr的状态</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查询表performance_schema.replication_group_members</span><br><span class="line">select * from performance_schema.replication_group_members;</span><br></pre></td></tr></table></figure>
+
+<p><img src="MySQL%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-MySQL-Group-Replication%E6%90%AD%E5%BB%BA/1552546089595.png" alt="1552546089595"></p>
+</li>
+</ul>
+<h5 id="2-剩余两个节点配置"><a href="#2-剩余两个节点配置" class="headerlink" title="2. 剩余两个节点配置"></a>2. 剩余两个节点配置</h5><ul>
+<li><p>设置复制账号权限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SET SQL_LOG_BIN=0;</span><br><span class="line">CREATE USER rpl_user@&#x27;%&#x27; IDENTIFIED BY &#x27;password&#x27;;</span><br><span class="line">GRANT REPLICATION SLAVE ON *.* TO rpl_user@&#x27;%&#x27;;</span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line">SET SQL_LOG_BIN=1;</span><br></pre></td></tr></table></figure></li>
+<li><p>指定恢复渠道<code>channel</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CHANGE MASTER TO MASTER_USER=&#x27;rpl_user&#x27;, MASTER_PASSWORD=&#x27;password&#x27; FOR CHANNEL &#x27;group_replication_recovery&#x27;;</span><br></pre></td></tr></table></figure></li>
+<li><p>安装插件<code>plugin</code>和查看</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSTALL PLUGIN group_replication SONAME &#x27;group_replication.so&#x27;;</span><br><span class="line">show plugins;</span><br></pre></td></tr></table></figure></li>
+<li><p>开启组复制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 这里不再需要开启group_replication_bootstrap_group，由于复制组已经被创建了，只需要将第二个节点添加进去即可</span><br><span class="line">START GROUP_REPLICATION;</span><br></pre></td></tr></table></figure></li>
+<li><p>查看<code>mgr</code>的状态</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查询表performance_schema.replication_group_members</span><br><span class="line">select * from performance_schema.replication_group_members;</span><br></pre></td></tr></table></figure>
+
+<p><img src="MySQL%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-MySQL-Group-Replication%E6%90%AD%E5%BB%BA/1552546195661.png" alt="1552546195661"></p>
+</li>
+</ul>
+<h5 id="3-观察相关状态和切换"><a href="#3-观察相关状态和切换" class="headerlink" title="3.观察相关状态和切换"></a>3.观察相关状态和切换</h5><ul>
+<li><p>切换</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">STOP GROUP_REPLICATION;会根据权重重新选择新的主master</span><br><span class="line">START GROUP_REPLICATION;新加入后作为从服务器slave</span><br></pre></td></tr></table></figure></li>
+<li><p>相关状态查看</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1、当前组成员列表</span><br><span class="line">select * from performance_schema.replication_group_members;</span><br><span class="line">2、当前节点详细日志应用信息</span><br><span class="line">select * from performance_schema.replication_group_member_stats；</span><br><span class="line">3、当前复制渠道连接信息</span><br><span class="line">select * from performance_schema.replication_connection_status;</span><br><span class="line">4、当前复制渠道应用信息</span><br><span class="line">select * from performance_schema.replication_applier_status;</span><br><span class="line">5、当前主master</span><br><span class="line">select a.variable_value,b.member_host,b.member_port,member_state from performance_schema.global_status a ,performance_schema.replication_group_members b where a.variable_value=b.member_id and variable_name= &#x27;group_replication_primary_member&#x27;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="4-MGR动态新增和删除节点"><a href="#4-MGR动态新增和删除节点" class="headerlink" title="4.MGR动态新增和删除节点"></a>4.MGR动态新增和删除节点</h5><ul>
+<li><p>新增节点</p>
+<p>在上述复制基础上新增节点192.168.75.142</p>
+<ul>
+<li> 配置<code>/etc/hosts</code></li>
+</ul>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">192.168.75.139 mysql1</span><br><span class="line">192.168.75.140 mysql2</span><br><span class="line">192.168.75.141 mysql3</span><br><span class="line">192.168.75.142 mysql4</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>新节点修改<code>my.cnf </code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">loose-group_replication_local_address= &quot;192.168.75.142:33061&quot;</span><br><span class="line">loose-group_replication_group_seeds= &quot;192.168.75.139:33061,192.168.75.140:33061,192.168.75.141:33061,192.168.75.142:33061&quot;</span><br></pre></td></tr></table></figure></li>
+<li><p>创建数据库实例</p>
+</li>
+<li><p>设置复制账号</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SET SQL_LOG_BIN=0;</span><br><span class="line">CREATE USER rpl_user@&#x27;%&#x27; IDENTIFIED BY &#x27;password&#x27;;</span><br><span class="line">GRANT REPLICATION SLAVE ON *.* TO rpl_user@&#x27;%&#x27;;</span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line">SET SQL_LOG_BIN=1;</span><br></pre></td></tr></table></figure></li>
+<li><p>指定恢复渠道<code>channel</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CHANGE MASTER TO MASTER_USER=&#x27;rpl_user&#x27;, MASTER_PASSWORD=&#x27;password&#x27; FOR CHANNEL &#x27;group_replication_recovery&#x27;;</span><br></pre></td></tr></table></figure></li>
+<li><p>安装插件<code>plugin</code>和查看</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSTALL PLUGIN group_replication SONAME &#x27;group_replication.so&#x27;;</span><br><span class="line">show plugins;</span><br></pre></td></tr></table></figure></li>
+<li><p>集群中已存在的节点配置修改<code>group_replication_group_seeds</code>的值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">分别在集群中各个节点添加配置参数</span><br><span class="line">set global  group_replication_group_seeds=&quot;192.168.75.139:33061,192.168.75.140:33061,192.168.75.141:33061,192.168.75.142:33061&quot;</span><br><span class="line"></span><br><span class="line">将对应参数写入配置文件my.cnf</span><br></pre></td></tr></table></figure></li>
+<li><p>开启组复制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 这里不再需要开启group_replication_bootstrap_group，由于复制组已经被创建了，只需要将新增节点添加进去即可</span><br><span class="line">START GROUP_REPLICATION</span><br></pre></td></tr></table></figure></li>
+<li><p>查看<code>mgr</code>的状态</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查询表performance_schema.replication_group_members</span><br><span class="line">select * from performance_schema.replication_group_members;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>动态删除节点</p>
+<ul>
+<li><p>停止<code>192.168.75.142</code>上组复制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">STOP GROUP_REPLICATION;</span><br><span class="line">slave关闭后就被移除了组成员</span><br></pre></td></tr></table></figure></li>
+<li><p>集群中剩余的节点配置修改<code>group_replication_group_seeds</code>的值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">分别在集群中各个节点添加配置参数</span><br><span class="line">set global  group_replication_group_seeds=&quot;192.168.75.139:33061,192.168.75.140:33061,192.168.75.141:33061&quot;</span><br><span class="line"></span><br><span class="line">将对应参数写入配置文件my.cnf</span><br></pre></td></tr></table></figure></li>
+<li><p>彻底清理192.168.75.142节点相关组信息，配置修改<code>group_replication_group_seeds</code>和<code>group_replication_local_address</code>的值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、在192.168.75.142对应节点服务器配置参数</span><br><span class="line">set global group_replication_group_seeds=&quot;&quot;;</span><br><span class="line">set global group_replication_local_address=&quot;&quot;;</span><br><span class="line"></span><br><span class="line">2、将对应参数值写入配置文件my.cnf持久化（添加注释）</span><br></pre></td></tr></table></figure></li>
+<li><p>删除插件<code>plugin</code>、复制账号权限</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>以上为单主模式</p>
+<h5 id="5-切换到多主模式"><a href="#5-切换到多主模式" class="headerlink" title="5.切换到多主模式"></a>5.切换到多主模式</h5><p>MGR切换模式需要重新启动组复制，因些需要在所有节点上先关闭组复制，设置 <code>group_replication_single_primary_mode=OFF </code>等参数，再启动组复制。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># 停止组复制(所有节点执行)：</span><br><span class="line">mysql&gt; stop group_replication;</span><br><span class="line">mysql&gt; set global group_replication_single_primary_mode=OFF;</span><br><span class="line">mysql&gt; set global group_replication_enforce_update_everywhere_checks=ON;</span><br><span class="line"></span><br><span class="line"># 随便选择某个节点执行</span><br><span class="line">mysql&gt; SET GLOBAL group_replication_bootstrap_group=ON; </span><br><span class="line">mysql&gt; START GROUP_REPLICATION; </span><br><span class="line">mysql&gt; SET GLOBAL group_replication_bootstrap_group=OFF;</span><br><span class="line"></span><br><span class="line"># 其他节点执行</span><br><span class="line">mysql&gt; START GROUP_REPLICATION; </span><br><span class="line"></span><br><span class="line"># 查看组信息，所有节点的 MEMBER_ROLE 都为 PRIMARY</span><br><span class="line">mysql&gt; SELECT * FROM performance_schema.replication_group_members;</span><br><span class="line">+---------------------------+--------------------------------------+-------------+-------------+--------------+</span><br><span class="line">| CHANNEL_NAME              | MEMBER_ID                            | MEMBER_HOST | MEMBER_PORT | MEMBER_STATE |</span><br><span class="line">+---------------------------+--------------------------------------+-------------+-------------+--------------+</span><br><span class="line">| group_replication_applier | 64fb47e4-4623-11e9-92dd-000c29f25706 | mysql3      |        3306 | ONLINE       |</span><br><span class="line">| group_replication_applier | b7e7bdfc-4622-11e9-8b8a-000c2913c110 | mysql2      |        3306 | ONLINE       |</span><br><span class="line">| group_replication_applier | f785ad02-4621-11e9-98bb-000c29c68b5c | mysql1      |        3306 | ONLINE       |</span><br><span class="line">+---------------------------+--------------------------------------+-------------+-------------+--------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="6-切回单主模式"><a href="#6-切回单主模式" class="headerlink" title="6.切回单主模式"></a>6.切回单主模式</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"># 所有节点执行</span><br><span class="line">mysql&gt; stop group_replication;</span><br><span class="line">mysql&gt; set global group_replication_enforce_update_everywhere_checks=OFF;</span><br><span class="line">mysql&gt; set global group_replication_single_primary_mode=ON;</span><br><span class="line"></span><br><span class="line"># 主节点（192.168.75.139）执行</span><br><span class="line">SET GLOBAL group_replication_bootstrap_group=ON; </span><br><span class="line">START GROUP_REPLICATION; </span><br><span class="line">SET GLOBAL group_replication_bootstrap_group=OFF;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 从节点（192.168.75.140、192.168.75.141）执行</span><br><span class="line">START GROUP_REPLICATION; </span><br><span class="line"></span><br><span class="line"># 查看MGR组信息</span><br><span class="line">mysql&gt; SELECT * FROM performance_schema.replication_group_members;</span><br><span class="line">+---------------------------+--------------------------------------+-------------+-------------+--------------+</span><br><span class="line">| CHANNEL_NAME              | MEMBER_ID                            | MEMBER_HOST | MEMBER_PORT | MEMBER_STATE |</span><br><span class="line">+---------------------------+--------------------------------------+-------------+-------------+--------------+</span><br><span class="line">| group_replication_applier | 64fb47e4-4623-11e9-92dd-000c29f25706 | mysql3      |        3306 | ONLINE       |</span><br><span class="line">| group_replication_applier | b7e7bdfc-4622-11e9-8b8a-000c2913c110 | mysql2      |        3306 | ONLINE       |</span><br><span class="line">| group_replication_applier | f785ad02-4621-11e9-98bb-000c29c68b5c | mysql1      |        3306 | ONLINE       |</span><br><span class="line">+---------------------------+--------------------------------------+-------------+-------------+--------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/03/15/WSGI-ASGI/">
+                    WSGI&ASGI
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/03/14/MySQL%E9%85%8D%E7%BD%AE%E6%96%87%E6%A1%A3-my-cnf/">      
+                    MySQL配置文档-my.cnf
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

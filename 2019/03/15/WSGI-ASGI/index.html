@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            WSGI&amp;ASGI | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/03/15/WSGI-ASGI/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#WSGI"><span class="toc-number">1.</span> <span class="toc-text">WSGI</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uwsgi"><span class="toc-number">2.</span> <span class="toc-text">uwsgi</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uWSGI"><span class="toc-number">3.</span> <span class="toc-text">uWSGI</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ASGI"><span class="toc-number">4.</span> <span class="toc-text">ASGI</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#WSGI%E5%92%8CASGI%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">5.</span> <span class="toc-text">WSGI和ASGI的区别</span></a></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/03/15/WSGI-ASGI/">WSGI&amp;ASGI</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-03-15
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <h4 id="WSGI"><a href="#WSGI" class="headerlink" title="WSGI"></a><code>WSGI</code></h4><p><strong>Python Web Server Gateway Interface</strong>, <code>Python Web服务器网关接口</code>， 实际上是一种接口规范，描述<code>web server</code>如何与<code>web application</code>通信的规范，是为<code>Python</code>语言定义的Web服务器和Web应用程序或框架之间的一种简单而通用的接口，要实现<code>WSGI</code>协议，必须同时实现<code>web server</code>和<code>web application</code></p>
+<h4 id="uwsgi"><a href="#uwsgi" class="headerlink" title="uwsgi"></a><code>uwsgi</code></h4><p>与<code>WSGI</code>一样是一种通信协议， 是<code>uWSGI</code>服务器的独占协议，用于定义传输信息的类型，每个<code>uwsgi packet</code>前<code>4byte</code>为传输信息类型的描述，与<code>WSGI</code>协议是两种东西</p>
+<h4 id="uWSGI"><a href="#uWSGI" class="headerlink" title="uWSGI"></a><code>uWSGI</code></h4><p>是一个<code>web</code>服务器，实现了<code>WSGI</code>协议、<code>uwsgi</code>协议、<code>http</code>协议</p>
+<p><code>WSGI</code>协议主要包括<code>server</code>和<code>application</code>两部分</p>
+<ul>
+<li><code>WSGI server</code>负责从客户端接受请求，将<code>request</code>转发给<code>application</code>，将<code>application</code>返回的<code>response</code>返回给客户端</li>
+<li><code>WSGI application</code>接收由<code>server</code>转发的<code>request</code>， 处理请求，并将处理结果返回给<code>server</code>，<code>application</code>中可以包含多个栈式的中间件，这些中间件需用同时实现<code>server</code>和<code>application</code>， 因此可以在<code>WSGI</code>服务器与<code>WSGI</code>应用之间起调节作用，对服务器来说，中间件扮演应用程序，对应用程序来说，中间件扮演服务器</li>
+</ul>
+<p><code>WSGI</code>协议其实是定义了一种<code>server</code>与<code>application</code>解耦的规范，即可以有多个实现<code>WSGI server</code>的服务器，也可以有多个实现<code>WSGI application</code>的框架，那么就可以选择任意的<code>server</code>和<code>application</code>组合实现自己的<code>web</code>应用。例如<code>uWSGI</code>和<code>Gunicorn</code>都是实现了<code>WSGI server</code>协议的服务器，<code>Django</code>，<code>Flask</code>是实现了<code>WSGI application</code>协议的<code>web</code>框架，可以根据项目实际情况搭配使用。</p>
+<p><img src="C:\Users\dell\Downloads\wsgi.png" alt="wsgi"></p>
+<p><img src="C:\Users\dell\Downloads\123456789.png" alt="123456789"></p>
+<ul>
+<li><p>WSGIServer</p>
+<p><code>run()</code>方法会创建<code>WSGIServer</code>实例，主要作用是接收客户端请求，将请求传递给<code>application</code>，然后将<code>application</code>返回的<code>response</code>返回给客户端。 </p>
+<ul>
+<li>创建实例时会指定<code>HTTP</code>请求的<code>handler</code>：<code>WSGIRequestHandler</code>类</li>
+<li>通过<code>set_app</code>和<code>get_app</code>方法设置和获取<code>WSGIApplication</code>实例<code>wsgi_handler</code> </li>
+<li>处理http请求时，调用<code>handler_request</code>方法，会创建<code>WSGIRequestHandler</code>实例处理http请求。</li>
+<li><code>WSGIServer</code>中<code>get_request</code>方法通过<code>socket</code>接受请求数据</li>
+</ul>
+</li>
+<li><p>WSGIRequestHandler</p>
+<ul>
+<li>由<code>WSGIServer</code>在调用<code>handle_request</code>时创建实例，传入<code>request</code>、<code>cient_address</code>、<code>WSGIServer</code>三个参数，<code>__init__</code>方法在实例化同时还会调用自身的<code>handle</code>方法</li>
+<li><code>handle</code>方法会创建<code>ServerHandler</code>实例，然后调用其<code>run</code>方法处理请求</li>
+</ul>
+</li>
+<li><p>ServerHandler</p>
+<ul>
+<li><code>WSGIRequestHandler</code>在其<code>handle</code>方法中调用<code>run</code>方法，传入<code>self.server.get_app()</code>参数，获取<code>WSGIApplication</code>，然后调用实例(<code>__call__</code>)，获取<code>response</code>，其中会传入<code>start_response</code>回调，用来处理返回的<code>header</code>和<code>status</code>。</li>
+<li>通过<code>application</code>获取<code>response</code>以后，通过<code>finish_response</code>返回<code>response</code> </li>
+</ul>
+</li>
+<li><p>WSGIHandler</p>
+<ul>
+<li><code>WSGI</code>协议中的<code>application</code>，接收两个参数，<code>environ</code>字典包含了客户端请求的信息以及其他信息，可以认为是请求上下文，<code>start_response</code>用于发送返回<code>status</code>和<code>header</code>的回调函数</li>
+</ul>
+</li>
+</ul>
+<p>虽然上面一个<code>WSGI server</code>涉及到多个类实现以及相互引用，但其实原理还是调用<code>WSGIHandler</code>，传入请求参数以及回调方法<code>start_response()</code>，并将响应返回给客户端。</p>
+<h4 id="ASGI"><a href="#ASGI" class="headerlink" title="ASGI"></a><code>ASGI</code></h4><p><code>ASGI </code>由 <code>Django </code>团队提出，为了解决在一个网络框架里（如<code> Django</code>）同时处理 <code>HTTP</code>、<code>HTTP2</code>、<code>WebSocket</code> 协议。为此，<code>Django </code>团队开发了<code>Django Channels</code>插件，为 <code>Django</code> 带来了<code>ASGI</code>能力。</p>
+<p>在<code> ASGI</code> 中，将一个网络请求划分成三个处理层面，最前面的一层，<code>interface server</code>（协议处理服务器），负责对请求协议进行解析，并将不同的协议分发到不同的<code> Channel</code>（频道）；频道属于第二层，通常可以是一个队列系统。频道绑定了第三层的<code> Consumer</code>（消费者）。<br>比如说，<code>HTTP</code> 协议的频道绑定了<code>HTTP</code>的消费者，当有新的<code>HTTP</code>请求过来时，<code>interface server</code> 将该请求分发到<code> HTTP</code> 频道，<code>HTTP</code> 频道绑定的<code>HTTP</code>消费者对该请求进行处理，将处理结果返回给<code> HTTP</code> 频道，最终传回给客户端。</p>
+<p><code>ASGI</code>尝试保持在一个简单的应用接口的前提下，提供允许数据能够在任意的时候、被任意应用进程发送和接受的抽象。并且同样描述了一个新的，兼容<code>HTTP</code>请求响应以及<code>WebSocket</code>数据帧的序列格式。允许这些协议能通过网络或本地<code>socket</code>进行传输，以及让不同的协议被分配到不同的进程中。</p>
+<h4 id="WSGI和ASGI的区别"><a href="#WSGI和ASGI的区别" class="headerlink" title="WSGI和ASGI的区别"></a><code>WSGI</code>和<code>ASGI</code>的区别</h4><p>以上，<code>WSGI</code>是基于<code>HTTP</code>协议模式的，不支持<code>WebSocket</code>，而<code>ASGI</code>的诞生则是为了解决<code>Python</code>常用的<code>WSGI</code>不支持当前<code>Web</code>开发中的一些新的协议标准。同时，<code>ASGI</code>对于<code>WSGI</code>原有的模式的支持和<code>WebSocket</code>的扩展，即<code>ASGI</code>是<code>WSGI</code>的扩展。</p>
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/03/19/Zabbix%E7%9B%91%E6%8E%A7%E6%96%87%E6%A1%A3-%E9%85%8D%E7%BD%AE%E9%82%AE%E4%BB%B6%E5%91%8A%E8%AD%A6/">
+                    Zabbix监控文档-配置邮件告警
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/03/15/MySQL%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3-MySQL-Group-Replication%E6%90%AD%E5%BB%BA/">      
+                    MySQL安装文档-MySQL-Group-Replication搭建
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

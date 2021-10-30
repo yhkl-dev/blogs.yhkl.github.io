@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Lisp 构造过程抽象 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2020/03/29/Lisp-%E6%9E%84%E9%80%A0%E8%BF%87%E7%A8%8B%E6%8A%BD%E8%B1%A1/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E8%BF%87%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">复合过程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%87%E7%A8%8B%E5%BA%94%E7%94%A8%E7%9A%84%E4%BB%A3%E6%8D%A2%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.</span> <span class="toc-text">过程应用的代换模型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%BA%8F%E5%92%8C%E6%AD%A3%E5%88%99%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">应用序和正则序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%92%8C%E8%B0%93%E8%AF%8D"><span class="toc-number">4.</span> <span class="toc-text">条件表达和谓词</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%89%9B%E9%A1%BF%E6%B3%95%E6%B1%82%E5%B9%B3%E6%96%B9%E6%A0%B9"><span class="toc-number">5.</span> <span class="toc-text">牛顿法求平方根</span></a></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2020/03/29/Lisp-%E6%9E%84%E9%80%A0%E8%BF%87%E7%A8%8B%E6%8A%BD%E8%B1%A1/">Lisp 构造过程抽象</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2020-03-29
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <p>sp 构造过程抽象</p>
+<p>解释器本身是按照下面的过程工作的</p>
+<p>要求值一个组合式，做下面的事情：</p>
+<ul>
+<li>求值该组合表达式的各个子表达式</li>
+<li>将作为最左子表达式（运算符）的值的那个过程应用于相应的实际参数，所谓实际参数也就是其他子表达式（运算对象）的值</li>
+</ul>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">*</span> (<span class="name">+</span> <span class="number">2</span> (<span class="name">*</span> <span class="number">4</span> <span class="number">6</span> ))</span><br><span class="line">	(<span class="name">+</span> <span class="number">3</span> <span class="number">5</span> <span class="number">7</span> ))</span><br></pre></td></tr></table></figure>
+
+<p>为了实现对一个组合式的求值过程，我们必须先对组合式里的每个元素执行同样的求值过程，因此，在性质上，这一求值过程是递归的，就是说，它在自己的工作步骤中，包含着调用这个规则本身的需求</p>
+<p><img src="Lisp-%E6%9E%84%E9%80%A0%E8%BF%87%E7%A8%8B%E6%8A%BD%E8%B1%A1/1585359759171.png" alt="1585359759171"></p>
+<p>一般而言，我们应该把递归看做一种处理层次性结构（像树这样的对象）极强有力的技术，“值向上穿行”形式的求值形式是一类更一般的计算过程的例子，这种计算过程成为树形积累</p>
+<ul>
+<li>数的值就是他们所表示的数值</li>
+<li>内部运算符的值就是能完成相应操作的机器指令序列</li>
+<li>其他名字的值就是在环境中关联于这一名字的那个对象</li>
+</ul>
+<blockquote>
+<p>环境所扮演的角色就是用户确定表达式中各个符号的意义</p>
+</blockquote>
+<h5 id="复合过程"><a href="#复合过程" class="headerlink" title="复合过程"></a>复合过程</h5><p>任何强有力的程序设计语言都有如下特点</p>
+<ul>
+<li>数和算数运算是基本的数据和过程</li>
+<li>组合式的嵌套提供了一种组织起多个操作的方法</li>
+<li>定义是一种受限的抽象手段，它为名字关联相应的值</li>
+</ul>
+<p><strong>过程定义</strong>：是一种威力强大的抽象技术，通过它可以为复合操作提供名字，而后就可以将这样的操作作为一个单元使用</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">defun</span> square (<span class="name">x</span>) (<span class="name">*</span> x x ))</span><br></pre></td></tr></table></figure>
+
+<p>过程定义的一般形式是：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">defub</span> &lt;name&gt; (<span class="name">&lt;formal</span> parameters&gt;) (<span class="name">&lt;body&gt;</span>))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Break <span class="number">5</span> [<span class="number">6</span>]&gt; (<span class="name">square</span> <span class="number">12</span>)</span><br><span class="line"><span class="number">144</span></span><br><span class="line">Break <span class="number">5</span> [<span class="number">6</span>]&gt; (<span class="name">square</span> (<span class="name">+</span> <span class="number">2</span> <span class="number">5</span>))</span><br><span class="line"><span class="number">49</span></span><br><span class="line"></span><br><span class="line">Break <span class="number">8</span> [<span class="number">9</span>]&gt; (<span class="name">+</span> (<span class="name">square</span> (<span class="name">+</span> <span class="number">2</span> <span class="number">5</span>)) <span class="number">3</span>)</span><br><span class="line"><span class="number">52</span></span><br></pre></td></tr></table></figure>
+
+<p>平方和：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(defun sum-of-squares(x y)</span><br><span class="line">	(+ (squrare x) (square y)))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Break <span class="number">9</span> [<span class="number">10</span>]&gt; (<span class="name">defun</span> sum-of-squares(<span class="name">x</span> y)</span><br><span class="line">(<span class="name">+</span> (<span class="name">square</span> x) (<span class="name">square</span> y)))</span><br><span class="line">SUM-OF-SQUARES</span><br><span class="line">Break <span class="number">9</span> [<span class="number">10</span>]&gt; (<span class="name">sum-of-squares</span> <span class="number">3</span> <span class="number">4</span> )</span><br><span class="line"><span class="number">25</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="过程应用的代换模型"><a href="#过程应用的代换模型" class="headerlink" title="过程应用的代换模型"></a>过程应用的代换模型</h5><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">dufun</span> f (<span class="name">a</span>) (<span class="name">sum-of-squares</span> (<span class="name">+</span> a <span class="number">1</span>) (<span class="name">*</span> a <span class="number">2</span>)))</span><br><span class="line"></span><br><span class="line">Break <span class="number">10</span> [<span class="number">11</span>]&gt; (<span class="name">defun</span> f (<span class="name">a</span>) (<span class="name">sum-of-squares</span> (<span class="name">+</span> a <span class="number">1</span>) (<span class="name">*</span> a <span class="number">2</span>)))</span><br><span class="line">F</span><br><span class="line"></span><br><span class="line">(<span class="name">sum-of-squares</span> (<span class="name">+</span> a <span class="number">1</span>) (<span class="name">*</span> a <span class="number">2</span>))</span><br><span class="line">(<span class="name">sum-of-squares</span> (<span class="name">+</span> <span class="number">5</span> <span class="number">1</span>) (<span class="name">*</span> <span class="number">5</span> <span class="number">2</span>))</span><br><span class="line">(<span class="name">+</span> (<span class="name">square</span> <span class="number">6</span>) (<span class="name">square</span> <span class="number">10</span>))</span><br><span class="line">(<span class="name">+</span> <span class="number">36</span> <span class="number">100</span>)</span><br><span class="line"><span class="number">136</span></span><br><span class="line"></span><br><span class="line">Break <span class="number">10</span> [<span class="number">11</span>]&gt; (<span class="name">f</span> <span class="number">5</span>)</span><br><span class="line"><span class="number">136</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上面描述的过程成为代换模型，注意：</p>
+<ul>
+<li>代换模型的作用只是为了帮助我们领会过程调用中的情况，而不是对解释器实际工作方式的具体描述，通常的解释器都不采用直接操作过程的正文，用值代换形式参数的方式取完成对过程调用的求值。在实际中， 他们一般采用提供形式参数的局部环境的方式，产生代换效果</li>
+</ul>
+<h5 id="应用序和正则序"><a href="#应用序和正则序" class="headerlink" title="应用序和正则序"></a>应用序和正则序</h5><ul>
+<li>在上面的例子中，解释器首先对运算符和各个运算对象求值，而后将得到的过程应用于得到的实际参数</li>
+<li>另一种求值模型是先不求出运算对象的值，直到实际需要他们的值时再去做，采用这种求值方式，我们就应该受限运算对象表达式去代换形式参数，直到得到一个只包含一个基本运算符的表达式，然后再去执行求值</li>
+</ul>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">sum-of-squares</span> (<span class="name">+</span> <span class="number">5</span> <span class="number">1</span>) (<span class="name">*</span> <span class="number">5</span> <span class="number">2</span>))</span><br><span class="line">( <span class="name">+</span> (<span class="name">square</span> (<span class="name">+</span> <span class="number">5</span> <span class="number">1</span>)) (<span class="name">square</span> (<span class="name">*</span> <span class="number">5</span> <span class="number">2</span>)) )</span><br><span class="line">(<span class="name">+</span> (<span class="name">*</span> (<span class="name">+</span> <span class="number">5</span> <span class="number">1</span>) (<span class="name">+</span> <span class="number">5</span> <span class="number">1</span>)) (<span class="name">*</span> (<span class="name">*</span> <span class="number">5</span> <span class="number">2</span>) (<span class="name">*</span> <span class="number">5</span> <span class="number">2</span>)))</span><br><span class="line">归约</span><br><span class="line">(<span class="name">+</span>  (<span class="name">*</span> <span class="number">6</span> <span class="number">6</span>) (<span class="name">*</span> <span class="number">10</span> <span class="number">10</span> ))</span><br><span class="line">(<span class="name">+</span> <span class="number">36</span> <span class="number">100</span>)</span><br><span class="line"><span class="number">136</span></span><br></pre></td></tr></table></figure>
+
+<p>这种“完全展开而后约”的求值模型成为<strong>正则序求值</strong>，与之对应的是现在解释器里实际使用的”先求值参数而后应用“的方式，称之为<strong>应用序求值</strong></p>
+<p>Lisp采用应用序求值，部分原因在于这样做能够避免对于表达式的重复求值，从而可以提高一些效率</p>
+<h5 id="条件表达和谓词"><a href="#条件表达和谓词" class="headerlink" title="条件表达和谓词"></a>条件表达和谓词</h5><blockquote>
+<p>求一个数的绝对值</p>
+<p>|x| = { x 如果x&gt;0 ; 0 如果x=0；-x 如果x&lt;0}</p>
+</blockquote>
+<p>这种结构称为分情况分析</p>
+<p><code>cond</code></p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">defun</span> abs-a (<span class="name">x</span>)</span><br><span class="line">  (<span class="name">cond</span> ((<span class="name">&gt;</span> x <span class="number">0</span>) x)</span><br><span class="line">  		((<span class="name">=</span> x <span class="number">0</span>) <span class="number">0</span>)</span><br><span class="line">  		((<span class="name">&lt;</span> x <span class="number">0</span>) (<span class="name">-x</span>)))</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">(<span class="name">defun</span> abs-b (<span class="name">x</span>) </span><br><span class="line">    (<span class="name">cond</span> ((<span class="name">&lt;</span> x <span class="number">0</span>) (<span class="name">-x</span>))</span><br><span class="line">    		(<span class="name">else</span> x )))</span><br><span class="line"></span><br><span class="line">(<span class="name">defun</span> abs-c (<span class="name">x</span>)</span><br><span class="line">    (<span class="name">if</span> (<span class="name">&lt;</span> x <span class="number">0</span>)</span><br><span class="line">        (<span class="name">-x</span>)</span><br><span class="line">        x))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>if </code>， 是条件表达式的一种受限形式，适用于分情况分析中只有两个情况的需要，<code>if</code>表达式的一般形式是</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">if</span> &lt;predicate&gt; &lt;consequent&gt; &lt; alternative&gt;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>逻辑复合运算符</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">and</span> &lt;e1&gt; &lt;e2&gt; &lt;e3&gt;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">or</span> &lt;e1&gt; &lt;e2&gt; &lt;e3&gt;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(not &lt;e&gt;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>练习举例：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">/</span> (<span class="name">+</span> <span class="number">5</span> <span class="number">4</span> (<span class="name">-</span> <span class="number">2</span> (<span class="name">-</span> <span class="number">3</span> (<span class="name">+</span> <span class="number">6</span> (<span class="name">/</span> <span class="number">4</span> <span class="number">5</span> ))))) (<span class="name">*</span> <span class="number">3</span> (<span class="name">-</span> <span class="number">6</span> <span class="number">2</span>) (<span class="name">-</span> <span class="number">2</span> <span class="number">7</span>)))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">defun</span> (<span class="name">p</span>) (<span class="name">p</span>))</span><br><span class="line">(<span class="name">defun</span> test (<span class="name">x</span> y)</span><br><span class="line">    (<span class="name">if</span> (<span class="name">=</span> x <span class="number">0</span> )</span><br><span class="line">        <span class="number">0</span></span><br><span class="line">        y))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>在数学里，人们通常关心的是说明性的描述（是什么）， 而在计算机科学里，人们则通常关心行动性的描述（怎么做）</strong></p>
+<h5 id="牛顿法求平方根"><a href="#牛顿法求平方根" class="headerlink" title="牛顿法求平方根"></a>牛顿法求平方根</h5><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">defun</span> average(<span class="name">x</span> y) </span><br><span class="line">	(<span class="name">/</span> (<span class="name">x</span> + y ) <span class="number">2</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">(<span class="name">defun</span> improve (<span class="name">guess</span> x)</span><br><span class="line">	(<span class="name">average</span>(<span class="name">guess</span> (<span class="name">/</span> x guess)))</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">(<span class="name">defun</span> good-enough? (<span class="name">guess</span> x) </span><br><span class="line">	(<span class="name">&lt;</span> (<span class="name">abs</span> (<span class="name">-</span> (<span class="name">square</span> guess) x)) <span class="number">0.001</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">(<span class="name">defun</span> sqrt-iter (<span class="name">guess</span> x)</span><br><span class="line">	(<span class="name">if</span> goog-enough? ( <span class="name">guess</span> x)</span><br><span class="line">		guess</span><br><span class="line">		(<span class="name">sqrt-iter</span> (<span class="name">improve</span>( <span class="name">guess</span> x))</span><br><span class="line">					x)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">(<span class="name">defun</span> sqrt (<span class="name">x</span>) </span><br><span class="line">	(<span class="name">sqrt-iter</span> <span class="number">1.0</span> x)</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2020/04/11/%E8%AF%81%E6%98%8EFib-n-%E6%98%AF%E6%9C%80%E6%8E%A5%E8%BF%91%CE%A6-n-%E2%88%9A5-%E5%85%B6%E4%B8%AD%CE%A6-%EF%BC%881-%E2%88%9A5-2/">
+                    证明Fib(n)是最接近Φ^n √5, 其中Φ=（1+√5)/2
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2020/03/17/Python-%E5%86%85%E7%BD%AE%E5%BA%8F%E5%88%97%E7%B1%BB%E5%9E%8B/">      
+                    Python 内置序列类型
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Go-标识符与数据类型 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/07/13/Go-%E6%A0%87%E8%AF%86%E7%AC%A6%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="toc-number">1.</span> <span class="toc-text">一 标识符</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%85%B3%E9%94%AE%E5%AD%97%EF%BC%8825%E4%B8%AA%EF%BC%89"><span class="toc-number">1.0.1.</span> <span class="toc-text">1.1 关键字（25个）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E9%A2%84%E5%AE%9A%E4%B9%89%E5%90%8D%E5%AD%97%EF%BC%8830-%E4%B8%AA%EF%BC%89"><span class="toc-number">1.0.2.</span> <span class="toc-text">1.2 预定义名字（30+个）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E5%8F%98%E9%87%8F"><span class="toc-number">2.</span> <span class="toc-text">二 变量</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="toc-number">2.0.1.</span> <span class="toc-text">2.1 变量声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E5%A4%9A%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="toc-number">2.0.2.</span> <span class="toc-text">2.2 多变量声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-%E9%9B%B6%E5%80%BC%E6%9C%BA%E5%88%B6"><span class="toc-number">2.0.3.</span> <span class="toc-text">2.3 零值机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-%E5%8F%98%E9%87%8F%E5%80%BC%E4%BA%92%E6%8D%A2"><span class="toc-number">2.0.4.</span> <span class="toc-text">2.4 变量值互换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-%E4%B8%A2%E5%BC%83%E5%8F%98%E9%87%8F"><span class="toc-number">2.0.5.</span> <span class="toc-text">2.5 _丢弃变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-6-%E5%A3%B0%E6%98%8E%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">2.0.6.</span> <span class="toc-text">2.6 :&#x3D; 声明的注意事项</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-%E5%B8%B8%E9%87%8F"><span class="toc-number">3.</span> <span class="toc-text">三 常量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">4.</span> <span class="toc-text">四 数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B"><span class="toc-number">4.0.1.</span> <span class="toc-text">4.1 值类型与引用类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-%E5%B8%B8%E8%A7%81%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA"><span class="toc-number">4.0.2.</span> <span class="toc-text">4.2 常见格式化输出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-%E7%B1%BB%E5%9E%8B%E5%88%AB%E5%90%8D"><span class="toc-number">4.0.3.</span> <span class="toc-text">4.3 类型别名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-%E5%A4%9A%E6%95%B0%E6%8D%AE%E5%88%86%E7%BB%84%E4%B9%A6%E5%86%99"><span class="toc-number">4.0.4.</span> <span class="toc-text">4.4 多数据分组书写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-%E5%85%B3%E9%94%AE%E5%AD%97iota"><span class="toc-number">4.0.5.</span> <span class="toc-text">4.5 关键字iota</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-6-%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="toc-number">4.0.6.</span> <span class="toc-text">4.6 内存结构</span></a></li></ol></li></ol></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/07/13/Go-%E6%A0%87%E8%AF%86%E7%AC%A6%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Go-标识符与数据类型</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-07-13
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <h2 id="一-标识符"><a href="#一-标识符" class="headerlink" title="一 标识符"></a>一 标识符</h2><h4 id="1-1-关键字（25个）"><a href="#1-1-关键字（25个）" class="headerlink" title="1.1 关键字（25个）"></a>1.1 关键字（25个）</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>      <span class="keyword">for</span>     <span class="function"><span class="keyword">func</span>    <span class="title">case</span>        <span class="title">struct</span>      <span class="title">import</span></span>               </span><br><span class="line"><span class="keyword">go</span>      <span class="keyword">type</span>    <span class="keyword">chan</span>    <span class="keyword">defer</span>       <span class="keyword">default</span>     <span class="keyword">package</span></span><br><span class="line"><span class="keyword">map</span>     <span class="keyword">const</span>   <span class="keyword">else</span>    <span class="keyword">break</span>       <span class="keyword">select</span>      <span class="keyword">interface</span></span><br><span class="line"><span class="keyword">var</span>     <span class="keyword">goto</span>    <span class="keyword">range</span>   <span class="keyword">return</span>      <span class="keyword">switch</span>      <span class="keyword">continue</span>     <span class="keyword">fallthrough</span>                </span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-预定义名字（30-个）"><a href="#1-2-预定义名字（30-个）" class="headerlink" title="1.2 预定义名字（30+个）"></a>1.2 预定义名字（30+个）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">内建常量：  </span><br><span class="line">        true        false       iota        nil</span><br><span class="line">内建类型：  </span><br><span class="line">        int         int8        int16       int32       int64</span><br><span class="line">        uint        uint8       uint16      uint32      uint64      uintptr</span><br><span class="line">        float32     float64 </span><br><span class="line">        complex128  complex64</span><br><span class="line">bool：      </span><br><span class="line">        byte        rune        string 	    error</span><br><span class="line">内建函数：   </span><br><span class="line">        make        delete      complex     panic       append      copy    </span><br><span class="line">        close       len         cap	        real        imag        new   	    recover</span><br></pre></td></tr></table></figure>
+
+<h2 id="二-变量"><a href="#二-变量" class="headerlink" title="二 变量"></a>二 变量</h2><h4 id="2-1-变量声明"><a href="#2-1-变量声明" class="headerlink" title="2.1 变量声明"></a>2.1 变量声明</h4><p>Go变量声明的三种方式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="keyword">int</span>		    <span class="comment">// 声明一个变量，默认为0</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="number">10</span>		    <span class="comment">// 声明并初始化，且自动推导类型</span></span><br><span class="line">c := <span class="number">20</span>			    <span class="comment">// 初始化，且自动推导</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ul>
+<li><code>:=</code>定义变量只能在函数内部使用，所以经常用var定义全局变量</li>
+<li>Go对已经声明但未使用的变量会在编译阶段报错：<code>** not used</code></li>
+<li>Go中的标识符以字母或者下划线开头，大小写敏感</li>
+<li>Go推荐使用驼峰命名 </li>
+</ul>
+<h4 id="2-2-多变量声明"><a href="#2-2-多变量声明" class="headerlink" title="2.2 多变量声明"></a>2.2 多变量声明</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a,b <span class="keyword">string</span></span><br><span class="line">   <span class="keyword">var</span> a1,b1 <span class="keyword">string</span> = <span class="string">&quot;哼&quot;</span>,<span class="string">&quot;哈&quot;</span></span><br><span class="line">   <span class="keyword">var</span> a2,b2 <span class="keyword">int</span> = <span class="number">1</span>,<span class="number">2</span>             <span class="comment">//类型可以直接省略</span></span><br><span class="line">c,d := <span class="number">1</span>,<span class="number">2</span></span><br><span class="line"><span class="keyword">var</span>(</span><br><span class="line">	e <span class="keyword">int</span></span><br><span class="line">	f <span class="keyword">bool</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3-零值机制"><a href="#2-3-零值机制" class="headerlink" title="2.3 零值机制"></a>2.3 零值机制</h4><p>Go变量初始化会自带默认值，不像其他语言为空，下面列出各种数据类型对应的0值：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>     <span class="number">0</span></span><br><span class="line"><span class="keyword">int8</span>    <span class="number">0</span></span><br><span class="line"><span class="keyword">int32</span>   <span class="number">0</span></span><br><span class="line"><span class="keyword">int64</span>   <span class="number">0</span></span><br><span class="line"><span class="keyword">uint</span>    <span class="number">0x0</span></span><br><span class="line"><span class="keyword">rune</span>    <span class="number">0</span>           <span class="comment">//rune的实际类型是 int32</span></span><br><span class="line"><span class="keyword">byte</span>    <span class="number">0x0</span>         <span class="comment">// byte的实际类型是 uint8</span></span><br><span class="line"><span class="keyword">float32</span> <span class="number">0</span>           <span class="comment">//长度为 4 byte</span></span><br><span class="line"><span class="keyword">float64</span> <span class="number">0</span>           <span class="comment">//长度为 8 byte</span></span><br><span class="line"><span class="keyword">bool</span>    <span class="literal">false</span></span><br><span class="line"><span class="keyword">string</span>  <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-4-变量值互换"><a href="#2-4-变量值互换" class="headerlink" title="2.4 变量值互换"></a>2.4 变量值互换</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">m,n = n,m			<span class="comment">//变量值互换</span></span><br><span class="line">temp,_ = m,n		<span class="comment">//匿名变量：变量值互换，且丢弃变量n </span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-5-丢弃变量"><a href="#2-5-丢弃变量" class="headerlink" title="2.5 _丢弃变量"></a>2.5 _丢弃变量</h4><p><code>_</code>是个特殊的变量名，任何赋予它的值都会被丢弃。该变量不占用命名空间，也不会分配内存。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_, b := <span class="number">34</span>, <span class="number">35</span>      <span class="comment">//将值`35`赋予`b`，并同时丢弃`34`：</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-6-声明的注意事项"><a href="#2-6-声明的注意事项" class="headerlink" title="2.6 := 声明的注意事项"></a>2.6 := 声明的注意事项</h4><p>下面是正确的代码示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">in, err := os.Open(file)</span><br><span class="line">out, err := os.Create(file)     <span class="comment">// 此处的 err其实是赋值</span></span><br></pre></td></tr></table></figure>
+
+<p>但是如果在第二行赋值的变量名全部和第一行一致，则编译不通过：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">in, err := os.Open(file)</span><br><span class="line">in, err := os.Create(file)     <span class="comment">// 即 := 必须确保至少有一个变量是用于声明</span></span><br></pre></td></tr></table></figure>
+
+<p><code>:=</code>只有对已经在同级词法域声明过的变量才和赋值操作语句等价，如果变量是在外部词法域声明的，那么<code>:=</code>将会在当前词法域重新声明一个新的变量。</p>
+<h2 id="三-常量"><a href="#三-常量" class="headerlink" title="三 常量"></a>三 常量</h2><p>常量：在编译阶段就确定下来的值，程序运行时无法改变。   </p>
+<p>定义方式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> A = <span class="number">3</span></span><br><span class="line"><span class="keyword">const</span> PI <span class="keyword">float32</span> = <span class="number">3.1415</span></span><br><span class="line"><span class="keyword">const</span> mask = <span class="number">1</span> &lt;&lt; <span class="number">3</span>						<span class="comment">//常量与表达式</span></span><br><span class="line"><span class="comment">//const Home = os.GetEnv(“HOME”);		//错误写法：常量赋值是一个编译期行为，右边的值不能出现在运行时才能得到结果的值。  </span></span><br></pre></td></tr></table></figure>
+
+<h2 id="四-数据类型"><a href="#四-数据类型" class="headerlink" title="四 数据类型"></a>四 数据类型</h2><h4 id="4-1-值类型与引用类型"><a href="#4-1-值类型与引用类型" class="headerlink" title="4.1 值类型与引用类型"></a>4.1 值类型与引用类型</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">值类型：</span><br><span class="line">    整型（int8,uint等）                 # 基础类型之数字类型</span><br><span class="line">    浮点型（float32，float64）          # 基础类型之数字类型</span><br><span class="line">    复数()                             # 基础类型之数字类型</span><br><span class="line">    布尔型（bool）                      # 基础类型</span><br><span class="line">    字符串（string）                    # 基础类型</span><br><span class="line">    数组                               # 复合类型 </span><br><span class="line">    结构体（struct）                    # 复合类型</span><br><span class="line"></span><br><span class="line">引用类型：即保存的是对程序中一个变量的或状态的间接引用，对其修改将影响所有该引用的拷贝</span><br><span class="line">    指针</span><br><span class="line">    切片（slice）</span><br><span class="line">    字典（map）</span><br><span class="line">    函数</span><br><span class="line">    管道（chan）</span><br><span class="line">    接口（interface）</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ul>
+<li>基本数据类型是Go语言实际的原子</li>
+<li>复合数据类型是由不同的方式组合基本类型构造出来的数据类型，如：数组，slice，map，结构体</li>
+<li>没有字符型，使用byte来保存单个字母</li>
+</ul>
+<p>类型判断：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Printf(<span class="string">&quot;%T&quot;</span>,a);                 <span class="comment">//输出a的类型</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：int32和int是两种不同的类型，编译器不会自动转换，需要类型转换。  </p>
+<h4 id="4-2-常见格式化输出"><a href="#4-2-常见格式化输出" class="headerlink" title="4.2 常见格式化输出"></a>4.2 常见格式化输出</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">%%	%字面量</span><br><span class="line">%b	二进制整数值，基数为2，或者是一个科学记数法表示的指数为2的浮点数</span><br><span class="line">%c	字符型</span><br><span class="line">%d	十进制数值，基数为10</span><br><span class="line">%e	科学记数法e表示的浮点或者复数</span><br><span class="line">%E	科学记数法E表示的浮点或者附属</span><br><span class="line">%f	标准计数法表示的浮点或者附属</span><br><span class="line">%o	8进制度</span><br><span class="line">%p	十六进制表示的一个地址值</span><br><span class="line">%s	字符串</span><br><span class="line">%T	输出值的类型</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-3-类型别名"><a href="#4-3-类型别名" class="headerlink" title="4.3 类型别名"></a>4.3 类型别名</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> bigint <span class="keyword">int64</span>	            <span class="comment">//支持使用括号，同时起多个别名</span></span><br><span class="line"><span class="keyword">var</span> a bigint</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-4-多数据分组书写"><a href="#4-4-多数据分组书写" class="headerlink" title="4.4 多数据分组书写"></a>4.4 多数据分组书写</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span>(</span><br><span class="line">    i = <span class="number">100</span></span><br><span class="line">    pi = <span class="number">3.1415</span></span><br><span class="line">    prefix = <span class="string">&quot;Go_&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span>(</span><br><span class="line">    i <span class="keyword">int</span></span><br><span class="line">    pi <span class="keyword">float32</span></span><br><span class="line">    prefix <span class="keyword">string</span></span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-5-关键字iota"><a href="#4-5-关键字iota" class="headerlink" title="4.5 关键字iota"></a>4.5 关键字iota</h4><p>关键字iota声明初始值为0，每行递增1：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	a = <span class="literal">iota</span>    	        <span class="comment">// 0</span></span><br><span class="line">    b =	<span class="literal">iota</span> 		        <span class="comment">// 1        </span></span><br><span class="line">    c = <span class="literal">iota</span> 		        <span class="comment">// 2</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	d = <span class="literal">iota</span>    	        <span class="comment">//  0</span></span><br><span class="line">    e 				        <span class="comment">// 1        </span></span><br><span class="line">    f 				        <span class="comment">// 2</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">//如果iota在同一行，则值都一样</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	g = <span class="literal">iota</span>    	        <span class="comment">//0</span></span><br><span class="line">    h,i,j = <span class="literal">iota</span>,<span class="literal">iota</span>,<span class="literal">iota</span> 	       </span><br><span class="line">    k 				        <span class="comment">// 2</span></span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-6-内存结构"><a href="#4-6-内存结构" class="headerlink" title="4.6 内存结构"></a>4.6 内存结构</h4><p><img src="Go-%E6%A0%87%E8%AF%86%E7%AC%A6%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/lang-03.png"></p>
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/07/20/Django-https%E9%85%8D%E7%BD%AE/">
+                    Django https配置
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/07/13/Go-%E5%8C%85%E4%B8%8E%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/">      
+                    Go-包与依赖管理
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

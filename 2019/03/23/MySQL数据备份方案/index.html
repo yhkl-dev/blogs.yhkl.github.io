@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            MySQL数据备份方案 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/03/23/MySQL%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%96%B9%E6%A1%88/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD"><span class="toc-number">1.</span> <span class="toc-text">一、数据备份</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-%E9%80%BB%E8%BE%91%E5%A4%87%E4%BB%BD"><span class="toc-number">1.1.</span> <span class="toc-text">1.逻辑备份</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-%E7%89%A9%E7%90%86%E5%A4%87%E4%BB%BD"><span class="toc-number">1.2.</span> <span class="toc-text">2.物理备份</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-%E5%AE%9E%E6%97%B6binlog%E5%A4%87%E4%BB%BD"><span class="toc-number">1.3.</span> <span class="toc-text">3.实时binlog备份</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8C-%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D%E4%B8%8E%E6%B5%8B%E8%AF%95%E9%83%A8%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">二 数据恢复与测试部分</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-%E6%81%A2%E5%A4%8D%E6%97%B6%E9%97%B4%E5%8F%8A%E5%9C%B0%E7%82%B9"><span class="toc-number">2.1.</span> <span class="toc-text">1.恢复时间及地点</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-%E6%81%A2%E5%A4%8D%E6%96%B9%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">2.恢复方式</span></a></li></ol></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/03/23/MySQL%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%96%B9%E6%A1%88/">MySQL数据备份方案</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-03-23
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <h5 id="一、数据备份"><a href="#一、数据备份" class="headerlink" title="一、数据备份"></a>一、数据备份</h5><h6 id="1-逻辑备份"><a href="#1-逻辑备份" class="headerlink" title="1.逻辑备份"></a>1.逻辑备份</h6><ul>
+<li><p>使用场景</p>
+<p>逻辑备份主要用于数据库数据量较小的情况，当数据库出现故障，对于恢复时间要求不高、搭建主从环境，搭建测试环境以及备用库方面。</p>
+</li>
+<li><p>备份时间及地点</p>
+<p>每日凌晨<code>3:00</code>在从库上备份，备份文件存放在从库上的<code>/path/to/backupdir</code>，如果有充足的机器，更安全的方式是备份到远程服务器。</p>
+</li>
+<li><p>备份方式</p>
+<p>采用<code>mysqldump</code>进行全库备份，通过定时任务，定时执行shell备份脚本。</p>
+<p>备份脚本如下：</p>
+<ul>
+<li><p>增量备份</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /home/mysql/backup/daily</span><br></pre></td></tr></table></figure>
+
+<p>脚本如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">cd /home/mysql</span><br><span class="line">vi binlogbak.sh</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###########################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">File Name: databack.sh</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Author: ykyk</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Mail: 525178992@qq.com</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Created Time: 2018-05-15 09:34:28</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###########################</span></span></span><br><span class="line"></span><br><span class="line">export LANG=en_US.UTF-8</span><br><span class="line">BakDir=/home/mysql/backup/daily</span><br><span class="line">BinDir=/home/mysql</span><br><span class="line">LogFile=/home/mysql/backup/binlog.log</span><br><span class="line">BinFile=/home/mysql/logindex.index</span><br><span class="line">mysqladmin -u username -p password flush-logs</span><br><span class="line"><span class="meta">#</span><span class="bash">这个是用于产生新的mysql-bin.00000*文件</span></span><br><span class="line">Counter=`wc -l $BinFile |awk &#x27;&#123;print $1&#125;&#x27;`</span><br><span class="line">NextNum=0</span><br><span class="line"><span class="meta">#</span><span class="bash">这个<span class="keyword">for</span>循环用于比对<span class="variable">$Counter</span>,<span class="variable">$NextNum</span>这两个值来确定文件是不是存在或最新的。</span></span><br><span class="line">for file in `cat $BinFile`</span><br><span class="line">do</span><br><span class="line">    base=`basename $file`</span><br><span class="line">    #basename用于截取mysql-bin.00000*文件名，去掉./mysql-bin.000005前面的./</span><br><span class="line">    NextNum=`expr $NextNum + 1`</span><br><span class="line">    if [ $NextNum -eq $Counter ]</span><br><span class="line">    then</span><br><span class="line">        echo $base skip! &gt;&gt; $LogFile</span><br><span class="line">    else</span><br><span class="line">        dest=$BakDir/$base</span><br><span class="line">        if(test -e $dest)</span><br><span class="line">        #test -e用于检测目标文件是否存在，存在就写exist!到$LogFile去。</span><br><span class="line">        then</span><br><span class="line">            echo $base exist! &gt;&gt; $LogFile</span><br><span class="line">        else</span><br><span class="line">            cp $BinDir/$base $BakDir</span><br><span class="line">            echo $base copying &gt;&gt; $LogFile</span><br><span class="line">        fi</span><br><span class="line">    fi</span><br><span class="line">done</span><br><span class="line">echo `date +&quot;%Y年%m月%d日 %H:%M:%S&quot;` Bakup succ! &gt;&gt; $LogFile</span><br></pre></td></tr></table></figure></li>
+<li><p>全量备份</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">vi databak.sh</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###########################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">File Name: databack.sh</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Author: ykyk</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Mail: 525178992@qq.com</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Created Time: 2018-05-15 09:40:51</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###########################</span></span></span><br><span class="line"></span><br><span class="line">export LANG=en_US.UTF-8</span><br><span class="line">BakDir=/home/mysql/backup</span><br><span class="line">LogFile=/home/mysql/backup/bak.log</span><br><span class="line">Date=`date +%Y%m%d`</span><br><span class="line">Begin=`date +&quot;%Y年%m月%d日 %H:%M:%S&quot;`</span><br><span class="line">cd $BakDir</span><br><span class="line">DumpFile=$Date.sql</span><br><span class="line">GZDumpFile=$Date.sql.tgz</span><br><span class="line">mysqldump -u username -p password --socket=/path/to/mysql.sock --all-databases --flush-logs --single-transaction --routines --master-data=2 &gt; $DumpFile</span><br><span class="line">tar -czvf $GZDumpFile $DumpFile</span><br><span class="line">rm $DumpFile</span><br><span class="line"></span><br><span class="line">count=$(ls -l *.tgz |wc -l)</span><br><span class="line">if [ $count -ge 5 ]</span><br><span class="line">then</span><br><span class="line">file=$(ls -l *.tgz |awk &#x27;&#123;print $9&#125;&#x27;|awk &#x27;NR==1&#x27;)</span><br><span class="line">rm -f $file</span><br><span class="line">fi</span><br><span class="line"><span class="meta">#</span><span class="bash">只保留过去四周的数据库内容</span></span><br><span class="line"></span><br><span class="line">Last=`date +&quot;%Y年%m月%d日 %H:%M:%S&quot;`</span><br><span class="line">echo 开始:$Begin 结束:$Last $GZDumpFile succ &gt;&gt; $LogFile</span><br><span class="line">cd $BakDir/daily</span><br><span class="line">rm -f *</span><br></pre></td></tr></table></figure>
+
+<p>备份参数说明</p>
+<ul>
+<li><code>--all-databases</code> 全库备份</li>
+<li><code>--flush-logs</code> 生成新的二进制日志文件</li>
+<li><code>--single-transaction</code> 开启事务保持数据一致性</li>
+<li><code>--routines</code> 备份存储过程和函数，触发器默认会备份</li>
+<li><code>--master-data=2</code> 默认是1，当这个值是2的时候，<code>change master to</code>也是会写到dump文件里面去的，但是这个语句是被注释的状态。  </li>
+</ul>
+</li>
+<li><p>计划任务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> vi /etc/crontab</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">每个星期日凌晨3:00执行完全备份脚本</span></span><br><span class="line">0 3 * * 0 /home/mysql/databak.sh &gt;/dev/null 2&gt;&amp;1</span><br><span class="line"><span class="meta">#</span><span class="bash">周一到周六凌晨3:00做增量备份</span></span><br><span class="line">0 3 * * 1-6 /home/mysql/binlogbak.sh &gt;/dev/null 2&gt;&amp;1</span><br></pre></td></tr></table></figure></li>
+<li><p>计划任务生效</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> crontab /etc/crontab</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> crontab -l</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h6 id="2-物理备份"><a href="#2-物理备份" class="headerlink" title="2.物理备份"></a>2.物理备份</h6><ul>
+<li><p>使用场景</p>
+<p>主要针对对于数据恢复要求时间比较高，数据量大的场景</p>
+</li>
+<li><p>备份时间</p>
+<p>每周一凌晨3:00在主库上备份。备份文件存放远程服务器目录下</p>
+</li>
+<li><p>备份方式</p>
+<p>使用<code>Percona XtraBackup</code>工具进行备份，此工具可以在线热备， 不影响线上业务</p>
+<ul>
+<li><p><code>Percona XtraBackup</code>工具原理介绍</p>
+<ul>
+<li><p>备份过程图</p>
+<p><img src="MySQL%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%96%B9%E6%A1%88/1553305360677.png" alt="1553305360677"></p>
+</li>
+<li><p>原理说明</p>
+<ol>
+<li><code>innobackupex</code> 在启动后，会先 fork 一个进程，启动 <code>xtrabackup</code>进程，然后就等待 <code>xtrabackup</code> 备份完 ibd 数据文件；</li>
+<li><code>xtrabackup</code> 在备份 InnoDB 相关数据时，是有2种线程的，1种是 redo 拷贝线程，负责拷贝 redo 文件，1种是 ibd 拷贝线程，负责拷贝 ibd 文件；redo 拷贝线程只有一个，在 ibd 拷贝线程之前启动，在 ibd 线程结束后结束。<code>xtrabackup</code> 进程开始执行后，先启动 redo 拷贝线程，从最新的 checkpoint 点开始顺序拷贝 redo 日志；然后再启动 ibd 数据拷贝线程，在 <code>xtrabackup</code> 拷贝 ibd 过程中，<code>innobackupex</code> 进程一直处于等待状态（等待文件被创建）。</li>
+<li><code>xtrabackup</code> 拷贝完成idb后，通知 <code>innobackupex</code>（通过创建文件），同时自己进入等待（redo 线程仍然继续拷贝）;</li>
+<li><code>innobackupex</code> 收到 <code>xtrabackup</code> 通知后，执行<code>FLUSH TABLES WITH READ LOCK</code> (FTWRL)，取得一致性位点，然后开始备份非 InnoDB 文件（包括 frm、MYD、MYI、CSV、opt、par等）。拷贝非 InnoDB 文件过程中，因为数据库处于全局只读状态，如果在业务的主库备份的话，要特别小心，非 InnoDB 表（主要是MyISAM）比较多的话整库只读时间就会比较长，这个影响一定要评估到。</li>
+<li>当 <code>innobackupex</code> 拷贝完所有非 InnoDB 表文件后，通知 <code>xtrabackup</code>（通过删文件） ，同时自己进入等待（等待另一个文件被创建）；</li>
+<li><code>xtrabackup</code> 收到 <code>innobackupex</code> 备份完非 InnoDB 通知后，就停止 redo 拷贝线程，然后通知 <code>innobackupex</code>redo log 拷贝完成（通过创建文件）；</li>
+<li><code>innobackupex</code> 收到 redo 备份完成通知后，就开始解锁，执行 <code>UNLOCK TABLES</code>；</li>
+<li>最后 <code>innobackupex</code> 和 <code>xtrabackup</code> 进程各自完成收尾工作，如资源的释放、写备份元数据信息等，<code>innobackupex</code> 等待 <code>xtrabackup</code> 子进程结束后退出。</li>
+</ol>
+<p>上面描述的文件拷贝，都是备份进程直接通过操作系统读取数据文件的，只在执行 SQL 命令时和数据库有交互，基本不影响数据库的运行，在备份非 InnoDB 时会有一段时间只读（如果没有MyISAM表的话，只读时间在几秒左右），在备份 InnoDB 数据文件时，对数据库完全没有影响，是真正的热备。</p>
+<p>InnoDB 和非 InnoDB 文件的备份都是通过拷贝文件来做的，但是实现的方式不同，前者是以page为粒度做的(<code>xtrabackup</code>)，后者是 cp 或者 tar 命令(<code>innobackupex</code>)，<code>xtrabackup</code> 在读取每个page时会校验 checksum 值，保证数据块是一致的，而 <code>innobackupex</code> 在 cp MyISAM 文件时已经做了flush（FTWRL），磁盘上的文件也是完整的，所以最终备份集里的数据文件都是写入完整的。</p>
+</li>
+<li><p>恢复过程</p>
+<p>备份集的恢复就是类似 mysqld crash后，做一次 crash recover。</p>
+<p>恢复的目的是把备份集中的数据恢复到一个一致性位点，所谓一致就是指原数据库某一时间点各引擎数据的状态，比如 MyISAM 中的数据对应的是 15:00 时间点的，InnoDB 中的数据对应的是 15:20 的，这种状态的数据就是不一致的。PXB 备份集对应的一致点，就是备份时FTWRL的时间点，恢复出来的数据，就对应原数据库FTWRL时的状态。</p>
+<p>因为备份时 FTWRL(flush table with read lock) 后，数据库是处于只读的，非 InnoDB 数据是在持有全局读锁情况下拷贝的，所以非 InnoDB 数据本身就对应 FTWRL 时间点；InnoDB 的 ibd 文件拷贝是在 FTWRL 前做的，拷贝出来的不同 ibd 文件最后更新时间点是不一样的，这种状态的 ibd 文件是不能直接用的，但是 redo log 是从备份开始一直持续拷贝的，最后的 redo 日志点是在持有 FTWRL 后取得的，所以最终通过 redo 应用后的 ibd 数据时间点也是和 FTWRL 一致的。</p>
+<p>所以恢复过程只涉及 InnoDB 文件的恢复，非 InnoDB 数据是不动的。备份恢复完成后，就可以把数据文件拷贝到对应的目录，然后通过mysqld来启动了。</p>
+</li>
+</ul>
+</li>
+<li><p>备份脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /data/backup/extraback -p</span><br></pre></td></tr></table></figure>
+
+<p>全量备份：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###########################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">File Name: xtrafullback.sh</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Author: ykyk</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Mail: 525178992@qq.com</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Created Time: 2018-06-15 17:11:49</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###########################</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">INNOBACKUPEX=innobackupex</span><br><span class="line">INNOBACKUPEXFULL=/usr/bin/$INNOBACKUPEX</span><br><span class="line">TODAY=`date +%Y%m%d%H%M`</span><br><span class="line">YESTERDAY=`date -d&quot;yesterday&quot; +%Y%m%d%H%M`</span><br><span class="line">USEROPTIONS=&quot;--user=root --password=123456&quot;</span><br><span class="line">TMPFILE=&quot;/data/backup/innobackup_$TODAY.$$.tmp&quot;</span><br><span class="line">SOCKET=&quot;--socket=/data/mysql/3306/run/mysql.sock&quot;</span><br><span class="line">MYCNF=/data/mysql/3306/etc/my.cnf</span><br><span class="line">MYSQL=/usr/local/mysql/bin/mysql</span><br><span class="line">MYSQLADMIN=/usr/local/mysql/bin/mysqladmin</span><br><span class="line">BACKUPDIR=/data/backup/xtrabackup # 备份的主目录</span><br><span class="line">FULLBACKUPDIR=$BACKUPDIR/full # 全库备份的目录</span><br><span class="line">INCRBACKUPDIR=$BACKUPDIR/incr # 增量备份的目录</span><br><span class="line">KEEP=1 # 保留几个全库备份</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Grab start time</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">############################################################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Display error message and <span class="built_in">exit</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">############################################################################</span></span></span><br><span class="line">error()</span><br><span class="line">&#123;</span><br><span class="line">    echo &quot;$1&quot; 1&gt;&amp;2</span><br><span class="line">    exit 1</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Check options before proceeding</span></span><br><span class="line">if [ ! -x $INNOBACKUPEXFULL ]; then</span><br><span class="line">  error &quot;$INNOBACKUPEXFULL does not exist.&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ ! -d $BACKUPDIR ]; then</span><br><span class="line">  error &quot;Backup destination folder: $BACKUPDIR does not exist.&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ -z &quot;`$MYSQLADMIN $USEROPTIONS status | grep &#x27;Uptime&#x27;`&quot; ] ; then</span><br><span class="line"> error &quot;HALTED: MySQL does not appear to be running.&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if ! `echo &#x27;exit&#x27; | $MYSQL -s $USEROPTIONS` ; then</span><br><span class="line"> error &quot;HALTED: Supplied mysql username or password appears to be incorrect (not copied here for security, see script).&quot;</span><br><span class="line">fi</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Some info output</span></span><br><span class="line">echo &quot;----------------------------&quot;</span><br><span class="line">echo</span><br><span class="line">echo &quot;$0: MySQL backup script&quot;</span><br><span class="line">echo &quot;started: `date`&quot;</span><br><span class="line">echo</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Create full and incr backup directories <span class="keyword">if</span> they not exist.</span></span><br><span class="line">for i in $FULLBACKUPDIR $INCRBACKUPDIR</span><br><span class="line">do</span><br><span class="line">        if [ ! -d $i ]; then</span><br><span class="line">                mkdir -pv $i</span><br><span class="line">        fi</span><br><span class="line">done</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 压缩上传前一天的备份</span></span><br><span class="line">echo &quot;压缩前一天的备份，scp到远程主机&quot;</span><br><span class="line">cd $BACKUPDIR</span><br><span class="line">tar -zcvf $YESTERDAY.tar.gz ./full/ ./incr/</span><br><span class="line">scp -P 22 $YESTERDAY.tar.gz root@192.168.75.138:/data/backup/</span><br><span class="line">if [ $? = 0 ]; then</span><br><span class="line">  rm -rf $BACKUPDIR/full $BACKUPDIR/incr</span><br><span class="line">  echo &quot;Running new full backup.&quot;</span><br><span class="line">  innobackupex --defaults-file=$MYCNF $SOCKET $USEROPTIONS $FULLBACKUPDIR &gt; $TMPFILE 2&gt;&amp;1</span><br><span class="line">else</span><br><span class="line">  echo &quot;Error with scp.&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ -z &quot;`tail -1 $TMPFILE | grep &#x27;completed OK!&#x27;`&quot; ] ; then</span><br><span class="line"> echo &quot;$INNOBACKUPEX failed:&quot;; echo</span><br><span class="line"> echo &quot;---------- ERROR OUTPUT from $INNOBACKUPEX ----------&quot;</span><br><span class="line"> cat $TMPFILE</span><br><span class="line"> rm -f $TMPFILE</span><br><span class="line"> exit 1</span><br><span class="line">fi</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 这里获取这次备份的目录</span></span><br><span class="line">THISBACKUP=`awk -- &quot;/Backup created in directory/ &#123; split( \\\$0, p, \&quot;&#x27;\&quot; ) ; print p[2] &#125;&quot; $TMPFILE`</span><br><span class="line">echo &quot;THISBACKUP=$THISBACKUP&quot;</span><br><span class="line">rm -f $TMPFILE</span><br><span class="line">echo &quot;Databases backed up successfully to: $THISBACKUP&quot;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Cleanup</span></span><br><span class="line">echo &quot;delete tar files of 3 days ago&quot;</span><br><span class="line">find $BACKUPDIR/ -mtime +3 -name &quot;*.tar.gz&quot;  -exec rm -rf &#123;&#125; \;</span><br><span class="line"></span><br><span class="line">echo</span><br><span class="line">echo &quot;completed: `date`&quot;</span><br><span class="line">exit 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>增量备份</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">!/bin/sh</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###########################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">File Name: xtraincrback.sh</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Author: ykyk</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Mail: 525178992@qq.com</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Created Time: 2018-06-15 17:11:49</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###########################</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">INNOBACKUPEX=innobackupex</span><br><span class="line">INNOBACKUPEXFULL=/usr/bin/$INNOBACKUPEX</span><br><span class="line">TODAY=`date +%Y%m%d%H%M`</span><br><span class="line">USEROPTIONS=&quot;--user=root --password=123456&quot;</span><br><span class="line">TMPFILE=&quot;/data/backup/innobackup_$TODAY.$$.tmp&quot;</span><br><span class="line">SOCKET=&quot;--socket=/data/mysql/3306/run/mysql.sock&quot;</span><br><span class="line">MYCNF=/data/mysql/3306/etc/my.cnf</span><br><span class="line">MYSQL=/usr/local/mysql/bin/mysql</span><br><span class="line">MYSQLADMIN=/usr/local/mysql/bin/mysqladmin</span><br><span class="line">BACKUPDIR=/data/backup/xtrabackup # 备份的主目录</span><br><span class="line">FULLBACKUPDIR=$BACKUPDIR/full # 全库备份的目录</span><br><span class="line">INCRBACKUPDIR=$BACKUPDIR/incr # 增量备份的目录</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">############################################################################</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Display error message and <span class="built_in">exit</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">############################################################################</span></span></span><br><span class="line">error()</span><br><span class="line">&#123;</span><br><span class="line">    echo &quot;$1&quot; 1&gt;&amp;2</span><br><span class="line">    exit 1</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Check options before proceeding</span></span><br><span class="line">if [ ! -x $INNOBACKUPEXFULL ]; then</span><br><span class="line">  error &quot;$INNOBACKUPEXFULL does not exist.&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ ! -d $BACKUPDIR ]; then</span><br><span class="line">  error &quot;Backup destination folder: $BACKUPDIR does not exist.&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ -z &quot;`$MYSQLADMIN $USEROPTIONS status | grep &#x27;Uptime&#x27;`&quot; ] ; then</span><br><span class="line"> error &quot;HALTED: MySQL does not appear to be running.&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if ! `echo &#x27;exit&#x27; | $MYSQL -s $USEROPTIONS` ; then</span><br><span class="line"> error &quot;HALTED: Supplied mysql username or password appears to be incorrect (not copied here for security, see script).&quot;</span><br><span class="line">fi</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Some info output</span></span><br><span class="line">echo &quot;----------------------------&quot;</span><br><span class="line">echo</span><br><span class="line">echo &quot;$0: MySQL backup script&quot;</span><br><span class="line">echo &quot;started: `date`&quot;</span><br><span class="line">echo</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Create full and incr backup directories <span class="keyword">if</span> they not exist.</span></span><br><span class="line">for i in $FULLBACKUPDIR $INCRBACKUPDIR</span><br><span class="line">do</span><br><span class="line">        if [ ! -d $i ]; then</span><br><span class="line">                mkdir -pv $i</span><br><span class="line">        fi</span><br><span class="line">done</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Find latest full backup</span></span><br><span class="line">LATEST_FULL=`find $FULLBACKUPDIR -mindepth 1 -maxdepth 1 -type d -printf &quot;%P\n&quot;`</span><br><span class="line">echo &quot;LATEST_FULL=$LATEST_FULL&quot;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Run an incremental backup <span class="keyword">if</span> latest full is still valid.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Create incremental backups dir <span class="keyword">if</span> not exists.</span></span><br><span class="line">TMPINCRDIR=$INCRBACKUPDIR/$LATEST_FULL</span><br><span class="line">mkdir -p $TMPINCRDIR</span><br><span class="line">BACKTYPE=&quot;incr&quot;</span><br><span class="line"><span class="meta">#</span><span class="bash"> Find latest incremental backup.</span></span><br><span class="line">LATEST_INCR=`find $TMPINCRDIR -mindepth 1 -maxdepth 1 -type d | sort -nr | head -1`</span><br><span class="line">echo &quot;LATEST_INCR=$LATEST_INCR&quot;</span><br><span class="line"><span class="meta">  #</span><span class="bash"> If this is the first incremental, use the full as base. Otherwise, use the latest incremental as base.</span></span><br><span class="line">if [ ! $LATEST_INCR ] ; then</span><br><span class="line">  INCRBASEDIR=$FULLBACKUPDIR/$LATEST_FULL</span><br><span class="line">else</span><br><span class="line">  INCRBASEDIR=$LATEST_INCR</span><br><span class="line">fi</span><br><span class="line">echo &quot;Running new incremental backup using $INCRBASEDIR as base.&quot;</span><br><span class="line">innobackupex --defaults-file=$MYCNF $USEROPTIONS $SOCKET --incremental $TMPINCRDIR --incremental-basedir $INCRBASEDIR &gt; $TMPFILE 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if [ -z &quot;`tail -1 $TMPFILE | grep &#x27;completed OK!&#x27;`&quot; ] ; then</span><br><span class="line"> echo &quot;$INNOBACKUPEX failed:&quot;; echo</span><br><span class="line"> echo &quot;---------- ERROR OUTPUT from $INNOBACKUPEX ----------&quot;</span><br><span class="line"> exit 1</span><br><span class="line">fi</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 这里获取这次备份的目录</span></span><br><span class="line">THISBACKUP=`awk -- &quot;/Backup created in directory/ &#123; split( \\\$0, p, \&quot;&#x27;\&quot; ) ; print p[2] &#125;&quot; $TMPFILE`</span><br><span class="line">echo &quot;THISBACKUP=$THISBACKUP&quot;</span><br><span class="line">echo</span><br><span class="line">echo &quot;Databases backed up successfully to: $THISBACKUP&quot;</span><br><span class="line"></span><br><span class="line">echo</span><br><span class="line">echo &quot;incremental completed: `date`&quot;</span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h6 id="3-实时binlog备份"><a href="#3-实时binlog备份" class="headerlink" title="3.实时binlog备份"></a>3.实时binlog备份</h6><ul>
+<li><p>使用场景</p>
+<p>由于错误操作等造成数据丢失错误，需要按照时间点进行还原</p>
+</li>
+<li><p>备份时间及地点</p>
+<p>备份服务器实时将主库上binlog同步到远程服务器上。</p>
+</li>
+<li><p>备份方式</p>
+<p><code>mysqlbinlog</code>工具进行日志拉取，shell脚本如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mysqlbinlog  --read-from-remote-server --host=xx.xx.xxx.xx --port=3306 --user=<span class="string">&quot;username&quot;</span> --password=<span class="string">&quot;password&quot;</span> --raw --stop-never mysql-bin.xxxxxx  --result-file=/data/backup/binlog/</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="二-数据恢复与测试部分"><a href="#二-数据恢复与测试部分" class="headerlink" title="二 数据恢复与测试部分"></a><strong>二 数据恢复与测试部分</strong></h5><p>备份文件备份之后还需对其定期的进行恢复测试。</p>
+<p>很多情况下，有些备份文件可能已经损坏。如遇到数据丢失故障时，在紧急关头，竟发现备份的文件无法恢复或者数据一致性和完整性没有达到要求，如果定期的对备份文件进行恢复测试，这种悲剧可能就不会发生。</p>
+<h6 id="1-恢复时间及地点"><a href="#1-恢复时间及地点" class="headerlink" title="1.恢复时间及地点"></a>1.恢复时间及地点</h6><p>每周进行一次恢复测试，主要在测试机上进行</p>
+<h6 id="2-恢复方式"><a href="#2-恢复方式" class="headerlink" title="2.恢复方式"></a>2.恢复方式</h6><p>模拟某个时间点主机数据全部丢失，要求恢复到丢失时间点的所有数据，先进行全备恢复，然后根据binlog恢复到最近时间点。</p>
+<ul>
+<li><p>全量备份恢复</p>
+<ul>
+<li><p>mysqldump备份的sql文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -u -p &lt; backup.sql</span><br></pre></td></tr></table></figure></li>
+<li><p>增量及实时备份binlog的 二进制日志文件<br>根据二进制日志进行恢复</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">  mysqlbinlog binlog.[0-9]* | mysql -u root -p</span></span><br></pre></td></tr></table></figure>
+
+<p>基于时间点恢复</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">  mysqlbinlog binlog.[0-9]* --start-datetime=datetime --stop-datetime=datetime| mysql -u root -p</span>	</span><br></pre></td></tr></table></figure>
+
+<p>基于位置的恢复</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">  mysqlbinlog binlog.[0-9]* --start-position=xxxxxxx --stop-position=xxxxxxx| mysql -u root -p</span></span><br></pre></td></tr></table></figure>
+
+<p>innobackupexh恢复</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> innobackupex --apply-log   /data/backup/xtraback/full/2019-03-23_13-35-02/</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mysqladmin -uroot -p123456 shutdown</span>  </span><br><span class="line"><span class="meta">$</span><span class="bash"> mv /data/mysql/3306  /data/mysql_bak    <span class="comment">##备份原数据目录</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mkdir -pv /data/mysql/3306/&#123;etc,tmp,data,....&#125;</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> innobackupex --copy-back  /data/backup/xtraback/full/2019-03-23_13-35-02/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> chown -R mysql:mysql /data/mysql/3306</span> </span><br><span class="line"><span class="meta">$</span><span class="bash"> mysqld --deafaults-file=/data/mysql/3306/etc/my.cnf</span></span><br></pre></td></tr></table></figure></li>
+<li><p>还可以使用第三方工具如<code>binlog2sql </code>等进行错误恢复</p>
+<p>具体方法参见github：<a target="_blank" rel="noopener" href="https://github.com/danfengcao/binlog2sql">https://github.com/danfengcao/binlog2sql</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>附:MySQL binlog参数说明</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#x27;%binlog%&#x27;;</span><br><span class="line">+--------------------------------------------+----------------------+</span><br><span class="line">| Variable_name                              | Value                |</span><br><span class="line">+--------------------------------------------+----------------------+</span><br><span class="line">| binlog_cache_size                          | 32768                |</span><br><span class="line">为每个session 分配的内存，在事务过程中用来存储二进制日志的缓存 </span><br><span class="line">没有什么大事务，dml也不是很频繁的情况下可以设置小一点，如果事务大而且多，dml操作也频繁，则可以适当的调大一点。</span><br><span class="line">前者建议是1048576  --1M</span><br><span class="line">后者建议是： 2097152 -- 4194304  即 2--4M</span><br><span class="line">| binlog_checksum                            | CRC32                |</span><br><span class="line">当一个event被写入binary log(二进制日志)的时候，checksum也同时写入binary log，然后在event通过网络传输到从服务器(slave)之后，再在从服务器中对其进行验证并写入从服务器的relay log.</span><br><span class="line">由于每一步都记录了event和checksum，所以我们可以很快地找出问题所在。</span><br><span class="line">| binlog_direct_non_transactional_updates    | OFF                  |</span><br><span class="line">| binlog_error_action                        | ABORT_SERVER         |</span><br><span class="line">| binlog_format                              | ROW                  |</span><br><span class="line">二进制日志格式</span><br><span class="line">| binlog_group_commit_sync_delay             | 0                    |</span><br><span class="line">组提交同步延迟（毫秒）</span><br><span class="line">| binlog_group_commit_sync_no_delay_count    | 0                    |</span><br><span class="line">MySQL等待binlog_group_commit_sync_delay毫秒直到达到binlog_group_commit_sync_no_delay_count事务个数时，将进行一次组提交。</span><br><span class="line">| binlog_gtid_simple_recovery                | ON                   |</span><br><span class="line">扫描binlog日志方案</span><br><span class="line">只是扫描第一个和最后一个binlog文件而已。</span><br><span class="line">| binlog_max_flush_queue_time                | 0                    |</span><br><span class="line">单位为微妙，用于从flush队列中取事务的超时时间，这主要是防止并发事务过高，导致某些事务的RT上升。</span><br><span class="line">当一组事务在进行Commit阶段时，其他新的事务可以进行Flush阶段，从而使group commit不断生效。那么为了提高group commit中一组队列的事务数量，MySQL用binlog_max_flush_queue_time来控制在Flush stage中的等待时间，让Flush队列在此阶段多等待一些时间来增加这一组事务队列的数量使该队列到Sync阶段可以一次fysn()更多的事务</span><br><span class="line">| binlog_order_commits                       | ON                   |</span><br><span class="line">当设置为0时，事务可能以和binlog不相同的顺序被提</span><br><span class="line">| binlog_row_image                           | FULL                 |</span><br><span class="line">默认是FULL 还可以设置为minimal、NOBLOB</span><br><span class="line">binlog_row_image这个参数是MySQL5.6新增的参数，默认值是FULL，在5.7版本默认值也是FULL</span><br><span class="line">binlog日志记录所有前镜像和后镜像。</span><br><span class="line">binlog日志的前镜像只记录唯一识别列(唯一索引列、主键列)，后镜像只记录修改列。</span><br><span class="line">为安全考虑必须设置为FULL</span><br><span class="line">| binlog_rows_query_log_events               | OFF                  |</span><br><span class="line">在row模式下..开启该参数,将把sql语句打印到binlog日志里面.默认是0(off);</span><br><span class="line">虽然将语句放入了binlog,但不会执行这个sql,就相当于注释一样.但对于dba来说,在查看binlog的时候,很有用处</span><br><span class="line">| binlog_stmt_cache_size                     | 32768                |</span><br><span class="line">非事务语句缓存大小</span><br><span class="line">| binlog_transaction_dependency_history_size | 25000                |</span><br><span class="line">| binlog_transaction_dependency_tracking     | COMMIT_ORDER         |</span><br><span class="line">COMMIT_ORDERE：根据主库事务提交时间戳进行并行，也就5.7的GroupCommit；</span><br><span class="line">| innodb_api_enable_binlog                   | OFF                  |</span><br><span class="line">| innodb_locks_unsafe_for_binlog             | OFF                  |</span><br><span class="line">mysql数据库中默认的隔离级别为repeat-read.</span><br><span class="line">innodb默认使用了next-gap算法，这种算法结合了index-row锁和gap锁。正因为这样的锁算法，innodb在可重复读这样的默认隔离级别上，可以避免幻象的产生。innodb_locks_unsafe_for_binlog最主要的作用就是控制innodb是否对gap加锁。</span><br><span class="line">注意该参数如果是enable的，则是unsafe的，此时gap不会加锁；反之，如果disable掉该参数，则gap会加锁。当然对于一些和数据完整性相关的定义，如外键和唯一索引（含主键）需要对gap进行加锁，那么innodb_locks_unsafe_for_binlog的设置并不会影响gap是否加锁。</span><br><span class="line">| log_statements_unsafe_for_binlog           | ON                   |</span><br><span class="line">全局动态变量，默认ON。</span><br><span class="line">表示是否记录error code &#x27;1592′ 信息到错误日志里。error code &#x27;1592′：Unsafe statement written to the binary log using statement format</span><br><span class="line">| max_binlog_cache_size                      | 18446744073709547520 |</span><br><span class="line">binlog 能够使用的最大cache 内存大小</span><br><span class="line">| max_binlog_size                            | 1073741824           |</span><br><span class="line">二进制日志最大size </span><br><span class="line">| max_binlog_stmt_cache_size                 | 18446744073709547520 |</span><br><span class="line">非事务语句缓存大小</span><br><span class="line">| sync_binlog                                | 10                   |</span><br><span class="line">sync_binlog=0，二进制日志fsync()的操作基于操作系统。</span><br><span class="line">sync_binlog=1，每一个transaction commit都会调用一次fsync()，此时能保证数据最安全但是性能影响较大。</span><br><span class="line">sync_binlog=N，当数据库crash的时候至少会丢失N-1个transactions。</span><br><span class="line">| expire_logs_days                            | 90                  |</span><br><span class="line">保留指定日期范围内的bin log历史日志</span><br><span class="line">+--------------------------------------------+----------------------</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/03/28/%E8%AE%B0%EF%BC%9A-%E4%B8%80%E6%AC%A1%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4%E4%B8%8D%E8%B6%B3%E5%AF%BC%E8%87%B4%E7%9A%84%E9%97%AE%E9%A2%98/">
+                    记： 一次磁盘空间不足导致的问题
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/03/23/Python%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7-Fabric/">      
+                    Python自动化部署工具-Fabric
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

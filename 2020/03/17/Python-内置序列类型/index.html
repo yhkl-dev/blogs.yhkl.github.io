@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Python 内置序列类型 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2020/03/17/Python-%E5%86%85%E7%BD%AE%E5%BA%8F%E5%88%97%E7%B1%BB%E5%9E%8B/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E5%BA%8F%E5%88%97"><span class="toc-number">1.</span> <span class="toc-text">容器序列</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%81%E5%B9%B3%E5%BA%8F%E5%88%97"><span class="toc-number">2.</span> <span class="toc-text">扁平序列</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AF%E5%8F%98%E5%BA%8F%E5%88%97"><span class="toc-number">3.</span> <span class="toc-text">可变序列</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%BA%8F%E5%88%97"><span class="toc-number">4.</span> <span class="toc-text">不可变序列</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%E5%92%8C%E6%95%B0%E7%BB%84%E7%9A%84%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">列表和数组的属性和方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#memoryview"><span class="toc-number">6.</span> <span class="toc-text">memoryview</span></a></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2020/03/17/Python-%E5%86%85%E7%BD%AE%E5%BA%8F%E5%88%97%E7%B1%BB%E5%9E%8B/">Python 内置序列类型</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2020-03-17
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <h5 id="容器序列"><a href="#容器序列" class="headerlink" title="容器序列"></a>容器序列</h5><p><code>list</code>，<code>tuple</code>, <code>collections.deque</code> 存放不同类型的数据</p>
+<h5 id="扁平序列"><a href="#扁平序列" class="headerlink" title="扁平序列"></a>扁平序列</h5><p><code>str</code>，<code>bytes</code>,<code>bytearray</code>,<code>memoryview</code>,<code>array.array</code>,这类容器只能容纳一种类型</p>
+<p>容器序列存放的是他们所包含的任意类型的对象的引用，而扁平序列里存放的是值而不是引用。</p>
+<p>扁平序列其实是一段连续的内存空间，所以扁平序列其实更加紧凑，但是他们里面只能存放诸如字符、字节和数值这种基础类型</p>
+<h5 id="可变序列"><a href="#可变序列" class="headerlink" title="可变序列"></a>可变序列</h5><p><code>list</code>, <code>bytearry</code>,<code>array.array</code>,<code>collections.deque</code>和<code>memoryview</code></p>
+<h5 id="不可变序列"><a href="#不可变序列" class="headerlink" title="不可变序列"></a>不可变序列</h5><p><code>tuple</code>，<code>str</code>, <code>bytes</code></p>
+<ul>
+<li><p><code>array</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> array <span class="keyword">import</span> array</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">floats = array(<span class="string">&#x27;d&#x27;</span>, (random() <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span> ** <span class="number">7</span>)))</span><br><span class="line"><span class="built_in">print</span>(floats[-<span class="number">1</span>])</span><br><span class="line"><span class="comment"># print(floats)</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;floats.bin&quot;</span>, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    floats.tofile(f)</span><br><span class="line"></span><br><span class="line">floats2 = array(<span class="string">&#x27;d&#x27;</span>)</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;floats.bin&quot;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f1:</span><br><span class="line">    floats2.fromfile(f1, <span class="number">10</span> ** <span class="number">7</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(floats2[-<span class="number">1</span>])</span><br><span class="line"><span class="built_in">print</span>(floats == floats2)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="列表和数组的属性和方法"><a href="#列表和数组的属性和方法" class="headerlink" title="列表和数组的属性和方法"></a>列表和数组的属性和方法</h5><table>
+<thead>
+<tr>
+<th></th>
+<th>列表</th>
+<th>数组</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>s.__add(s2)__</code></td>
+<td>•</td>
+<td>•</td>
+<td>s+s1， 拼接</td>
+</tr>
+<tr>
+<td><code>s.__iadd(s2)__</code></td>
+<td>•</td>
+<td>•</td>
+<td>s += s2, 就地拼接</td>
+</tr>
+<tr>
+<td><code>s.append(e)</code></td>
+<td>•</td>
+<td>•</td>
+<td>在尾部添加一个元素</td>
+</tr>
+<tr>
+<td><code>s.byteswap</code></td>
+<td></td>
+<td>•</td>
+<td>翻转数组内每个元素的字节序列，转换字节序</td>
+</tr>
+<tr>
+<td><code>s.clear()</code></td>
+<td>•</td>
+<td></td>
+<td>删除所有元素</td>
+</tr>
+<tr>
+<td><code>s.__contains__(e)</code></td>
+<td>•</td>
+<td>•</td>
+<td>是否含有e</td>
+</tr>
+<tr>
+<td><code>s.copy()</code></td>
+<td>•</td>
+<td></td>
+<td>对列表浅复制</td>
+</tr>
+<tr>
+<td><code>s.__copy__()</code></td>
+<td></td>
+<td>•</td>
+<td>对<code>copy.copy</code>的支持</td>
+</tr>
+<tr>
+<td><code>s.count(e)</code></td>
+<td>•</td>
+<td>•</td>
+<td>s中出现e的次数</td>
+</tr>
+<tr>
+<td><code>s.__deepcopy__()</code></td>
+<td></td>
+<td>•</td>
+<td>对<code>copy.deepcopy</code>的支持</td>
+</tr>
+<tr>
+<td><code>s.__delitem__(p)</code></td>
+<td>•</td>
+<td>•</td>
+<td>删除位置p的元素</td>
+</tr>
+<tr>
+<td><code>s.exteng(it)</code></td>
+<td>•</td>
+<td>•</td>
+<td>将可迭代对象it里的元素添加到尾部</td>
+</tr>
+<tr>
+<td><code>s.frombytes(b)</code></td>
+<td></td>
+<td>•</td>
+<td>将压缩成机器织的字节序列读出来添加到尾部</td>
+</tr>
+<tr>
+<td><code>s.fromfile(f, n)</code></td>
+<td></td>
+<td>•</td>
+<td>将二进制文件f内含有机器织读出来添加到尾部，最多添加n项</td>
+</tr>
+<tr>
+<td><code>s.fromlist(l)</code></td>
+<td></td>
+<td>•</td>
+<td>将列表里的元素添加到尾部，如果其中任何一个元素导致了<code>TypeError</code>异常，那么所有的添加都会取消</td>
+</tr>
+<tr>
+<td><code>s.__getitem__(b)</code></td>
+<td>•</td>
+<td>•</td>
+<td>s[p],读取位置p的元素</td>
+</tr>
+<tr>
+<td><code>s.index(e)</code></td>
+<td>•</td>
+<td>•</td>
+<td>找到e在序列中第一次出现的位置</td>
+</tr>
+<tr>
+<td><code>s.insert(p, e)</code></td>
+<td>•</td>
+<td>•</td>
+<td>在位于p的元素之前插入e</td>
+</tr>
+<tr>
+<td><code>s.itemsize</code></td>
+<td></td>
+<td>•</td>
+<td>数组中每个元素的长度是几个字节</td>
+</tr>
+<tr>
+<td><code>s.__iter__()</code></td>
+<td>•</td>
+<td>•</td>
+<td>返回迭代器</td>
+</tr>
+<tr>
+<td><code>s.__len__()</code></td>
+<td>•</td>
+<td>•</td>
+<td><code>len(s)</code>，序列的长度</td>
+</tr>
+<tr>
+<td><code>s.__mul__(n)</code></td>
+<td>•</td>
+<td>•</td>
+<td><code>s*n</code>, 重复拼接</td>
+</tr>
+<tr>
+<td><code>s.__imul__()</code></td>
+<td>•</td>
+<td>•</td>
+<td><code>s *= n</code>,就地重复拼接</td>
+</tr>
+<tr>
+<td><code>s.__rmul__()</code></td>
+<td>•</td>
+<td>•</td>
+<td><code>n*s</code>反向重复拼接</td>
+</tr>
+<tr>
+<td><code>s.pop([p])</code></td>
+<td>•</td>
+<td>•</td>
+<td>删除位于p的值并返回这个值，p的默认值是最后一个元素的位置</td>
+</tr>
+<tr>
+<td><code>s.remove(e)</code></td>
+<td>•</td>
+<td>•</td>
+<td>删除序列里第一个出现的e元素</td>
+</tr>
+<tr>
+<td><code>s.reverse()</code></td>
+<td>•</td>
+<td>•</td>
+<td>就地调转序列中元素的位置</td>
+</tr>
+<tr>
+<td><code>s.__reversed__()</code></td>
+<td>•</td>
+<td></td>
+<td>返回一个从尾部开始扫描元素的迭代器</td>
+</tr>
+<tr>
+<td><code>s.__setitem__(P, e)</code></td>
+<td>•</td>
+<td>•</td>
+<td>s[p] = e, 把位于p位置的元素替换成e</td>
+</tr>
+<tr>
+<td><code>s.sort([key], [revers])</code></td>
+<td>•</td>
+<td></td>
+<td>就地排序序列，可选参数有key和reverse</td>
+</tr>
+<tr>
+<td><code>s.tobytes()</code></td>
+<td></td>
+<td>•</td>
+<td>把所有元素的机器值用<code>bytes</code>对象的形式返回</td>
+</tr>
+<tr>
+<td><code>s.tofile(f)</code></td>
+<td></td>
+<td>•</td>
+<td>把所有元素以机器值的形式写入一个文件</td>
+</tr>
+<tr>
+<td><code>s.tolist()</code></td>
+<td></td>
+<td>•</td>
+<td>把数组转换成列表，列表里的元素类型是数字对象</td>
+</tr>
+<tr>
+<td><code>s.typecode</code></td>
+<td></td>
+<td>•</td>
+<td>返回只有一个祖父的字符串，代表数组元在C语言中的位置</td>
+</tr>
+</tbody></table>
+<h5 id="memoryview"><a href="#memoryview" class="headerlink" title="memoryview"></a><code>memoryview</code></h5><p><code>memoryview</code> 是一个内置类,它能让用户在不复制内容的情况下操作同一个数组的不同切片</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> array <span class="keyword">import</span> array</span><br><span class="line"></span><br><span class="line">numbers = array(<span class="string">&quot;h&quot;</span>, [-<span class="number">2</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>])</span><br><span class="line">memv = <span class="built_in">memoryview</span>(numbers)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(memv))</span><br><span class="line"><span class="built_in">print</span>(memv[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">memv_oct = memv.cast(<span class="string">&quot;B&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(memv_oct.tolist())</span><br><span class="line"><span class="built_in">print</span>(numbers)</span><br><span class="line">memv_oct[<span class="number">5</span>] = <span class="number">4</span></span><br><span class="line"><span class="built_in">print</span>(numbers)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>output</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">5</span><br><span class="line">-2</span><br><span class="line">[254, 255, 255, 255, 0, 0, 1, 0, 2, 0]</span><br><span class="line">array(&#x27;h&#x27;, [-2, -1, 0, 1, 2])</span><br><span class="line">array(&#x27;h&#x27;, [-2, -1, 1024, 1, 2])</span><br></pre></td></tr></table></figure>
+
+
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2020/03/29/Lisp-%E6%9E%84%E9%80%A0%E8%BF%87%E7%A8%8B%E6%8A%BD%E8%B1%A1/">
+                    Lisp 构造过程抽象
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2020/03/15/Python-%E7%89%B9%E6%AE%8A%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/">      
+                    Python 特殊方法汇总
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

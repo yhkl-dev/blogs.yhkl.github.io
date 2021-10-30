@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Python--内置函数 locals() 和globals() | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/04/03/Python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0-locals-%E5%92%8Cglobals/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%90%8D%E5%AD%97%E7%A9%BA%E9%97%B4"><span class="toc-number">1.</span> <span class="toc-text">1.名字空间</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%8F%98%E9%87%8F%E7%9A%84%E8%AE%BF%E9%97%AE%E9%A1%BA%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">2.变量的访问顺序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-from-module-import%E5%92%8Cimport-module%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">3.from module import和import module的区别：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-locals%E5%92%8Cglobals%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">4.</span> <span class="toc-text">4. locals和globals的区别</span></a></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/04/03/Python-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0-locals-%E5%92%8Cglobals/">Python--内置函数 locals() 和globals()</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-04-03
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <h5 id="1-名字空间"><a href="#1-名字空间" class="headerlink" title="1.名字空间"></a>1.名字空间</h5><p>Python有两个内置函数<code>locals()</code>和<code>globals()</code>，这两个函数提供了基于字典的访问局部变量和全局变量的方式</p>
+<p>在使用两个函数之前，需要了解Python记录变量的方式：<strong>名字空间</strong></p>
+<p>Python使用名字空间来记录变量的轨迹，名字空间是一个字典，可以像dictionary一样进行访问</p>
+<ul>
+<li><p><strong>局部名字空间</strong>，每个函数都有自己的名字空间， 记录了函数的变量，包括函数的参数和局部定义的变量</p>
+</li>
+<li><p><strong>全局名字空间</strong>，每个模块拥有自己的名字空间，记录了模块的变量，包括函数、类、其他导入的模块、模块级的变量和常量</p>
+</li>
+<li><p><strong>内置名字空间</strong>，任何模块均可访问，存放内置的函数和异常</p>
+</li>
+</ul>
+<h5 id="2-变量的访问顺序"><a href="#2-变量的访问顺序" class="headerlink" title="2.变量的访问顺序"></a>2.变量的访问顺序</h5><p>当某行代码需要使用某个变量时，Python会到所有可用的名字空间去查找变量，查找顺序如下：</p>
+<ul>
+<li>局部名字空间，指当前函数或类的方法，如果函数定义了所需一个局部变量或者一个参数， Python将直接使用它并停止搜索</li>
+<li>全局名字空间，指当前模块，如果模块定义了所需要的变量、函数或类，Python将直接使用并停止搜索</li>
+<li>内置名字空间，对每个模块都是全局的，上述两个名字空间都找不到所需变量时，Python会在内置名字空间中寻找所需变量，如果依然找不到，会抛出<code>There is no variable named &#39;variable&#39;</code>异常</li>
+</ul>
+<p>名字空间在运行时可以直接访问，局部名字空间可以通过内置的<code>locals</code>函数来访问，全局名字空间可以通过内置的<code>globals</code>函数来访问。</p>
+<p><code>locals</code>和<code>globals</code>对名字空间的操作是等价的，但是<code>globals</code>的功能更为强大，模块的名字空间包含了模块级别的变量和常量，还包括了所有在模块中定义的函数和类，以及任何被导入到模块中的东西</p>
+<h5 id="3-from-module-import和import-module的区别："><a href="#3-from-module-import和import-module的区别：" class="headerlink" title="3.from module import和import module的区别："></a>3.<code>from module import</code>和<code>import module</code>的区别：</h5><ul>
+<li><code>import module</code>， 模块自身被导入，但是它保持着自己的名字空间，访问时需要使用<code>module.function_name</code></li>
+<li><code>from module import </code>, 本质上是从另一个模块中将指定的函数和属性导入当前的名字空间，访问时直接使用<code>function_name</code>即可，不需引用该函数/类所在的模块名称</li>
+</ul>
+<h5 id="4-locals和globals的区别"><a href="#4-locals和globals的区别" class="headerlink" title="4. locals和globals的区别"></a>4. <code>locals</code>和<code>globals</code>的区别</h5><p><code>locals</code>是只读的，不可修改，<code>globals</code>可以修改</p>
+<p>原因如下：</p>
+<ul>
+<li><p><code>locals</code>实际上没有返回局部名字空间，它返回的是局部明名字空间的深拷贝，对其进行修改，修改的是拷贝，对局部名字空间的值并无影响</p>
+</li>
+<li><p><code>globals</code>返回的是实际的全局名字空间，而不是一个拷贝，这一点和<code>locals</code>的动作完全相反</p>
+</li>
+<li><p>代码示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">1</span></span><br><span class="line">b = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span>():</span></span><br><span class="line">    c = <span class="number">3</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;before chenge locals c: &quot;</span>, <span class="built_in">locals</span>()[<span class="string">&#x27;c&#x27;</span>])</span><br><span class="line">    <span class="built_in">locals</span>()[c] = <span class="number">4</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;alter change locals c: &quot;</span>,c)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;before change globals b: &quot;</span>, <span class="built_in">globals</span>()[<span class="string">&#x27;b&#x27;</span>])</span><br><span class="line">    <span class="built_in">globals</span>()[<span class="string">&#x27;b&#x27;</span>] = <span class="number">4</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;after change globals b: &quot;</span>, <span class="built_in">globals</span>()[<span class="string">&#x27;b&#x27;</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    test()</span><br></pre></td></tr></table></figure>
+
+<p>输出如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">before chenge <span class="built_in">locals</span> c:  <span class="number">3</span></span><br><span class="line">alter change <span class="built_in">locals</span> c:  <span class="number">3</span></span><br><span class="line">before change <span class="built_in">globals</span> b:  <span class="number">2</span></span><br><span class="line">after change <span class="built_in">globals</span> b:  <span class="number">4</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/04/09/Python-zabbix-client/">
+                    Python--zabbix-client
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/04/01/MySQL-%E7%BA%BF%E7%A8%8B%E6%B1%A0Python%E5%AE%9E%E7%8E%B0/">      
+                    MySQL--线程池Python实现
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

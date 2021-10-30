@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            graph | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2020/04/25/graph/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">图的定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%84%E7%A7%8D%E5%9B%BE%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">2.</span> <span class="toc-text">各种图的定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E9%A1%B6%E7%82%B9%E5%92%8C%E8%BE%B9%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">3.</span> <span class="toc-text">图的顶点和边的关系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9E%E9%80%9A%E7%9B%B8%E5%85%B3%E6%9C%AF%E8%AF%AD"><span class="toc-number">4.</span> <span class="toc-text">连通相关术语</span></a></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2020/04/25/graph/">graph</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2020-04-25
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <h4 id="图的定义"><a href="#图的定义" class="headerlink" title="图的定义"></a>图的定义</h4><blockquote>
+<p>图是由顶点的有穷非空集合和顶点之间边的的集合组成,通常表示为: G(V,E), 其中,G表示一个图,V是图G中的顶点的集合,E是图G中边的集合</p>
+</blockquote>
+<p>注意:</p>
+<ul>
+<li>线性表中我们把数据元素叫做元素,树中将数据元素叫做结点,在图中数据元素,我们称之为顶点(Vertex)</li>
+<li>线性表中可以没有数据元素,称为空表,树中可以没有结点,叫做空树.在图结构中,不允许没有顶点,在定义中,若V是顶点的集合,则强调了顶点集合V有穷非空</li>
+<li>线性表中,相邻的数据元素之间具有线性关系,在树结构中,相邻两层的结点具有层次关系,而图中,任意两个顶点之间都可能有关系,顶点之间的逻辑关系用边来表示,边集可以是空的</li>
+</ul>
+<h4 id="各种图的定义"><a href="#各种图的定义" class="headerlink" title="各种图的定义"></a>各种图的定义</h4><ul>
+<li><p>无向边:若顶点vi到vj之间的边没有方向,则称这条边为无向边,用无序偶对(vi, vj)表示.如果图中任意两个顶点之间的边都是无向边,则称该图为<strong>无向图</strong></p>
+</li>
+<li><p>有向边:若顶点vi到vj的边有方向,则称这条边为有向边,也称为弧(Arc). 用有序偶&lt;vi, vj&gt;来表示,vi称为弧尾(tail), vj称为弧头(head),如果图中任意两个顶点之间的边都是有向边,则称该图为<strong>有向图</strong>.例如:连接顶点A到D的有向边就是弧,A是弧度,D是弧尾,&lt;A, D&gt;表示狐,注意不能写成&lt;D, A&gt;</p>
+</li>
+<li><p>在图中,若不存在顶点到其自身的边,且同一条边不重复出现,则称这样的图为<strong>简单图</strong></p>
+</li>
+<li><p>在无向图中,如果任意两个顶点之间都存在边,则称该图为<strong>无向完全图</strong>,无向完全图有n(n-1)/2条边</p>
+</li>
+<li><p>在有向图中,如果任意两个顶点之间都存在方向互为相反的两条弧,则称该图为<strong>有向完全图</strong></p>
+<p>,则称该图为<strong>有向完全图</strong>, 有n(n-1)条边</p>
+</li>
+<li><p>有很少条边或弧的图称为稀疏图,反之称为稠密图,这里稀疏和稠密是模糊的概念</p>
+</li>
+<li><p>有些图的边或弧具有与它相关的数字,这种与图的边或弧相关的数叫做权(Weight),这些权可以表示从一个顶点到另一个顶点的距离或耗费,这种带权的图通常称为<strong>网(network)</strong></p>
+</li>
+<li><p>假设有两个图G = (V,{E}), G1 = (V1, {E1}), 如果V1包含于V且E1包含于E,则称G1为G的<strong>子图(subgraph)</strong></p>
+</li>
+</ul>
+<h4 id="图的顶点和边的关系"><a href="#图的顶点和边的关系" class="headerlink" title="图的顶点和边的关系"></a>图的顶点和边的关系</h4><p>对于无向图 G = (V,{E}), 如果边(v, v1) 包含于E, 则称顶点v和v1互为邻接点,即v和v1相邻接,边(v,v1)依附于顶点v和v1,或者说(v,v1)与顶点v和v1相关联.顶点v的度(degree)是和v相关联的边的数目,记为TD(v).</p>
+<p>对于有向图G = (V,{E}), 如果弧&lt;v,v1&gt; 包含于E,则称顶点v邻接到顶点v1,顶点v1邻接自顶点v,弧&lt;v,v1&gt;h和顶点v, v1相关联.以顶点v为头的弧的数目称为v的入读(indegree), 记为ID(v); 以v为尾的弧的数目称为v的出度(outDegree), 记为OD(v). 顶点v的度为TD(v) = ID(v) + OD(v).</p>
+<p>无向图 G = (V, {E}) 中从顶点v到顶点v1的路径(path) 是一个顶点序列(v = vi.0, vi.2,…., vi.m = v1 ), 其中(vi. j-1, vi, j) 包含于E, i&lt;= j &lt;= m</p>
+<p>如果G是无向图,则路径也是有向图,顶点序列应满足&lt;vi.j-1, vi, j&gt; 包含于E, i &lt;= j &lt;= m.</p>
+<p>树中根结点到任意结点的路径是唯一的,但是图中顶点与顶点之间的路径却不是唯一的.</p>
+<p>路径的长度是路径上的边或者弧的数目.</p>
+<p>第一个顶点到最后一个顶点相同的路径称为回路或环(Cycle)</p>
+<p>序列中顶点不重复出现的路径称为简单路径, 除了第一个顶点和最后一个顶点之外,其余不重复出现的回路,称为简单回路或简单环.</p>
+<h4 id="连通相关术语"><a href="#连通相关术语" class="headerlink" title="连通相关术语"></a>连通相关术语</h4><p>在无向图G中,如果从顶点v到顶点v1有路径, 则称v和v1是相连通的,如果对于图中任意两个顶点vi, vj 均包含于E, 则vi和vj是相通的,则称G是连通图(connected graph)</p>
+<p>无向图中的极大连通子图称为连通分量,注意连通分量的概念, 它强调:</p>
+<ul>
+<li>要是子图</li>
+<li>子图是连通的</li>
+<li>连通子图含有极大顶点数</li>
+<li>具有极大定点数的连通子图包含依附于这些顶点的所有边</li>
+</ul>
+<p>在有向图G中,如果对于每一对v, v1 包含于V, v != v1, 从v到v1和从v1到v都存在路径,则称G是强连通图.</p>
+<p>有向图中的极大强连通子图称作有向图的强连通分量</p>
+<p>连通图的生成树定义</p>
+<p>一个连通图的生成树是一个极小的连通子图,它含有图中全部的n个顶点,但只有足以够成一棵树的n-1条边.</p>
+<p>如果一个有向图恰有一个顶点的入度为0, 其余顶点的入读均为1,则是一颗有向树.</p>
+<p>一个有向图的生成森连由若干棵有向数组成,含有图中全部顶点,但只有足以够成若干棵不相交的有向树的弧</p>
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2020/04/29/Python-Lambda-While-Loop/">
+                    Python Lambda While Loop
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2020/04/11/%E8%AF%81%E6%98%8EFib-n-%E6%98%AF%E6%9C%80%E6%8E%A5%E8%BF%91%CE%A6-n-%E2%88%9A5-%E5%85%B6%E4%B8%AD%CE%A6-%EF%BC%881-%E2%88%9A5-2/">      
+                    证明Fib(n)是最接近Φ^n √5, 其中Φ=（1+√5)/2
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

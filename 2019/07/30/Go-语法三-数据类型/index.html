@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            Go-语法三-数据类型 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/07/30/Go-%E8%AF%AD%E6%B3%95%E4%B8%89-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">三、复合类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%97%A0%E7%B1%BB%E5%9E%8B%E5%B8%B8%E9%87%8F"><span class="toc-number">1.1.</span> <span class="toc-text">1.无类型常量</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.</span> <span class="toc-text">四、引用类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%88%87%E7%89%87"><span class="toc-number">2.1.</span> <span class="toc-text">1.切片</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E9%9B%86%E5%90%88map"><span class="toc-number">2.2.</span> <span class="toc-text">2.集合map</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E6%8C%87%E9%92%88"><span class="toc-number">2.3.</span> <span class="toc-text">3.指针</span></a></li></ol></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/07/30/Go-%E8%AF%AD%E6%B3%95%E4%B8%89-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Go-语法三-数据类型</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-07-30
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <h4 id="三、复合类型"><a href="#三、复合类型" class="headerlink" title="三、复合类型"></a>三、复合类型</h4><h5 id="1-无类型常量"><a href="#1-无类型常量" class="headerlink" title="1.无类型常量"></a>1.无类型常量</h5><p>一个常量可以有任意一个确定的基础类型，例如int或float64，或者是类似time.Duration这样命名的基础类型，但是许多常量并没有一个明确的基础类型。编译器为这些没有明确基础类型的数字常量提供比基础类型更高精度的算术运算；你可以认为至少有256bit的运算精度。这里有六种未明确类型的常量类型，分别是无类型的布尔型、无类型的整数、无类型的字符、无类型的浮点数、无类型的复数、无类型的字符串。</p>
+<p>通过延迟明确常量的具体类型，无类型的常量不仅可以提供更高的运算精度，而且可以直接用于更多的表达式而不需要显式的类型转换。例如，例子中的ZiB和YiB的值已经超出任何Go语言中整数类型能表达的范围，但是它们依然是合法的常量，而且像下面的常量表达式依然有效（译注：YiB/ZiB是在编译期计算出来的，并且结果常量是1024，是Go语言int变量能有效表示的）：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Println(YiB/ZiB) <span class="comment">// &quot;1024&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>另一个例子，math.Pi无类型的浮点数常量，可以直接用于任意需要浮点数或复数的地方：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x <span class="keyword">float32</span> = math.Pi</span><br><span class="line"><span class="keyword">var</span> y <span class="keyword">float64</span> = math.Pi</span><br><span class="line"><span class="keyword">var</span> z <span class="keyword">complex128</span> = math.Pi</span><br></pre></td></tr></table></figure>
+
+<p>如果math.Pi被确定为特定类型，比如float64，那么结果精度可能会不一样，同时对于需要float32或complex128类型值的地方则会强制需要一个明确的类型转换：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Pi64 <span class="keyword">float64</span> = math.Pi</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> x <span class="keyword">float32</span> = <span class="keyword">float32</span>(Pi64)</span><br><span class="line"><span class="keyword">var</span> y <span class="keyword">float64</span> = Pi64</span><br><span class="line"><span class="keyword">var</span> z <span class="keyword">complex128</span> = <span class="keyword">complex128</span>(Pi64)</span><br></pre></td></tr></table></figure>
+
+<p>对于常量面值，不同的写法可能会对应不同的类型。例如0、0.0、0i和<code>\u0000</code>虽然有着相同的常量值，但是它们分别对应无类型的整数、无类型的浮点数、无类型的复数和无类型的字符等不同的常量类型。同样，true和false也是无类型的布尔类型，字符串面值常量是无类型的字符串类型。</p>
+<p>前面说过除法运算符/会根据操作数的类型生成对应类型的结果。因此，不同写法的常量除法表达式可能对应不同的结果：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> f <span class="keyword">float64</span> = <span class="number">212</span></span><br><span class="line">fmt.Println((f - <span class="number">32</span>) * <span class="number">5</span> / <span class="number">9</span>)     <span class="comment">// &quot;100&quot;; (f - 32) * 5 is a float64</span></span><br><span class="line">fmt.Println(<span class="number">5</span> / <span class="number">9</span> * (f - <span class="number">32</span>))     <span class="comment">// &quot;0&quot;;   5/9 is an untyped integer, 0</span></span><br><span class="line">fmt.Println(<span class="number">5.0</span> / <span class="number">9.0</span> * (f - <span class="number">32</span>)) <span class="comment">// &quot;100&quot;; 5.0/9.0 is an untyped float</span></span><br></pre></td></tr></table></figure>
+
+<p>只有常量可以是无类型的。当一个无类型的常量被赋值给一个变量的时候，就像下面的第一行语句，或者出现在有明确类型的变量声明的右边，如下面的其余三行语句，无类型的常量将会被隐式转换为对应的类型，如果转换合法的话。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> f <span class="keyword">float64</span> = <span class="number">3</span> + <span class="number">0i</span> <span class="comment">// untyped complex -&gt; float64</span></span><br><span class="line">f = <span class="number">2</span>                  <span class="comment">// untyped integer -&gt; float64</span></span><br><span class="line">f = <span class="number">1e123</span>              <span class="comment">// untyped floating-point -&gt; float64</span></span><br><span class="line">f = <span class="string">&#x27;a&#x27;</span>                <span class="comment">// untyped rune -&gt; float64</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的语句相当于:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> f <span class="keyword">float64</span> = <span class="keyword">float64</span>(<span class="number">3</span> + <span class="number">0i</span>)</span><br><span class="line">f = <span class="keyword">float64</span>(<span class="number">2</span>)</span><br><span class="line">f = <span class="keyword">float64</span>(<span class="number">1e123</span>)</span><br><span class="line">f = <span class="keyword">float64</span>(<span class="string">&#x27;a&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>无论是隐式或显式转换，将一种类型转换为另一种类型都要求目标可以表示原始值。对于浮点数和复数，可能会有舍入处理：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	deadbeef = <span class="number">0xdeadbeef</span> <span class="comment">// untyped int with value 3735928559</span></span><br><span class="line">	a = <span class="keyword">uint32</span>(deadbeef)  <span class="comment">// uint32 with value 3735928559</span></span><br><span class="line">	b = <span class="keyword">float32</span>(deadbeef) <span class="comment">// float32 with value 3735928576 (rounded up)</span></span><br><span class="line">	c = <span class="keyword">float64</span>(deadbeef) <span class="comment">// float64 with value 3735928559 (exact)</span></span><br><span class="line">	d = <span class="keyword">int32</span>(deadbeef)   <span class="comment">// compile error: constant overflows int32</span></span><br><span class="line">	e = <span class="keyword">float64</span>(<span class="number">1e309</span>)    <span class="comment">// compile error: constant overflows float64</span></span><br><span class="line">	f = <span class="keyword">uint</span>(<span class="number">-1</span>)          <span class="comment">// compile error: constant underflows uint</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>对于一个没有显式类型的变量声明（包括简短变量声明），常量的形式将隐式决定变量的默认类型，就像下面的例子：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">i := <span class="number">0</span>      <span class="comment">// untyped integer;        implicit int(0)</span></span><br><span class="line">r := <span class="string">&#x27;\000&#x27;</span> <span class="comment">// untyped rune;           implicit rune(&#x27;\000&#x27;)</span></span><br><span class="line">f := <span class="number">0.0</span>    <span class="comment">// untyped floating-point; implicit float64(0.0)</span></span><br><span class="line">c := <span class="number">0i</span>     <span class="comment">// untyped complex;        implicit complex128(0i)</span></span><br></pre></td></tr></table></figure>
+
+<p>注意有一点不同：无类型整数常量转换为int，它的内存大小是不确定的，但是无类型浮点数和复数常量则转换为内存大小明确的float64和complex128。<br>如果不知道浮点数类型的内存大小是很难写出正确的数值算法的，因此Go语言不存在整型类似的不确定内存大小的浮点数和复数类型。</p>
+<p>如果要给变量一个不同的类型，我们必须显式地将无类型的常量转化为所需的类型，或给声明的变量指定明确的类型，像下面例子这样：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="keyword">int8</span>(<span class="number">0</span>)</span><br><span class="line"><span class="keyword">var</span> i <span class="keyword">int8</span> = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>当尝试将这些无类型的常量转为一个接口值时，这些默认类型将显得尤为重要，因为要靠它们明确接口对应的动态类型。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fmt.Printf(<span class="string">&quot;%T\n&quot;</span>, <span class="number">0</span>)      <span class="comment">// &quot;int&quot;</span></span><br><span class="line">fmt.Printf(<span class="string">&quot;%T\n&quot;</span>, <span class="number">0.0</span>)    <span class="comment">// &quot;float64&quot;</span></span><br><span class="line">fmt.Printf(<span class="string">&quot;%T\n&quot;</span>, <span class="number">0i</span>)     <span class="comment">// &quot;complex128&quot;</span></span><br><span class="line">fmt.Printf(<span class="string">&quot;%T\n&quot;</span>, <span class="string">&#x27;\000&#x27;</span>) <span class="comment">// &quot;int32&quot; (rune)</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="四、引用类型"><a href="#四、引用类型" class="headerlink" title="四、引用类型"></a>四、引用类型</h4><h5 id="1-切片"><a href="#1-切片" class="headerlink" title="1.切片"></a>1.切片</h5><ul>
+<li><p>介绍</p>
+<p>在初始定义数组是， 我们并不知道需要多大的数组，因此我们就需要“动态数组”， 在Go里面这种数据结构叫做slice</p>
+<p>切片解决了数组长度不能扩展， 以及基本类型数据传递是产生副本的问题</p>
+</li>
+<li><p>切片创建</p>
+<ul>
+<li><p>常用创建方式</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s1 []<span class="keyword">int</span></span><br><span class="line">s2 := []<span class="keyword">byte</span> &#123;<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;v&#x27;</span>, <span class="string">&#x27;c&#x27;</span>&#125;</span><br><span class="line">fmt.Println(s1)</span><br><span class="line">fmt.Println(s2)</span><br></pre></td></tr></table></figure></li>
+<li><p>从数组创建</p>
+<p>slice 可以从一个数组中再次声明， slice通过array[i:j]来获取，其中i是数组的开始位置， j是结束位置，但不包括arrar[j], 它的长度是 j-i</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s1 []<span class="keyword">int</span></span><br><span class="line">s2 := []<span class="keyword">byte</span> &#123;<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;v&#x27;</span>, <span class="string">&#x27;c&#x27;</span>&#125;</span><br><span class="line">fmt.Println(s1)</span><br><span class="line">fmt.Println(s2)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 声明一个含有10个元素类型为byte的数组</span></span><br><span class="line"><span class="keyword">var</span> arr = [<span class="number">10</span>]<span class="keyword">byte</span> &#123;<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;d&#x27;</span>,<span class="string">&#x27;f&#x27;</span>,<span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;r&#x27;</span>,<span class="string">&#x27;s&#x27;</span>,<span class="string">&#x27;t&#x27;</span>,<span class="string">&#x27;x&#x27;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 声明两个含有byte的slice</span></span><br><span class="line"><span class="keyword">var</span> a, b []<span class="keyword">byte</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//  a指向数组的第3个元素开始，并到第五个元素结束，现在a含有的元素: ar[2]、ar[3]和ar[4]</span></span><br><span class="line">a = arr[<span class="number">2</span>: <span class="number">5</span>]</span><br><span class="line"><span class="comment">// b是数组arr的另一个slicre,b的元素是：ar[3]和ar[4]</span></span><br><span class="line">b = arr[<span class="number">3</span>, <span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+
+<p>注意：声明数组时，方括号内写明了数组的长度或使用…自动计算长度， 而声明slice时， 方括号内没有任何字符。</p>
+</li>
+<li><p>从切片创建</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">oldSlice := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">newSlice := oldSlice[:<span class="number">6</span>] <span class="comment">//基于切片前6个元素创建，没有的默认0</span></span><br><span class="line"></span><br><span class="line">如果选择的旧切片长度超出了旧切片的<span class="built_in">cap</span>()值（切片存储长度），则不合法。 </span><br></pre></td></tr></table></figure></li>
+<li><p>使用make函数创建</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">slice1 := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">5</span>) 	<span class="comment">//创建初始值为0，个数为5的切片</span></span><br><span class="line">slice2 := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">5</span>, <span class="number">10</span>)  <span class="comment">//创建初始值为10，个数为5的切片</span></span><br><span class="line">slice3 := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125; <span class="comment">//创建并初始化</span></span><br><span class="line">fmt.Println(slice1)</span><br><span class="line">fmt.Println(slice2)</span><br><span class="line">fmt.Println(slice3)</span><br><span class="line"></span><br><span class="line">GOROOT=C:\Go #gosetup</span><br><span class="line">GOPATH=C:\Go\bin #gosetup</span><br><span class="line">C:\Go\bin\<span class="keyword">go</span>.exe build -o C:\Users\dell\AppData\Local\Temp\___go_build_go_slice_go.exe D:/Project/Go_project/go_basic_project/go_slice.<span class="keyword">go</span> #gosetup</span><br><span class="line">C:\Users\dell\AppData\Local\Temp\___go_build_go_slice_go.exe #gosetup</span><br><span class="line">[<span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span>]</span><br><span class="line">[<span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span>]</span><br><span class="line">[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span>]</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>切片操作</p>
+<ul>
+<li><p>切片常见内置函数</p>
+<ul>
+<li>len()    返回切片长度</li>
+<li>cap()    返回切片底层数组容量</li>
+<li>append() 对切片追加元素</li>
+<li>copy()      复制一个切片</li>
+</ul>
+<p>切片空间与元素个数</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">slice1 := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">5</span>, <span class="number">10</span>)</span><br><span class="line">fmt.Println(<span class="built_in">len</span>(slice1)) 	<span class="comment">// 5</span></span><br><span class="line">fmt.Println(<span class="built_in">cap</span>(slice1))	<span class="comment">// 10</span></span><br><span class="line">fmt.Println(slice1)			<span class="comment">// [0 0 0 0 0]</span></span><br></pre></td></tr></table></figure>
+
+<p>切片操作</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//切片增加</span></span><br><span class="line">slice1 = <span class="built_in">append</span>(slice1,<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">fmt.Println(slice1)						<span class="comment">//输出[0 0 0 0 0 1 2]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//切片增加一个新切片</span></span><br><span class="line">sliceTemp := <span class="built_in">make</span>([]<span class="keyword">int</span>,<span class="number">3</span>)</span><br><span class="line">slice1 = <span class="built_in">append</span>(slice1,sliceTemp...)</span><br><span class="line">fmt.Println(slice1)						<span class="comment">//输出[0 0 0 0 0 1 2 0 0 0]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//切片拷贝</span></span><br><span class="line">s1 := []<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">3</span>,<span class="number">6</span>,<span class="number">9</span>&#125;</span><br><span class="line">s2 := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">10</span>)	<span class="comment">//必须给与充足的空间</span></span><br><span class="line">num := <span class="built_in">copy</span>(s2, s1)</span><br><span class="line"></span><br><span class="line">fmt.Println(s1)			<span class="comment">//[1 3 6 9]</span></span><br><span class="line">fmt.Println(s2)			<span class="comment">//[1 3 6 9 0 0 0 0 0 0]</span></span><br><span class="line">fmt.Println(num)		<span class="comment">//4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//切片中删除元素</span></span><br><span class="line">s1 := []<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">3</span>,<span class="number">6</span>,<span class="number">9</span>&#125;</span><br><span class="line">index := <span class="number">2</span>					<span class="comment">//删除该位置元素</span></span><br><span class="line">s1 = <span class="built_in">append</span>(s1[:index], s1[index+<span class="number">1</span>:]...)</span><br><span class="line">fmt.Println(s1)				<span class="comment">//[1 3 9]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 切片拷贝</span></span><br><span class="line">s1 := []<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;</span><br><span class="line">s2 := []<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line"><span class="built_in">copy</span>(s1,s2) 				<span class="comment">//复制s1前三个元素到slice2</span></span><br><span class="line"><span class="built_in">copy</span>(s2,s1)	 				<span class="comment">//复制s2的个元素到slice1前3位置</span></span><br></pre></td></tr></table></figure>
+
+<p>注意： 没有<code>...</code>会编译错误，默认第二个参数后是元素值， 传入切片需要展开，如果追加长度超过当前已分配的存储空间， 切片会自动分配更大的内存</p>
+</li>
+<li><p>切片的一些简便操作  </p>
+<ul>
+<li><p>slice的默认开始位置是0，ar[:n]等价于ar[0:n]</p>
+</li>
+<li><p>slice的第二个序列默认是数组的长度，ar[n:]等价于ar[n:len(ar)]</p>
+</li>
+<li><p>如果从一个数组里面直接获取slice，可以这样ar[:]，因为默认第一个序列是0，第二个是数组的长度，即等价于ar[0:len(ar)]</p>
+</li>
+<li><p>切片的遍历可以使用for循环，也可以使用range函数  </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明一个数组</span></span><br><span class="line"><span class="keyword">var</span> array = [<span class="number">10</span>]<span class="keyword">byte</span>&#123;<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;f&#x27;</span>, <span class="string">&#x27;g&#x27;</span>, <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;i&#x27;</span>, <span class="string">&#x27;j&#x27;</span>&#125;</span><br><span class="line"><span class="comment">// 声明两个slice</span></span><br><span class="line"><span class="keyword">var</span> aSlice, bSlice []<span class="keyword">byte</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 演示一些简便操作</span></span><br><span class="line">aSlice = array[:<span class="number">3</span>] <span class="comment">// 等价于aSlice = array[0:3] aSlice包含元素: a,b,c</span></span><br><span class="line">aSlice = array[<span class="number">5</span>:] <span class="comment">// 等价于aSlice = array[5:10] aSlice包含元素: f,g,h,i,j</span></span><br><span class="line">aSlice = array[:] <span class="comment">// 等价于aSlice = array[0:10] 这样aSlice包含了全部的元素</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 从slice中获取slice</span></span><br><span class="line">aSlice = array[<span class="number">3</span>:<span class="number">7</span>] <span class="comment">// aSlice包含元素: d,e,f,g，len=4，cap=7</span></span><br><span class="line">bSlice = aSlice[<span class="number">1</span>:<span class="number">3</span>] <span class="comment">// bSlice 包含aSlice[1], aSlice[2] 也就是含有: e,f</span></span><br><span class="line">bSlice = aSlice[:<span class="number">3</span>] <span class="comment">// bSlice 包含 aSlice[0], aSlice[1], aSlice[2] 也就是含有: d,e,f</span></span><br><span class="line">bSlice = aSlice[<span class="number">0</span>:<span class="number">5</span>] <span class="comment">// 对slice的slice可以在cap范围内扩展，此时bSlice包含：d,e,f,g,h</span></span><br><span class="line">bSlice = aSlice[:] <span class="comment">// bSlice包含所有aSlice的元素: d,e,f,g</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>切片的截取</p>
+<ul>
+<li><code>s[n]</code>：切片s中索引为位置为n的项</li>
+<li><code>s[:]</code>：从切片s的索引位置0到<code>len(s)-1</code>所获得的切片</li>
+<li><code>s[low:]</code>：从切片s的索引位置low到<code>len(s)-1</code>所获得的切片</li>
+<li><code>s[:high]</code>：从切片s的索引位置0到high所获得的切片</li>
+<li><code>s[low:high]</code>：从切片s的索引位置low到high所获得的切片</li>
+<li><code>s[low:high:max]</code>：从low到high的切片，且容量<code>cap=max-low</code></li>
+</ul>
+</li>
+<li><p>字符串转切片  </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str := <span class="string">&quot;hello,世界&quot;</span></span><br><span class="line">a := []<span class="keyword">byte</span>(str)		<span class="comment">//字符串转换为[]byte类型切片</span></span><br><span class="line">b := []<span class="keyword">rune</span>(str)		<span class="comment">//字符串转换为[]rune类型切片</span></span><br></pre></td></tr></table></figure></li>
+<li><p>切片存储结构</p>
+<p>与数组相比， 切片多了一个存储能力值的概念，即元素个数与分配空间可以是两个不同的值，其结构如下所示：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> slice <span class="keyword">struct</span> &#123;</span><br><span class="line">	arrary = unsafe.Pointer		<span class="comment">//指向底层数组的指针</span></span><br><span class="line">	<span class="built_in">len</span> <span class="keyword">int</span>						<span class="comment">//切片元素数量</span></span><br><span class="line">	<span class="built_in">cap</span> <span class="keyword">int</span>						<span class="comment">//底层数组的容量</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以切片会通过内部的指针和相关属性引用数据片段，实现了变长方案，slice并不是真正意义上的动态数组</p>
+<p>合理设置存储能力， 可以大幅提升性能， 比如纸袋最多元素个数为50， 那么提前设置为50， 而不是先设为30， 可以明显减少重新分配内存的操作</p>
+</li>
+</ul>
+<h5 id="2-集合map"><a href="#2-集合map" class="headerlink" title="2.集合map"></a>2.集合map</h5><p>​    需要是用任意类型的关联，就需要使用到集合， 比如学号，名字。go语言提供了映射关系的容器是map，内部使用散列表实现</p>
+<p>​    大多数语言中映射关系容器使用两种算法： 散列表和平衡树</p>
+<p>​    散列表可以简单的描述为一个数组， 数组的每个元素都是列表， 根据散列函数获得每个元素的特征值，将特征值作为映射的键，如果特征值重复，表示元素发生了碰撞，需要尽量避免碰撞，这样就需要多容器扩容，每次扩容，耶稣都需要重新放入， 较为耗时</p>
+<ul>
+<li><p>map的创建</p>
+<p>go内置了map类型， map是一个无序键值对集合（或称字典）</p>
+<ul>
+<li><p>普通创建：   </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//声明一个map类型，[]内的类型指任意可以进行比较的类型 int指值类型</span></span><br><span class="line">m := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>&#123;<span class="string">&quot;a&quot;</span>:<span class="number">1</span>,<span class="string">&quot;b&quot;</span>:<span class="number">2</span>&#125;</span><br><span class="line">fmt.Print(m[<span class="string">&quot;a&quot;</span>])</span><br></pre></td></tr></table></figure></li>
+<li><p>make方式创建map：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span>&#123;</span><br><span class="line">	ID <span class="keyword">string</span></span><br><span class="line">	Name <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> m <span class="keyword">map</span>[<span class="keyword">string</span>] Person				</span><br><span class="line">        m = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>] Person)</span><br><span class="line">	m[<span class="string">&quot;123&quot;</span>] = Person&#123;<span class="string">&quot;123&quot;</span>,<span class="string">&quot;ykyk&quot;</span>&#125;</span><br><span class="line">	p,isFind := m[<span class="string">&quot;123&quot;</span>]</span><br><span class="line">	fmt.Println(isFind)		<span class="comment">//true</span></span><br><span class="line">	fmt.Println(p)			<span class="comment">//&#123;123 ykyk&#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>key的类型，key可以有很多类型，比如bool， 数组，string， channel， 还可以是只包含前面几个类型的接口， 结构体， 数组</p>
+<p>通常key为int，string</p>
+<p>注意：slice， map还有function不可以， 因为他们不能使用 <code>==</code>来判断</p>
+</li>
+<li><p>使用</p>
+<p>map类型的读取和设置也和slice一样，通过key来操作，只是slice的index只能是<code>int</code>类型，而map多了很多类型， 可以是int，可以是string及所有完全定义了 <code>==</code>与<code>!=</code>操作的类型</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明一个key是字符串，值为int的字典,这种方式的声明需要在使用之前使用make初始化</span></span><br><span class="line"><span class="keyword">var</span> numbers <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span></span><br><span class="line"><span class="comment">// 另一种map的声明方式</span></span><br><span class="line">numbers = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">numbers[<span class="string">&quot;one&quot;</span>] = <span class="number">1</span> <span class="comment">//赋值</span></span><br><span class="line">numbers[<span class="string">&quot;ten&quot;</span>] = <span class="number">10</span> <span class="comment">//赋值</span></span><br><span class="line">numbers[<span class="string">&quot;three&quot;</span>] = <span class="number">3</span></span><br><span class="line"></span><br><span class="line">fmt.Println(<span class="string">&quot;第三个数字是: &quot;</span>, numbers[<span class="string">&quot;three&quot;</span>]) <span class="comment">// 读取数据</span></span><br><span class="line"><span class="comment">// 打印出来如:第三个数字是: 3</span></span><br></pre></td></tr></table></figure>
+
+<p>map的遍历同数组一样， 使用<code>for-range</code>的结构遍历</p>
+<p>注意：</p>
+<p>​    map是无序的，每次打印出来的map都会不一样， 不能通过index获取，必须通过key来获取</p>
+<p>​    map的长度是不固定的，也就是和slice一样，也是一种引用类型</p>
+<p>​    内置的len函数同样适用于map，返回map拥有的key的数量</p>
+<p>​    map的值可以很方便的修改，通过<code>numbers[&quot;one&quot;]=11</code>可以很容易的把key为one的字段值修改为11</p>
+<p>​    map和其他基本类型不同，不是thread-safe(线程安全), 在多个go-routine存取时， 必须使用mutex lock机制</p>
+</li>
+</ul>
+</li>
+<li><p>删除元素</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化一个字典</span></span><br><span class="line">rating := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">float32</span>&#123;<span class="string">&quot;C&quot;</span>:<span class="number">5</span>, <span class="string">&quot;Go&quot;</span>:<span class="number">4.5</span>, <span class="string">&quot;Python&quot;</span>:<span class="number">4.5</span>, <span class="string">&quot;C++&quot;</span>:<span class="number">2</span> &#125;</span><br><span class="line"><span class="comment">// map有两个返回值，第二个返回值，如果不存在key，那么ok为false，如果存在ok为true</span></span><br><span class="line">csharpRating, ok := rating[<span class="string">&quot;C#&quot;</span>]</span><br><span class="line"><span class="keyword">if</span> ok &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;C# is in the map and its rating is &quot;</span>, csharpRating)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;We have no rating associated with C# in the map&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">delete</span>(rating, <span class="string">&quot;C&quot;</span>) <span class="comment">// 删除key为C的元素</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：go没有提供清空元素的方法，可以重新马克一个新的map，不用担心垃圾回收的效率，因为go中并行的垃圾回收效率比写一个清空函数高效很多</p>
+</li>
+<li><p>sync.Map</p>
+<p>Go内置的map只读是线程安全的，读写是线程不安全的，并发安全的map可以使用标准包sync中的map</p>
+<p>演示并发洗map的问题：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	m := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">int</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;			</span><br><span class="line">		<span class="keyword">for</span> &#123;				<span class="comment">//无限写入</span></span><br><span class="line">			m[<span class="number">1</span>] = <span class="number">1</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> &#123;				<span class="comment">//无限读取</span></span><br><span class="line">			_ = m[<span class="number">1</span>]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> &#123;&#125;					<span class="comment">//无限循环，让并发程序在后台执行</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>错误提示：<code>fatal error: concurrent map read and map write</code>，即出现了并发读写，因为用两个并发程序不断的对map进行读和写，产生了竞态问题。map背部会对这种错误进行检查并提前发现。</p>
+<p>需要并发读写时，一般都是加锁，但是这样做性能不高在<code>go1.9</code>版本中提供了更高效并发安全的sync.Map。  </p>
+<p><code>sync.Map</code>的特点：</p>
+<ul>
+<li>无序初始化，直接声明即可</li>
+<li><code>sync.Map</code>不能私用map的方式进行取值和设置操作，而是使用<code>sync.Map</code>的方法进行调用，Store表示存储，Load表示调用，Delete表示删除</li>
+<li>使用Range配合一个回调函数进行遍历操作，通过回调函数返回内部遍历出来的值，需要继续迭代时，返回true，终止迭代返回false</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> scene sync.Map</span><br><span class="line"></span><br><span class="line">	<span class="comment">//保存键值对</span></span><br><span class="line">	scene.Store(<span class="string">&quot;id&quot;</span>,<span class="number">2</span>)</span><br><span class="line">	scene.Store(<span class="string">&quot;name&quot;</span>,<span class="string">&quot;ykyk&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//根据键取值</span></span><br><span class="line">	fmt.Println(scene.Load(<span class="string">&quot;name&quot;</span>))			</span><br><span class="line"></span><br><span class="line">	<span class="comment">//遍历	</span></span><br><span class="line">	scene.Range(<span class="function"><span class="keyword">func</span><span class="params">(k, v <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">bool</span></span>&#123;</span><br><span class="line">		fmt.Println(k,v)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：map没有提供获取map数量的方法，可以在遍历时手动计算。sync.Map为了并发安全。损失了一定的性能。</p>
+</li>
+</ul>
+<h5 id="3-指针"><a href="#3-指针" class="headerlink" title="3.指针"></a>3.指针</h5><ul>
+<li><p>指针的创建</p>
+<p>示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">v := <span class="string">&quot;3&quot;</span></span><br><span class="line">ptr := &amp;v</span><br><span class="line">value := *ptr</span><br><span class="line">fmt.Printf(<span class="string">&quot;指针地址为：%p\n&quot;</span>, ptr)					<span class="comment">// 输出0x.....16进制数</span></span><br><span class="line">fmt.Printf(<span class="string">&quot;指针地址内存储的值为：%s\n&quot;</span>, value)		<span class="comment">// 输出3</span></span><br></pre></td></tr></table></figure>
+
+<p>指针类型的声明方式</p>
+<ul>
+<li><p>方式一</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="keyword">int</span> = <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> p *<span class="keyword">int</span> = &amp;a	     <span class="comment">//声明指针类型</span></span><br><span class="line">fmt.Println(p)      <span class="comment">//输出 0xc.....16进制数</span></span><br><span class="line">fmt.Println(*p)    <span class="comment">// 10 </span></span><br></pre></td></tr></table></figure></li>
+<li><p>方式二</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p *<span class="keyword">int</span></span><br><span class="line">p = <span class="built_in">new</span>(<span class="keyword">int</span>)   <span class="comment">//申请一个int类型的地址空间</span></span><br><span class="line">*p = <span class="number">666</span>      <span class="comment">//存储地址内内容为666</span></span><br><span class="line">fmt.Println(p)</span><br></pre></td></tr></table></figure></li>
+<li><p>注意：</p>
+<ul>
+<li>go同样支持多级指针， 如**t</li>
+<li>空指针：生命但未初始化的指针</li>
+<li>野指针： 引用了无效地址的指针</li>
+<li>go不支持<code>-&gt;</code>运算符指针运算， 可以直接使用<code>.</code>访问目标成员</li>
+</ul>
+</li>
+<li><p>声明方式三</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str := <span class="built_in">new</span>(<span class="keyword">string</span>) <span class="comment">// 申请一个string类型的指针内存</span></span><br><span class="line">*str = <span class="string">&quot;hello&quot;</span></span><br><span class="line">fmt.Println(&amp;str)</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>指针实现变量值交换</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">swap</span> <span class="params">(p1,p2 *<span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">   *p1,*p2 = *p2,*p1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>结构体指针</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span>&#123;</span><br><span class="line">	name <span class="keyword">string</span></span><br><span class="line">	age <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> u = User&#123;</span><br><span class="line">		name:<span class="string">&quot;lisi&quot;</span>,</span><br><span class="line">		age: <span class="number">18</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	p := &amp;u</span><br><span class="line">	fmt.Println(u.name)		<span class="comment">//输出李四</span></span><br><span class="line">	fmt.Println(p.name)		<span class="comment">//输出李四</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>go不支持指针运算</p>
+<p>由于垃圾回收机制存在， 指针运算造成很多困扰， 所以go直接禁止了指针运算</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a := <span class="number">1</span></span><br><span class="line">p := &amp;a</span><br><span class="line">p++        <span class="comment">//报错：non-numeric type *int</span></span><br></pre></td></tr></table></figure></li>
+<li><p>变量声明周期与栈逃逸机制</p>
+<p>函数中允许返回局部变量的地址，Go编译器使用栈逃逸机制将这种局部变量分配在堆上:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p = f()</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">()</span> *<span class="title">int</span></span> &#123;</span><br><span class="line">	v := <span class="number">1</span></span><br><span class="line">	<span class="keyword">return</span> &amp;v			<span class="comment">// 返回函数中的局部变量地址是安全的，因为p仍然在引用他</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>变量的生命周期指在程序运行期间变量有效存在的时间段：</p>
+<ul>
+<li>包级别声明的变量，其生命周期和整个程序的运行周期是一致的</li>
+<li>局部变量的生命周期是动态的每次从创建新变量的声明语句开始到不再引用为止，变量的存储空间可能被回收</li>
+</ul>
+<p>函数的参数变量和返回值变量都是局部变量，它们在函数每次被调用的时候创建。  </p>
+<p>Go的GC判断变量是否回收的实现思路：从每个包级的变量、每个当前运行的函数的局部变量开始，通过指针和引用的访问路径遍历，是否可以找到该变量，如果不存在这样的访问路径，那么说明该变量是不可达的，也就是说它是否存在并不会影响后续计算结果。  </p>
+<p>示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> global *<span class="keyword">int</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">()</span></span> &#123;			</span><br><span class="line">	<span class="keyword">var</span> x <span class="keyword">int</span>	</span><br><span class="line">	x = <span class="number">1</span></span><br><span class="line">	global = &amp;x</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">g</span><span class="params">()</span></span> &#123;</span><br><span class="line">	y := <span class="built_in">new</span>(<span class="keyword">int</span>)</span><br><span class="line">	*y = <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述的函数调用结果说明：</p>
+<ul>
+<li>虽然x变量定义在f函数内部，但是其必定在堆上分配，因为函数退出后仍然能通过包一级变量global找到，这样的变量，我们称之为从函数f中逃逸了</li>
+<li>g函数返回时，变量*y不可达，因此没有从函数g中逃逸，其内存分配在栈上，会马上被被回收。（当然也可以选择在堆上分配，然后由Go语言的GC回收这个变量的内存空间）</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/08/15/Python-%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92/">
+                    Python-参数传递
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/07/27/Go-%E8%AF%AD%E6%B3%95%E4%BA%8C-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">      
+                    Go-语法二-数据类型
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

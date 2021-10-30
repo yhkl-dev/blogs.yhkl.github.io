@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+          
+
+    
+    
+    
+    
+    <title>
+        
+            GO-常用命令 | YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <div class="post-toc">
+            <a href="/2019/07/13/Go-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="toc-header">Table of Contents</a>
+            <div class="toc-content">
+                <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB"><span class="toc-number">1.</span> <span class="toc-text">1.1 常用命令汇总</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-go-fmt"><span class="toc-number">2.</span> <span class="toc-text">1.2 go fmt</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-go-install"><span class="toc-number">3.</span> <span class="toc-text">1.3 go install</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-go-tool"><span class="toc-number">4.</span> <span class="toc-text">1.4 go tool</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-go-get"><span class="toc-number">5.</span> <span class="toc-text">1.5 go get</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-go-build"><span class="toc-number">6.</span> <span class="toc-text">1.6 go build</span></a></li></ol>
+            </div>
+        </div>
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 post-card">
+    
+    
+        <div class="post-header">
+  <a class="post-header-title font-weight-medium" href="/2019/07/13/Go-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">GO-常用命令</a>
+  <div class="post-header-meta">   
+    <span>
+      <v-icon color="">event</v-icon>
+      Posted on:&nbsp;2019-07-13
+    </span>
+    <span>
+      <v-icon color="">event_available</v-icon>
+      Edited on:&nbsp;2021-10-30
+    </span>
+    <span>
+      <v-icon color="">folder</v-icon>
+      In:&nbsp;Uncategorized
+    </span>
+    
+    <span>
+      <v-icon color="">visibility</v-icon>
+      Views:&nbsp;<span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span></span>
+    </span>
+    
+  </div>
+</div>
+
+    
+    
+    
+    
+    <div class="post-content typo">
+        <h4 id="1-1-常用命令汇总"><a href="#1-1-常用命令汇总" class="headerlink" title="1.1 常用命令汇总"></a>1.1 常用命令汇总</h4><ul>
+<li><code>go version</code>：    获取Go版本</li>
+<li><code>go help</code>：        查看Go帮助命令</li>
+<li><code>go get</code>：        获取远程包（需提前安装<code>git</code>或<code>hg</code>）</li>
+<li><code>go build</code>：        编译并生成可执行程序</li>
+<li><code>go run</code>：        直接运行程序</li>
+<li><code>go fmt</code>：        格式化源码</li>
+<li><code>go install</code>：    编译包文件以及整个程序</li>
+<li><code>go test</code>：        go原生提供的单元测试命令</li>
+<li><code>go clean</code>：        移除当前源码包和关联源码包里编译生成的文件</li>
+<li><code>go tool</code>：        升级Go版本时，修复旧版代码</li>
+<li><code>godoc -http:80</code>：开启一个本地80端口的web文档</li>
+<li><code>gdb 可执行程序名</code>：调试Go编译出来的文件</li>
+</ul>
+<h4 id="1-2-go-fmt"><a href="#1-2-go-fmt" class="headerlink" title="1.2 go fmt"></a>1.2 go fmt</h4><p><code>go fmt</code>命令可以格式化代码文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 命令格式：使用go fmt命令，其实是调用了gofmt，而且需要参数-w，否则格式化结果不会写入文件</span><br><span class="line">go fmt 文件名.go</span><br><span class="line"></span><br><span class="line"># 示例：格式化整个项目</span><br><span class="line">go fmt -w -l src</span><br></pre></td></tr></table></figure>
+
+<p>常见参数：</p>
+<ul>
+<li><code>-l</code>： 显示那些需要格式化的文件</li>
+<li><code>-w</code>： 把改写后的内容直接写入到文件中，而不是作为结果打印到标准输出。</li>
+<li><code>-r</code>： 添加形如”a[b:len(a)] -&gt; a[b:]”的重写规则，方便我们做批量替换</li>
+<li><code>-s</code>： 简化文件中的代码</li>
+<li><code>-d</code>： 显示格式化前后的diff而不是写入文件，默认是false</li>
+<li><code>-e</code>： 打印语法错误到标准输出。无此参数只会打印不同行的前10个错误。</li>
+</ul>
+<h4 id="1-3-go-install"><a href="#1-3-go-install" class="headerlink" title="1.3 go install"></a>1.3 go install</h4><p><code>go install</code>命令用来生成项目的可执行文件。进入对应的go文件所在的目录执行命令可以直接生成一个可执行文件在bin目录，如图：<br><img src="Go-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/lang-02.png"></p>
+<p>贴士：</p>
+<ul>
+<li>添加参数<code>-v</code>，可以查看该命令底层执行信息</li>
+<li>如果<code>main.go</code>中引入并使用了<code>expl</code>包，则该包的内容也被会安装进bin目录中</li>
+<li>go文件中如果没有<code>main</code>函数无法执行，这样的文件称之为应用包，会被编译为<code>.a</code>文件，并生成在pkg文件夹中</li>
+</ul>
+<p>注意：<br>没有开启<code>go mod</code>时，使用上述命令需要配置<code>GOPATH</code>，否则会报：<code>no install location</code>。</p>
+<h4 id="1-4-go-tool"><a href="#1-4-go-tool" class="headerlink" title="1.4 go tool"></a>1.4 go tool</h4><p>go tool下聚集了很多命令，主要有2个，即fix和vet：  </p>
+<ul>
+<li><code>go tool fix .</code>：用来修复以前老版本的代码到新版本</li>
+<li><code>go tool vet directory|files</code>：分析当前目录的代码是否正确</li>
+</ul>
+<h4 id="1-5-go-get"><a href="#1-5-go-get" class="headerlink" title="1.5 go get"></a>1.5 go get</h4><p><code>go get</code>用来获取远程仓库中的包，使用该命令前必须配置GOPATH,而且依据不同的源码网站，还要安装不同的版本管理工具，比如从github上使用<code>go get</code>需要额外安装git。  </p>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 下载包：添加 -u 参数可以自动更新包和依赖</span><br><span class="line">go get github.com/**/**     </span><br><span class="line"></span><br><span class="line"># 使用包：与普通包使用方式一致</span><br><span class="line">import &quot;github.com/****/****&quot;</span><br></pre></td></tr></table></figure>
+
+<p><code>go get</code>本质上可以理解为通过源码工具clone下代码后，执行了<code>go install</code>。  </p>
+<p>由于一些原因，有的包无法下载，如包<code>&quot;golang.org/x/sync/syncmap&quot;</code>，可以在src目录下执行下面的操作：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p golang.org/x/</span><br><span class="line">cd  golang.org/x/</span><br><span class="line">git clone https://github.com/golang/sync.git</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-6-go-build"><a href="#1-6-go-build" class="headerlink" title="1.6 go build"></a>1.6 go build</h4><p><code>go build</code>用于编译代码，在编译过程中，会同时编译与之相关联的包。  </p>
+<ul>
+<li>如果是main包，执行<code>go build</code>之后，会在当前目录下生成一个可执行文件。如果你需要在$GOPATH/bin下生成相应的文件，需要执行<code>go install</code>，或者使用<code>go build -o 路径/a.exe</code></li>
+<li>如果是普通包，执行go build之后，它不会产生任何文件</li>
+<li>该命令默认会编译当前目录下的所有go文件，如果只想编译某个文件，可使用<code>go build exp.go</code></li>
+<li><code>go build</code>会忽略目录下以<code>_</code>或<code>.</code>开头的go文件</li>
+</ul>
+
+    </div>
+    <!--文末结束语-->
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;"> --- 本文结束 <i class="fas fa-heart"></i> The End --- </div>
+    
+    <!--页脚广告-->
+    
+    <v-divider></v-divider>
+    
+    <div class="post-nav">             
+        
+            <div class="post-nav-button float-left">
+                <v-icon>chevron_left</v-icon>
+                <a class="font-weight-bold text-left" href="/2019/07/13/Go-%E5%8C%85%E4%B8%8E%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/">
+                    Go-包与依赖管理
+                </a>
+            </div>
+              
+          
+            <div class="post-nav-button float-right">
+                <a class="font-weight-bold text-right" href="/2019/07/11/Centos-Firewalld-%E9%85%8D%E7%BD%AE%E5%8F%8A%E4%BD%BF%E7%94%A8/">      
+                    Centos Firewalld 配置及使用
+                </a>
+                <v-icon>chevron_right</v-icon>
+            </div>
+        
+    </div>
+</v-card>
+
+
+
+        
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({
+        startOnLoad: true,
+        theme: "default"
+    });</script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); </script>
+    
+    
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    
+     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.2.30/dist/vuetify.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+    
+
+
+
+
+
+
+
+    
+    
+    
+        <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        
+            load: ['[tex]/mhchem'],
+        
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        
+            packages: {'[+]': ['mhchem']},
+        
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+          
+
+    
+    
+    
+    
+    <title>
+          
+            YHKL Blog
+        
+    </title>
+    
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content id="page">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="2" class="d-none d-md-block">
+                            <div id="sidebar" class="float-right">
+    <a href="/" rel="home">
+        <v-avatar size=96>
+            <img id="logo" src="/images/avatar.webp">     
+        </v-avatar> 
+    </a>
+    <v-divider></v-divider>
+    <div class="mini-menu">
+        <v-btn icon href="/">
+            <v-icon>home</v-icon>
+        </v-btn>
+        <v-btn icon href="/categories/">
+            <v-icon>folder</v-icon>
+        </v-btn>
+        <v-btn icon href="/tags/">
+            <v-icon>bookmark</v-icon>
+        </v-btn>
+        <v-btn icon @click="SetNightMode">
+            <v-icon>{{ nightMode }}</v-icon>
+        </v-btn>
+    </div>
+    <v-list id="main-menu" class="font-weight-bold" flat>
+        
+            
+            <v-list-item href="/" link>
+            <v-list-item-icon><v-icon>home</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Index
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/archives/" link>
+            <v-list-item-icon><v-icon>archive</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                Archives
+            </v-list-item-content>
+            </v-list-item>
+        
+            
+            <v-list-item href="/about/" link>
+            <v-list-item-icon><v-icon>account_circle</v-icon></v-list-item-icon>
+            <v-list-item-content>
+                About
+            </v-list-item-content>
+            </v-list-item>
+        
+    </v-list>
+    <v-divider></v-divider>
+    
+        <v-list id="sub-menu" class="font-weight-medium" dense>
+            
+                
+                    <v-list-item href="/categories/Linux/" link>
+                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
+                            <v-hover v-model="menuHover">
+                                <v-list-item-content>
+                                    <span>Linux</span>                              
+                                </v-list-item-content>                           
+                            </v-hover>
+                        </v-badge>
+                    </v-list-item>
+                
+            
+        </v-list>    
+    
+
+    <div id="footer">
+        <div class="footer-social">
+            
+                
+                <v-btn icon href="mailto:kb1000fx@gmail.com" target="_blank">
+                    <v-icon>fas fa-envelope</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://github.com/yhkl-dev" target="_blank">
+                    <v-icon>fab fa-github</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://steamcommunity.com/profiles/76561198346798163" target="_blank">
+                    <v-icon>fab fa-steam</v-icon>
+                </v-btn>
+            
+                
+                <v-btn icon href="https://weibo.com/kb1000fx" target="_blank">
+                    <v-icon>fab fa-weibo</v-icon>
+                </v-btn>
+            
+        </div>
+        <v-divider></v-divider>
+        <div class="footer-content">
+            
+                <span id="busuanzi_container_site_uv" style="display: none;"> 
+                    Total Visitors <span id="busuanzi_value_site_uv"></span>
+                </span>
+                <br>
+            
+            <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a></span><br>
+            <span>Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+            <span>
+                &copy; 2015 - 2021 
+                yhkl
+            </span>
+        </div>
+    </div>
+</div>
+
+                        </v-col>
+                        <v-col cols="12" md="10">
+                            <v-row>
+  <v-col cols="12" md="8" align-self="end">
+    <div id="site-header">
+      <div id="site-title">
+        <a href="/" rel="home">YHKL Blog</a>
+      </div>
+      <div id="site-description"></div>
+      <div id="mobile-menu" class="d-block d-md-none">
+        <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-inner-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+        <div class="mobile-mini-menu">
+          <v-btn icon href="/">
+              <v-icon>home</v-icon>
+          </v-btn>
+          <v-btn icon href="/categories/">
+              <v-icon>folder</v-icon>
+          </v-btn>
+          <v-btn icon href="/tags/">
+              <v-icon>bookmark</v-icon>
+          </v-btn>
+          <v-btn icon @click="SetNightMode">
+              <v-icon>{{ nightMode }}</v-icon>
+          </v-btn>
+          
+            
+            <v-btn icon href="/">
+              <v-icon>home</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/archives/">
+              <v-icon>archive</v-icon>
+            </v-btn>
+          
+            
+            <v-btn icon href="/about/">
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          
+        </div>
+      </div>    
+    </div>
+  </v-col>  
+  <v-col cols="4" align-self="end" class="d-none d-md-block">
+    <v-col align-self="end">
+      <v-text-field label="请输入关键字" data-src="search.xml" v-model="searchHeaderValue" prepend-icon="search" clearable clear-icon="clear" @keydown.enter="EnterSearch(searchHeaderValue,false)"></v-text-field>
+    </v-col> 
+  </v-col>
+</v-row>
+
+                            <v-card class="elevation-2 index-card">
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-09-02
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/python/ >python</a>
+                  </span>
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/design-pattern-python/ >design-pattern-python</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/09/02/Python-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/09/02/Python-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">Python-设计模式（一） 单例模式</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          1.单例模式介绍单例模式（singleton pattern）是一种常用的软件设计模式，该模式的主要目的是确保某一个类只有一个实例存在，当你希望在整个系统中，某个类只能出现一个实例时，单例对象就能派上用场。
+例如：某个服务器程序的配置信息存放在一个文件中，客户端通过一个 config的类读取配置文件的信息，如果在程序运行期间，有很多地方都需要使用配置文件的内容，也就是说， 很多地方都需要创建config对象的实例，这样就导致了系统中存在多个config的实例对象，但是这样会严重浪费内存资源，尤其是在配置文件中内容很多的情况下，事实上，类似config这样的类， 我们希望在程序运行期间只存...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/09/02/Python-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-08-22
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/javascript/ >javascript</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/08/22/JS-%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5-%E4%B8%80/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/08/22/JS-%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5-%E4%B8%80/">JS-代码片段(一)</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          1. 防抖函数
+原理：在事件被触发n秒后再执行回调， 如果再这n秒内又被触发，则重新计时。
+
+适用场景：
+
+按钮提交场景： 防止多次提交按钮，只执行最后提交的一次
+服务端验证场景： 表单验证需要服务端配合，只执行一段连续的输入事件的最后一次， 还有搜索联想词功能等类似
+
+
+完整代码
+1234567891011121314151617181920212223242526function debounce(func, wait, immediate) &#123;    let time;    let debounced = function() &#123;        let con...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/08/22/JS-%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5-%E4%B8%80/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-08-17
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/python/ >python</a>
+                  </span>
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/coroutine/ >coroutine</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/08/17/Python-%E5%85%B3%E4%BA%8E%E5%8D%8F%E7%A8%8B%EF%BC%88Coroutine%EF%BC%89%E7%9A%84%E7%90%86%E8%A7%A3/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/08/17/Python-%E5%85%B3%E4%BA%8E%E5%8D%8F%E7%A8%8B%EF%BC%88Coroutine%EF%BC%89%E7%9A%84%E7%90%86%E8%A7%A3/">Python-关于协程（Coroutine）的理解</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          1.协程的概念首先说什么是协程，协程就是用户态轻量级的线程， 是在一个线程内部实现的，它的开销要比线程小。
+协程的在多任务处理时非抢占式的， 这种情况下协程会主动交出控制权
+函数（子程序）在执行时都时层级调用的，比如A调用B， B调用C， C执行完毕返回，B执行完毕返回，最后A执行完毕返回，所以函数调用时通过栈来实现的， 调用顺寻明确。
+而协程不是这样的， 协程看上去也是子程序， 但是协程在执行过程中，内部可能中断， 然后转而执行别的子程序，在适当的时候在返回来执行
+2.协程的优势
+没有锁等待，协程逻辑上只有一个线程，不存在同时写变量冲突，在协程中控制共享资源不需要加锁，仅需要判断状态就...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/08/17/Python-%E5%85%B3%E4%BA%8E%E5%8D%8F%E7%A8%8B%EF%BC%88Coroutine%EF%BC%89%E7%9A%84%E7%90%86%E8%A7%A3/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-08-17
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/vscode/ >vscode</a>
+                  </span>
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/eslint/ >eslint</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/08/17/VScode-Eslint%E9%85%8D%E7%BD%AE%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%BB%A3%E7%A0%81/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/08/17/VScode-Eslint%E9%85%8D%E7%BD%AE%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%BB%A3%E7%A0%81/">VScode-Eslint配置格式化代码</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          Ctrl + Shift + P
+open settings（json）
+12345678910111213141516171819202122232425262728293031323334353637383940414243&#123;     // vscode默认启用了根据文件类型自动设置tabsize的选项    &quot;editor.detectIndentation&quot;: false,    // 重新设定tabsize    &quot;editor.tabSize&quot;: 2,    // #每次保存的时候自动格式化     &quot;editor....
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/08/17/VScode-Eslint%E9%85%8D%E7%BD%AE%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%BB%A3%E7%A0%81/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-08-17
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/javascript/ >javascript</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/08/17/JavaScript-%E5%85%B3%E4%BA%8E%E9%97%AD%E5%8C%85/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/08/17/JavaScript-%E5%85%B3%E4%BA%8E%E9%97%AD%E5%8C%85/">JavaScript-关于闭包</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          1. 闭包的概念闭包指的是： 能够访问另一个函数作用域得变量的函数
+代码实例：
+123456789101112function A() &#123;    function B() &#123;        console.log(&quot;hello ykyk&quot;);    &#125;    return B:&#125;var C = A();C();输出：	hello ykyk
+
+代码流程：
+
+定义函数A
+在A中定义函数B，并将B返回
+执行A， 并把A的返回结果赋值给C
+执行C
+
+总结下来就是刚才开头所说的： 函数A的内部函数B被函数A外的变量C引用
+这就是闭包
+2....
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/08/17/JavaScript-%E5%85%B3%E4%BA%8E%E9%97%AD%E5%8C%85/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-08-16
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/python/ >python</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/08/16/Python-metaclass/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/08/16/Python-metaclass/">Python-metaclass</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          1 .所有Python的用户自定义累， 都是type这个类的实例123456789101112In [1]: class MyClass(object):   ...:     pass   ...: In [2]: instance = MyClass()In [3]: type(instance)Out[3]: __main__.MyClassIn [4]: type(MyClass)Out[4]: type
+
+instance 是MyClass的实例， 而MyClass不过是type的实例
+2.用户自定义类， 是type类的__call__运算符重载当定义一个类的语句结束时，真正发...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/08/16/Python-metaclass/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-08-15
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/python/ >python</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/08/15/Python-%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/08/15/Python-%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92/">Python-参数传递</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          python变量及其赋值
+变量的赋值， 只是表示让变量指向了某个对象， 并不表示拷贝对象给变量，而一个对象， 可以被多个变量所指向
+可变对象（列表，字典，集合等）的改变，会影响所有指向该对象的变量
+对雨不可改变对象（字符串，整型，元组等）， 所有指向该对象的变量的值总是一样的，也不会改变，但是通过某些操作（+ = 等）更新不可变对象的值时， 会返回一个新的对象
+变量可以被删除，但是对象无法被删除
+
+python函数的参数传递
+Python的参数传递是赋值传递，或者叫作对象的引用传递，Python里所有的数据类型都是对象，所以参数传递时， 只是让新变量与原有变量指向相同的对象，不存在值传递...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/08/15/Python-%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-07-30
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/Go/ >Go</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/07/30/Go-%E8%AF%AD%E6%B3%95%E4%B8%89-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/07/30/Go-%E8%AF%AD%E6%B3%95%E4%B8%89-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Go-语法三-数据类型</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          三、复合类型1.无类型常量一个常量可以有任意一个确定的基础类型，例如int或float64，或者是类似time.Duration这样命名的基础类型，但是许多常量并没有一个明确的基础类型。编译器为这些没有明确基础类型的数字常量提供比基础类型更高精度的算术运算；你可以认为至少有256bit的运算精度。这里有六种未明确类型的常量类型，分别是无类型的布尔型、无类型的整数、无类型的字符、无类型的浮点数、无类型的复数、无类型的字符串。
+通过延迟明确常量的具体类型，无类型的常量不仅可以提供更高的运算精度，而且可以直接用于更多的表达式而不需要显式的类型转换。例如，例子中的ZiB和YiB的值已经超出任何G...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/07/30/Go-%E8%AF%AD%E6%B3%95%E4%B8%89-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-07-27
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/Go/ >Go</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/07/27/Go-%E8%AF%AD%E6%B3%95%E4%BA%8C-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/07/27/Go-%E8%AF%AD%E6%B3%95%E4%BA%8C-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Go-语法二-数据类型</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          -语法二-数据类型
+一、基础类型1.布尔类型bool：只能存在true/flase， 占据1个字节，不能转换为整型， 0和1也不能转换为布尔
+2.数值类型
+整数类型
+整数类型有无符号（int）和带符号（uint）两种，这两种类型的长度相同，到具体长度取决于不同编译器的实现
+int8、int16、int32和int64四种有符号整数类型， 分别对应8、16、32、64bit大小的有符号整数、同样uint8、uint16、uint64对应四种无符号整数类型
+123456789101112131415# 有符号类型：int		32位系统占据4个字节（范围和int32一样），64位系统占据8个字...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/07/27/Go-%E8%AF%AD%E6%B3%95%E4%BA%8C-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+  
+    <article class="index-article">
+      
+      <div class="index-article-header">
+        <v-row no-gutters>
+          <v-col cols="auto">
+            <div class="index-article-header-date font-weight-medium">
+              2019-07-26
+            </div>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="auto">
+            
+              <v-card flat color="secondary" tile class="index-article-header-tag  font-weight-medium">
+                
+                  <span class="index-article-header-tag-content">
+                    <v-icon>fas fa-tag</v-icon>
+                    <a rel="tag" href = /tags/Go/ >Go</a>
+                  </span>
+                
+              </v-card>
+            
+          </v-col>
+        </v-row>
+        <span>
+          
+            <a class="index-article-header-category font-weight-bold" href="/2019/07/26/Go-%E8%AF%AD%E6%B3%95%E4%B8%80-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E3%80%81%E8%BF%90%E7%AE%97%E7%AC%A6%E3%80%81%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2/">Uncategorized></a>
+           
+        </span> 
+        <a class="index-article-header-title font-weight-medium" href="/2019/07/26/Go-%E8%AF%AD%E6%B3%95%E4%B8%80-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E3%80%81%E8%BF%90%E7%AE%97%E7%AC%A6%E3%80%81%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2/">Go-语法一-流程控制、运算符、进制转换</a>
+      </div>
+      
+      <div class="index-article-content">
+        
+          一、流程控制1. 条件语句
+判断语句 if
+if 判断实例：
+1234//初始化与判断写在一起： if a := 10; a == 10if i == &#x27;3&#x27; &#123;		&#125;
+
+特殊写法
+1if err := Connect(); err != nil &#123;&#125; // 这里的 err!=nil 才是真正的if判断表达式
+分支语句switch
+12345678switch num &#123;	case 1:		fmt.Println(&quot;a&quot;)	case 2:		fmt.Println(&quot;b&quot;)	de...
+        
+      </div>
+      
+      <div class="index-article-readmore ">
+        <v-btn text href="/2019/07/26/Go-%E8%AF%AD%E6%B3%95%E4%B8%80-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E3%80%81%E8%BF%90%E7%AE%97%E7%AC%A6%E3%80%81%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2/">Read More</v-btn>
+      </div>
+      <v-divider></v-divider>
+    </article> 
+   
+</v-card>  
+
+
+  <div id="pagination" class="text-center">
+    <v-pagination 
+      v-model="currentPage" 
+      :length=9 
+      @input="PageChange" 
+      prev-icon="chevron_left"
+      next-icon="chevron_right"
+      color="secondary"
+    ></v-pagination>
+  </div>
+         
+                            <div id="mobile-footer" class="d-block d-md-none">
+                                <v-divider></v-divider>
+                                <div id="mobile-footer-content">
+                                    <span>Theme: <a target="_blank" rel="noopener" href="https://github.com/kb1000fx/hexo-theme-insulin">Insulin</a> &nbsp; Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a></span><br>
+                                    <span> &copy; 2015 - 2021 yhkl</span>
+                                </div>
+                            </div>                   
+                        </v-col>                                            
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.2.30"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.5.2/base64.min.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
