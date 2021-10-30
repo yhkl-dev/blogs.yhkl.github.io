@@ -114,7 +114,7 @@
                             <div id="sidebar" class="float-right">
     <a href="/" rel="home">
         <v-avatar size=96>
-            <img id="logo" src="/images/avatar.webp">     
+            <img id="logo" src="/images/avatar.png">     
         </v-avatar> 
     </a>
     <v-divider></v-divider>
@@ -181,6 +181,18 @@
                             <v-hover v-model="menuHover">
                                 <v-list-item-content>
                                     <span>Linux</span>                              
+                                </v-list-item-content>                           
+                            </v-hover>
+                        </v-badge>
+                    </v-list-item>
+                
+            
+                
+                    <v-list-item href="/categories/Design-Pattern/" link>
+                        <v-badge :value="menuHover" transition="slide-y-transition" inline content="1" >
+                            <v-hover v-model="menuHover">
+                                <v-list-item-content>
+                                    <span>Design Pattern</span>                              
                                 </v-list-item-content>                           
                             </v-hover>
                         </v-badge>
